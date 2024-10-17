@@ -1,4 +1,4 @@
-package org.example.gather_back_end.config;
+package org.example.gather_back_end.util.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
