@@ -1,4 +1,4 @@
-package org.example.gather_back_end.config;
+package org.example.gather_back_end.util.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
