@@ -1,4 +1,4 @@
-package org.example.gather_back_end;
+package org.example.gather_back_end.test;
 
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.GetMapping;
