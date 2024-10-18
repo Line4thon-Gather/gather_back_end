@@ -69,5 +69,5 @@ jobs:
           script_stop: true
           script: |
             cd /home/ubuntu/gather_back_end || exit 1  # 경로 변경 실패 시 종료
-              sudo docker compose down
-              sudo docker compose up --build -d
+              sudo docker-compose down
+              sudo docker-compose up --build -d
