@@ -70,4 +70,4 @@ jobs:
           script: |
             cd /home/ubuntu/gather_back_end || exit 1  # 경로 변경 실패 시 종료
               sudo docker compose --env-file .env down
-              sudo docker compose --env-file .env up --build -d
+              sudo docker compose up --build -d
