@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(title = "Gather", description = "4호선톤 숙쓰러운 서성한", version = "v1"),
         servers = {
-                @Server(url = "http://146.56.113.109::8080", description = "서버 URL"),
+                @Server(url = "http://146.56.113.109:8080", description = "서버 URL"),
                 @Server(url = "http://localhost:8080", description = "로컬 URL")
         }
 )
