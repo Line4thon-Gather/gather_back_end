@@ -1,7 +1,7 @@
 package org.example.gather_back_end.util.config;
 
 import lombok.RequiredArgsConstructor;
-import org.example.gather_back_end.util.exception.CustomAccessDeniedHandler;
+import org.example.gather_back_end.util.exception.AccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final AccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -35,7 +35,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedHandler(customAccessDeniedHandler))
+                        .accessDeniedHandler(accessDeniedHandler))
                 .build();
     }
 }

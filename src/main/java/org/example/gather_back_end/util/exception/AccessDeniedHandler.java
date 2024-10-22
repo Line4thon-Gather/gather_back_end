@@ -8,11 +8,10 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class AccessDeniedHandler implements org.springframework.security.web.access.AccessDeniedHandler {
 
     @Override
     public void handle(
@@ -23,7 +22,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         PrintWriter writer = response.getWriter();
         writer.println("{");
         writer.println("\"timestamp\": \"" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\",");
