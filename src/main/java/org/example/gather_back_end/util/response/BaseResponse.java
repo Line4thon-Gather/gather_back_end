@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.example.gather_back_end.util.exception.global.BaseErrorCode;
+import org.example.gather_back_end.util.exception.BaseErrorCode;
 
 @Getter
 @ToString

@@ -1,4 +1,4 @@
-package org.example.gather_back_end.util.exception.global;
+package org.example.gather_back_end.util.exception;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
