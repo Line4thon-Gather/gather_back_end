@@ -1,8 +1,7 @@
 package org.example.gather_back_end.util.config;
 
-package com.nextisus.project.util.config;
-
 import lombok.RequiredArgsConstructor;
+import org.example.gather_back_end.util.exception.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
