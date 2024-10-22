@@ -3,7 +3,7 @@ package org.example.gather_back_end.util.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import org.example.gather_back_end.util.exception.BaseErrorCode;
+import org.example.gather_back_end.util.exception.global.BaseErrorCode;
 
 @Getter
 @ToString

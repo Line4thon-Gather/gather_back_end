@@ -1,4 +1,4 @@
-package org.example.gather_back_end.util.exception;
+package org.example.gather_back_end.util.exception.global;
 
 import static org.example.gather_back_end.util.constant.StaticValue.*;
 

@@ -1,4 +1,4 @@
-package org.example.gather_back_end.util.exception;
+package org.example.gather_back_end.util.exception.global;
 
 import java.net.BindException;
 import lombok.extern.slf4j.Slf4j;
