@@ -22,7 +22,7 @@ public class TestController implements TestControllerApi {
     }
 
     @GetMapping("/jwt-test")
-    public String testJwt(Authentication authentication) {
-        return authentication.getName();
+    public SuccessResponse<String> testJwt(Authentication authentication) {
+        return SuccessResponse.of(authentication.getName());
     }
 }
