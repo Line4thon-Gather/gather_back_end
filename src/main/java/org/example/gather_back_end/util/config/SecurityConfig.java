@@ -3,6 +3,7 @@ package org.example.gather_back_end.util.config;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.util.exception.AccessDeniedHandler;
+import org.example.gather_back_end.util.jwt.handler.CustomFailureHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomSuccessHandler;
 import org.example.gather_back_end.util.jwt.util.JWTFilter;
 import org.example.gather_back_end.util.jwt.service.CustomOAuth2UserService;
@@ -37,6 +38,7 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
     private final JWTUtil jwtUtil;
+    private final CustomFailureHandler customFailureHandler;
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)throws Exception {
         return configuration.getAuthenticationManager();
@@ -54,7 +56,7 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(Arrays.asList("https://www.to-gather.info","http://localhost:3000","https://localhost:8080"));
+                        configuration.setAllowedOrigins(Arrays.asList("https://www.to-gather.info","http://localhost:5173","https://localhost:8080"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -69,7 +71,9 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
                 .oauth2Login((oauth2)->oauth2.userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService)))
-                        .successHandler(customSuccessHandler))
+                        .successHandler(customSuccessHandler)
+                        .failureHandler(customFailureHandler)
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/**").permitAll()
