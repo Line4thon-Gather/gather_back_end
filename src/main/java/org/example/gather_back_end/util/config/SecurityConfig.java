@@ -7,8 +7,11 @@ import org.example.gather_back_end.util.jwt.handler.CustomSuccessHandler;
 import org.example.gather_back_end.util.jwt.util.JWTFilter;
 import org.example.gather_back_end.util.jwt.service.CustomOAuth2UserService;
 import org.example.gather_back_end.util.jwt.util.JWTUtil;
+import org.example.gather_back_end.util.jwt.util.LoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,6 +37,10 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
     private final JWTUtil jwtUtil;
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)throws Exception {
+        return configuration.getAuthenticationManager();
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -41,7 +48,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return http
                 .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
                     @Override
@@ -68,6 +75,8 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedHandler(accessDeniedHandler))
                 .build();
