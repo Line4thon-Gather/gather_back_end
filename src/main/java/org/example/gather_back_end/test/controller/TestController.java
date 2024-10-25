@@ -23,6 +23,11 @@ public class TestController implements TestControllerApi {
 
     @GetMapping("/jwt-test")
     public SuccessResponse<String> testJwt(Authentication authentication) {
-        return SuccessResponse.of(authentication.getName());
+        if (authentication == null) {
+            return SuccessResponse.of("token is null");
+        }
+        else{
+            return SuccessResponse.of(authentication.getName(),"알 수 없는 에러");
+        }
     }
 }
