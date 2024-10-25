@@ -27,7 +27,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
-        System.out.println("token is nulldawdawdadadawdawdawd");
 
         //OAuth2User
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
@@ -42,7 +41,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String token = jwtUtil.createJwt(username, role, 60*60*1000L);
 
-        response.sendRedirect("https://www.to-gather.info/");
+        response.sendRedirect("https://www.to-gather.info/code?="+"Bearer "+token);
     }
 }
 
