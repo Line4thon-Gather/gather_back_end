@@ -1,6 +1,7 @@
 package org.example.gather_back_end.test.controller;
 
 import org.example.gather_back_end.test.exception.TestNotFoundException;
+import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,8 @@ public class TestController implements TestControllerApi {
             return SuccessResponse.of("token is null");
         }
         else{
-            return SuccessResponse.of(authentication.getName(),"알 수 없는 에러");
+            CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+            return SuccessResponse.of(customOAuth2User.getName(),"알 수 없는 에러");
         }
     }
 }
