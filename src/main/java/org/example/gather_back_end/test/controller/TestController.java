@@ -27,9 +27,9 @@ public class TestController implements TestControllerApi {
         if (authentication == null) {
             return SuccessResponse.of("token is null");
         }
-        else{
+        else {
             CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-            return SuccessResponse.of(customOAuth2User.getName(),"알 수 없는 에러");
+            return SuccessResponse.of(customOAuth2User.getUsername());
         }
     }
 }

@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.util.exception.AccessDeniedHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomFailureHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomSuccessHandler;
-import org.example.gather_back_end.util.jwt.util.JWTFilter;
+import org.example.gather_back_end.util.jwt.util.JwtFilter;
 import org.example.gather_back_end.util.jwt.service.CustomOAuth2UserService;
-import org.example.gather_back_end.util.jwt.util.JWTUtil;
+import org.example.gather_back_end.util.jwt.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +35,7 @@ public class SecurityConfig {
     private final AccessDeniedHandler accessDeniedHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
-    private final JWTUtil jwtUtil;
+    private final JwtUtil jwtUtil;
     private final CustomFailureHandler customFailureHandler;
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)throws Exception {
@@ -66,7 +66,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .addFilterBefore(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
                 .oauth2Login((oauth2)->oauth2.userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService)))
                         .successHandler(customSuccessHandler)
