@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.jwt.dto.GoogleResponse;
 import org.example.gather_back_end.util.jwt.dto.OAuth2Response;
-import org.example.gather_back_end.util.jwt.dto.UserDTO;
+import org.example.gather_back_end.util.jwt.dto.UserDto;
 import org.example.gather_back_end.util.jwt.entity.UserEntity;
 import org.example.gather_back_end.util.jwt.repository.UserRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -52,12 +52,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             userRepository.save(userEntity);
 
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUsername(username);
-            userDTO.setName(oAuth2Response.getName());
-            userDTO.setRole("ROLE_USER");
+            UserDto userDto = new UserDto();
+            userDto.setUsername(username);
+            userDto.setName(oAuth2Response.getName());
+            userDto.setRole("ROLE_USER");
 
-            return new CustomOAuth2User(userDTO);
+            return new CustomOAuth2User(userDto);
         }
         else {
 
@@ -66,12 +66,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             userRepository.save(existData);
 
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUsername(existData.getUsername());
-            userDTO.setName(oAuth2Response.getName());
-            userDTO.setRole(existData.getRole());
+            UserDto userDto = new UserDto();
+            userDto.setUsername(existData.getUsername());
+            userDto.setName(oAuth2Response.getName());
+            userDto.setRole(existData.getRole());
 
-            return new CustomOAuth2User(userDTO);
+            return new CustomOAuth2User(userDto);
         }
     }
 }

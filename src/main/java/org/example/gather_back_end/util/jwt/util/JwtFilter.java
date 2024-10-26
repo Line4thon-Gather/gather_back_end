@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
-import org.example.gather_back_end.util.jwt.dto.UserDTO;
+import org.example.gather_back_end.util.jwt.dto.UserDto;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,11 +13,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-public class JWTFilter extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter {
 
-    private final JWTUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    public JWTFilter(JWTUtil jwtUtil) {
+    public JwtFilter(JwtUtil jwtUtil) {
 
         this.jwtUtil = jwtUtil;
     }
@@ -54,7 +54,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String role = jwtUtil.getRole(token);
 
         //userDTO를 생성하여 값 set
-        UserDTO userDTO = new UserDTO();
+        UserDto userDTO = new UserDto();
         userDTO.setUsername(username);
         userDTO.setRole(role);
 
