@@ -1,6 +1,7 @@
 package org.example.gather_back_end.openai.controller;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.example.gather_back_end.openai.dto.CustomOpenAiClientRequest;
+import org.example.gather_back_end.openai.dto.CustomOpenAiClientResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
