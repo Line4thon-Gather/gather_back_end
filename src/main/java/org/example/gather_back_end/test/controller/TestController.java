@@ -29,7 +29,7 @@ public class TestController implements TestControllerApi {
         }
         else {
             CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-            return SuccessResponse.of(customOAuth2User.getUsername());
+            return SuccessResponse.of(customOAuth2User.getNickname());
         }
     }
 }
