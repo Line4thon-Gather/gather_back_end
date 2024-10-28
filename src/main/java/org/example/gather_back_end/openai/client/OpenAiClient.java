@@ -1,4 +1,4 @@
-package org.example.gather_back_end.openai.controller;
+package org.example.gather_back_end.openai.client;
 
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientRequest;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientResponse;
