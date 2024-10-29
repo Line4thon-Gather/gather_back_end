@@ -1,5 +1,9 @@
 package org.example.gather_back_end.util.jwt.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
@@ -13,11 +17,6 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor

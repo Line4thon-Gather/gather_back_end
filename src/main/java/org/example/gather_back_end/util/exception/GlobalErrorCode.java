@@ -1,6 +1,9 @@
 package org.example.gather_back_end.util.exception;
 
-import static org.example.gather_back_end.util.constant.StaticValue.*;
+import static org.example.gather_back_end.util.constant.StaticValue.BAD_REQUEST;
+import static org.example.gather_back_end.util.constant.StaticValue.FORBIDDEN;
+import static org.example.gather_back_end.util.constant.StaticValue.INTERNAL_SERVER_ERROR;
+import static org.example.gather_back_end.util.constant.StaticValue.METHOD_NOT_ALLOWED;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

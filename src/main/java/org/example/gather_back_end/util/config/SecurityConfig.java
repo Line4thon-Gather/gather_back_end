@@ -1,12 +1,14 @@
 package org.example.gather_back_end.util.config;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.util.exception.AccessDeniedHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomFailureHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomSuccessHandler;
-import org.example.gather_back_end.util.jwt.util.JwtFilter;
 import org.example.gather_back_end.util.jwt.service.CustomOAuth2UserService;
+import org.example.gather_back_end.util.jwt.util.JwtFilter;
 import org.example.gather_back_end.util.jwt.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +24,6 @@ import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationF
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity

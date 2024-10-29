@@ -3,6 +3,9 @@ package org.example.gather_back_end.util.jwt.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
@@ -11,10 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
 
 @Slf4j
 @Component
