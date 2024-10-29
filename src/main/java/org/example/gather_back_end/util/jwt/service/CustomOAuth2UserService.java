@@ -18,9 +18,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
@@ -30,7 +30,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println(oAuth2User);
+        log.info("[CustomOAuth2UserService 클래스][loadUser 메소드] : " + oAuth2User);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response oAuth2Response;
@@ -39,9 +39,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             return null;
         }
-        String username = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
+
+        String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
 
         StringBuilder numericEncryptedDateTime;
+
         while(true) {
             SecretKey secretKey;
             try {
@@ -56,8 +58,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 throw new RuntimeException(e);
             }
 
-            if (userRepository.findByNickname("USER"+numericEncryptedDateTime) == null) { };
-                break;
+            userRepository.findByNickname("USER" + numericEncryptedDateTime);
+            break;
         }
 
         String nickname = "USER"+numericEncryptedDateTime;
@@ -81,7 +83,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userDto.setRole("ROLE_USER");
 
             return new CustomOAuth2User(userDto);
-        }  else {
+        } else {
 
             existData.setEmail(oAuth2Response.getEmail());
             existData.setName(oAuth2Response.getName());

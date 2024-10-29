@@ -12,8 +12,8 @@ import org.example.gather_back_end.util.entity.BaseEntity;
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Setter // TODO: 삭제
+@NoArgsConstructor(access = AccessLevel.PUBLIC) // TODO : PROTECTED로 변경
 public class User extends BaseEntity {
 
     @Id
