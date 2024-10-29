@@ -20,14 +20,12 @@ import org.springframework.context.annotation.Configuration;
         security = @SecurityRequirement(name = "bearerAuth") // 여기에 보안 요구 사항 추가
 
 )
-
 @SecurityScheme(
         name = "bearerAuth", // 보안 스키마 이름 설정
         type = SecuritySchemeType.HTTP, // HTTP 스키마 유형 설정
         scheme = "bearer", // 인증 방식 설정
         bearerFormat = "JWT" // 베어러 형식 설정 (선택 사항)
 )
-
 @RequiredArgsConstructor
 @Configuration
 public class SwaggerConfig {

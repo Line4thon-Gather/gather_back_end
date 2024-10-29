@@ -1,12 +1,14 @@
 package org.example.gather_back_end.util.config;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.util.exception.AccessDeniedHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomFailureHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomSuccessHandler;
-import org.example.gather_back_end.util.jwt.util.JwtFilter;
 import org.example.gather_back_end.util.jwt.service.CustomOAuth2UserService;
+import org.example.gather_back_end.util.jwt.util.JwtFilter;
 import org.example.gather_back_end.util.jwt.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,9 +25,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -37,6 +36,7 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
     private final CustomFailureHandler customFailureHandler;
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)throws Exception {
         return configuration.getAuthenticationManager();
@@ -54,7 +54,11 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(Arrays.asList("https://www.to-gather.info","http://localhost:5173","https://localhost:8080"));
+                        configuration.setAllowedOrigins(Arrays.asList(
+                                "https://www.to-gather.info",
+                                "http://localhost:5173",
+                                "https://localhost:8080"
+                        ));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
