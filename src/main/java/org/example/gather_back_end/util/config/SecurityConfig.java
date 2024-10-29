@@ -36,6 +36,7 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
     private final CustomFailureHandler customFailureHandler;
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)throws Exception {
         return configuration.getAuthenticationManager();
@@ -53,7 +54,11 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(Arrays.asList("https://www.to-gather.info","http://localhost:5173","https://localhost:8080"));
+                        configuration.setAllowedOrigins(Arrays.asList(
+                                "https://www.to-gather.info",
+                                "http://localhost:5173",
+                                "https://localhost:8080"
+                        ));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));

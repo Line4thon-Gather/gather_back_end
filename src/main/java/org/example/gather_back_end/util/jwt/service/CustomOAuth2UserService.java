@@ -35,16 +35,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response oAuth2Response;
         if (registrationId.equals("google")) {
-
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
-        }
-        else {
+        } else {
             return null;
         }
         String username = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
 
         StringBuilder numericEncryptedDateTime;
-        while(true){
+        while(true) {
             SecretKey secretKey;
             try {
                 secretKey = KeyGenerator.getInstance(localDateTimeNumericEncryption.getALGORITHM()).generateKey();
@@ -58,7 +56,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 throw new RuntimeException(e);
             }
 
-            if(userRepository.findByNickname("USER"+numericEncryptedDateTime)==null){};
+            if (userRepository.findByNickname("USER"+numericEncryptedDateTime) == null) { };
                 break;
         }
 
@@ -83,8 +81,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userDto.setRole("ROLE_USER");
 
             return new CustomOAuth2User(userDto);
-        }
-        else {
+        }  else {
 
             existData.setEmail(oAuth2Response.getEmail());
             existData.setName(oAuth2Response.getName());

@@ -11,13 +11,11 @@ public class CustomOAuth2User implements OAuth2User {
     private final UserDto userDto;
 
     public CustomOAuth2User(UserDto userDto) {
-
         this.userDto = userDto;
     }
 
     @Override
     public Map<String, Object> getAttributes() {
-
         return null;
     }
 
@@ -27,7 +25,6 @@ public class CustomOAuth2User implements OAuth2User {
         Collection<GrantedAuthority> collection = new ArrayList<>();
 
         collection.add(new GrantedAuthority() {
-
             @Override
             public String getAuthority() {
 
@@ -40,7 +37,6 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-
         return userDto.getName();
     }
 
