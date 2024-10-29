@@ -1,14 +1,13 @@
 package org.example.gather_back_end.util.jwt.service;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.stereotype.Service;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
@@ -33,7 +32,9 @@ public class LocalDateTimeNumericEncryption {
 
         // 해시 값을 숫자로 변환하여 6자리로 축소
         int number = 0;
-        for (int i = 0; i < 4; i++) { // 해시의 첫 4바이트를 사용하여 숫자를 생성
+
+        // 해시의 첫 4바이트를 사용하여 숫자를 생성
+        for (int i = 0; i < 4; i++) {
             number = (number << 8) | (hash[i] & 0xFF); // 8비트씩 이동하며 결합
         }
 

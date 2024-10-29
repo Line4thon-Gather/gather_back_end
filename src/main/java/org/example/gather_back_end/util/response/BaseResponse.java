@@ -2,7 +2,6 @@ package org.example.gather_back_end.util.response;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

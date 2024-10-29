@@ -1,5 +1,9 @@
 package org.example.gather_back_end.util.jwt.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
@@ -14,14 +18,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
@@ -31,21 +30,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println(oAuth2User);
+        log.info("[CustomOAuth2UserService 클래스][loadUser 메소드] : " + oAuth2User);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response oAuth2Response;
         if (registrationId.equals("google")) {
-
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
-        }
-        else {
+        } else {
             return null;
         }
-        String username = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
+
+        String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
 
         StringBuilder numericEncryptedDateTime;
-        while(true){
+
+        while(true) {
             SecretKey secretKey;
             try {
                 secretKey = KeyGenerator.getInstance(localDateTimeNumericEncryption.getALGORITHM()).generateKey();
@@ -59,8 +58,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 throw new RuntimeException(e);
             }
 
-            if(userRepository.findByNickname("USER"+numericEncryptedDateTime)==null){};
-                break;
+            userRepository.findByNickname("USER" + numericEncryptedDateTime);
+            break;
         }
 
         String nickname = "USER"+numericEncryptedDateTime;
@@ -84,8 +83,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userDto.setRole("ROLE_USER");
 
             return new CustomOAuth2User(userDto);
-        }
-        else {
+        } else {
 
             existData.setEmail(oAuth2Response.getEmail());
             existData.setName(oAuth2Response.getName());
