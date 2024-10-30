@@ -58,24 +58,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 throw new RuntimeException(e);
             }
 
-            userRepository.findByNickname("USER" + numericEncryptedDateTime);
-            break;
+            if(userRepository.findByNickname("USER" + numericEncryptedDateTime)==null) {
+                break;
+            }
         }
 
         String nickname = "USER"+numericEncryptedDateTime;
 
-        User existData = userRepository.findByNickname(nickname);
+        User existData = userRepository.findByUsername(username);
 
         if (existData == null) {
 
-            User user = new User();
-            user.setUsername(username);
-            user.setEmail(oAuth2Response.getEmail());
-            user.setName(oAuth2Response.getName());
-            user.setNickname(nickname);
-            user.setRole("ROLE_USER");
-
-            userRepository.save(user);
+            userRepository.save(User.createAllUserInfo(username,oAuth2Response.getName(),oAuth2Response.getEmail(),"ROLE_USER",nickname));
 
             UserDto userDto = new UserDto();
             userDto.setNickname(nickname);
@@ -85,8 +79,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return new CustomOAuth2User(userDto);
         } else {
 
-            existData.setEmail(oAuth2Response.getEmail());
-            existData.setName(oAuth2Response.getName());
+            existData.updateUserInfo(oAuth2Response.getName(), oAuth2Response.getEmail());
 
             userRepository.save(existData);
 
