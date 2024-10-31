@@ -44,5 +44,5 @@ public class PromotionResult extends BaseEntity {
 
     // SNS 게시물 비용
     @Column(nullable = false)
-    private Integer priceOfSNSPost;
+    private Integer priceOfSnsPost;
 }
