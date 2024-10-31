@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.gather_back_end.domain.Portfolio;
+import org.example.gather_back_end.domain.PromotionRequest;
 import org.example.gather_back_end.util.entity.BaseEntity;
 
 @Entity
@@ -64,6 +65,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Portfolio> portfolioList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PromotionRequest> promotionRequestList = new ArrayList<>();
 
     @Builder
     private User(Long id, String username, String name, String email, String role, String nickname) {
