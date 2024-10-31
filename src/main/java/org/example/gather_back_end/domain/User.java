@@ -1,4 +1,4 @@
-package org.example.gather_back_end.util.jwt.entity;
+package org.example.gather_back_end.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,9 +14,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.gather_back_end.domain.Portfolio;
-import org.example.gather_back_end.domain.PromotionRequest;
-import org.example.gather_back_end.domain.Work;
 import org.example.gather_back_end.util.entity.BaseEntity;
 
 @Entity
