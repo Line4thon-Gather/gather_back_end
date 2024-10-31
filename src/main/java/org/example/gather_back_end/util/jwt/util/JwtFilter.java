@@ -52,10 +52,11 @@ public class JwtFilter extends OncePerRequestFilter {
         String nickname = jwtUtil.getNickname(token);
         String role = jwtUtil.getRole(token);
 
-        // userDtO 생성하여 값 set
-        UserDto userDto = new UserDto();
-        userDto.setNickname(nickname);
-        userDto.setRole(role);
+        // userDto 생성하여 값 set
+        UserDto userDto = UserDto.builder()
+                .nickname(nickname)
+                .role(role)
+                .build();
 
         // UserDetails에 회원 정보 객체 담기
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDto);

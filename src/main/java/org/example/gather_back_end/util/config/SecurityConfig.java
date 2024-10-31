@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.util.exception.AccessDeniedHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomFailureHandler;
 import org.example.gather_back_end.util.jwt.handler.CustomSuccessHandler;
-import org.example.gather_back_end.util.jwt.service.CustomOAuth2UserService;
+import org.example.gather_back_end.util.jwt.service.CustomOAuth2UserServiceImpl;
 import org.example.gather_back_end.util.jwt.util.JwtFilter;
 import org.example.gather_back_end.util.jwt.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 public class SecurityConfig {
 
     private final AccessDeniedHandler accessDeniedHandler;
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserServiceImpl customOAuth2UserServiceImpl;
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
     private final CustomFailureHandler customFailureHandler;
@@ -72,7 +72,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
                 .oauth2Login((oauth2)->oauth2.userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
-                        .userService(customOAuth2UserService)))
+                        .userService(customOAuth2UserServiceImpl)))
                         .successHandler(customSuccessHandler)
                         .failureHandler(customFailureHandler)
                 )
