@@ -6,12 +6,12 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.gather_back_end.domain.User;
+import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.jwt.dto.GoogleResponse;
 import org.example.gather_back_end.util.jwt.dto.OAuth2Response;
 import org.example.gather_back_end.util.jwt.dto.UserDto;
-import org.example.gather_back_end.domain.User;
-import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -34,11 +34,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response oAuth2Response;
-        if (registrationId.equals("google")) {
-            oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
-        } else {
-            return null;
-        }
+
+        if (registrationId.equals("google")) { oAuth2Response = new GoogleResponse(oAuth2User.getAttributes()); }
+        else { return null; }
 
         String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
 
@@ -58,35 +56,44 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 throw new RuntimeException(e);
             }
 
-            if(userRepository.findByNickname("USER" + numericEncryptedDateTime)==null) {
+            if (userRepository.findByNickname("USER" + numericEncryptedDateTime) == null) {
                 break;
             }
         }
 
-        String nickname = "USER"+numericEncryptedDateTime;
+        String nickname = "USER" + numericEncryptedDateTime;
 
         User existData = userRepository.findByUsername(username);
 
         if (existData == null) {
 
-            userRepository.save(User.createAllUserInfo(username,oAuth2Response.getName(),oAuth2Response.getEmail(),"ROLE_USER",nickname));
+            userRepository.save(User.createAllUserInfo(
+                    username,
+                    oAuth2Response.getName(),
+                    oAuth2Response.getEmail(),
+                    "ROLE_USER",
+                    nickname)
+            );
 
-            UserDto userDto = new UserDto();
-            userDto.setNickname(nickname);
-            userDto.setName(oAuth2Response.getName());
-            userDto.setRole("ROLE_USER");
+            UserDto userDto = UserDto.builder()
+                    .nickname(nickname)
+                    .name(oAuth2Response.getName())
+                    .role("ROLE_USER")
+                    .build();
 
             return new CustomOAuth2User(userDto);
+
         } else {
 
             existData.updateUserInfo(oAuth2Response.getName(), oAuth2Response.getEmail());
 
             userRepository.save(existData);
 
-            UserDto userDto = new UserDto();
-            userDto.setNickname(existData.getNickname());
-            userDto.setName(oAuth2Response.getName());
-            userDto.setRole(existData.getRole());
+            UserDto userDto = UserDto.builder()
+                    .nickname(existData.getNickname())
+                    .name(existData.getName())
+                    .role(existData.getRole())
+                    .build();
 
             return new CustomOAuth2User(userDto);
         }
