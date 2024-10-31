@@ -11,7 +11,7 @@ import org.example.gather_back_end.util.jwt.dto.GoogleResponse;
 import org.example.gather_back_end.util.jwt.dto.OAuth2Response;
 import org.example.gather_back_end.util.jwt.dto.UserDto;
 import org.example.gather_back_end.domain.User;
-import org.example.gather_back_end.util.jwt.repository.UserRepository;
+import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
