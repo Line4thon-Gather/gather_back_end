@@ -1,5 +1,6 @@
 package org.example.gather_back_end.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -63,4 +65,7 @@ public class PromotionRequest extends BaseEntity {
     // 3순위 홍보 수단
     @Enumerated(EnumType.STRING)
     private WorkType thirdMeans;
+
+    @OneToOne(mappedBy = "promotionRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PromotionResult promotionResult;
 }

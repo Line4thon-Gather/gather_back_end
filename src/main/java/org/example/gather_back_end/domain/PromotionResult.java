@@ -2,9 +2,12 @@ package org.example.gather_back_end.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,7 +25,10 @@ public class PromotionResult extends BaseEntity {
     @Column(name = "promotion_result_id")
     private Long id;
 
-    // TODO: 홍보 요청 내역 FK 연관관계 (일대일)
+    // 홍보 요청 내역 연관관계
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "promotion_request_id")
+    private PromotionRequest promotionRequest;
 
     // 타임라인 이미지 주소
     @Column(nullable = false, columnDefinition = "TEXT")
