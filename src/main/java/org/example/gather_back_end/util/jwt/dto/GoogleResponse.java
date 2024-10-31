@@ -1,14 +1,12 @@
 package org.example.gather_back_end.util.jwt.dto;
 
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
-public class GoogleResponse implements OAuth2Response{
+@RequiredArgsConstructor
+public class GoogleResponse implements OAuth2Response {
 
     private final Map<String, Object> attribute;
-
-    public GoogleResponse(Map<String, Object> attribute) {
-        this.attribute = attribute;
-    }
 
     @Override
     public String getProvider() {

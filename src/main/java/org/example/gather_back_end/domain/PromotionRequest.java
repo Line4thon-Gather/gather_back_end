@@ -17,7 +17,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.gather_back_end.util.entity.BaseEntity;
-import org.example.gather_back_end.util.jwt.entity.User;
 
 // 홍보 요청 내역
 @Entity

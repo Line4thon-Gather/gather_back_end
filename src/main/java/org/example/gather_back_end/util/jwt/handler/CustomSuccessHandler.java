@@ -35,9 +35,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(nickname, role, 60*60*1000L);
+        String token = jwtUtil.createJwt(nickname, role, 60 * 60 * 1000L);
 
-        response.sendRedirect("https://www.to-gather.info?code="+"Bearer "+token);
+        response.sendRedirect("https://www.to-gather.info?code=" + "Bearer " + token);
     }
 }
 
