@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/openai")
-public class OpenAiController {
+public class OpenAiController implements OpenAiControllerApi {
 
     private final OpenAiService openAiService;
 
