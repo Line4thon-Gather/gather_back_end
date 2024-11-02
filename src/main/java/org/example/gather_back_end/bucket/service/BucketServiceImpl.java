@@ -1,4 +1,3 @@
-// BucketServiceImpl 클래스
 package org.example.gather_back_end.bucket.service;
 
 import com.oracle.bmc.ConfigFileReader;
@@ -8,7 +7,6 @@ import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider;
 import com.oracle.bmc.objectstorage.ObjectStorage;
 import com.oracle.bmc.objectstorage.ObjectStorageClient;
 import com.oracle.bmc.objectstorage.requests.PutObjectRequest;
-import com.oracle.bmc.objectstorage.responses.PutObjectResponse;
 import com.oracle.bmc.objectstorage.transfer.UploadConfiguration;
 import com.oracle.bmc.objectstorage.transfer.UploadManager;
 import com.oracle.bmc.objectstorage.transfer.UploadManager.UploadRequest;
@@ -17,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.repository.UserRepository;
+import org.example.gather_back_end.user.dto.UploadProfileImgRes;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,7 +58,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public String uploadProfileImg(MultipartFile file, Long userId) throws Exception {
+    public UploadProfileImgRes uploadProfileImg(MultipartFile file, Long userId) throws Exception {
         Optional<User> userOpt = userRepository.findById(userId);
         if (userOpt.isEmpty()) {
             throw new IllegalArgumentException("User not found");
@@ -83,14 +82,13 @@ public class BucketServiceImpl implements BucketService {
         UploadRequest uploadDetails = UploadRequest.builder(uploadFile).build(request);
         uploadManager.upload(uploadDetails);
 
-        // 원하는 URL 형식으로 변경
-        String fileUrl = DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + fileName.replace("/", "%2F");
-        User.updateProfileImgUrl(user, fileUrl);
+        String profileImgUrl = DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + fileName.replace("/", "%2F");
+        User.updateProfileImgUrl(user, profileImgUrl);
         userRepository.save(user);
 
-        log.info("Image uploaded and URL saved to user profile: {}", fileUrl);
+        log.info("Image uploaded and URL saved to user profile: {}", profileImgUrl);
         client.close();
-        return fileUrl;
+        return UploadProfileImgRes.from(profileImgUrl);
     }
 
     @Override

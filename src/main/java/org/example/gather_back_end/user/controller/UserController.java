@@ -2,6 +2,7 @@ package org.example.gather_back_end.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.bucket.service.BucketService;
+import org.example.gather_back_end.user.dto.UploadProfileImgRes;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,12 +14,11 @@ public class UserController {
 
     private final BucketService bucketService;
 
-    @PostMapping("/{userId}/profile-img")
+    @PostMapping("/{userId}/profileImg")
     public SuccessResponse<?> uploadProfileImg(
             @PathVariable Long userId,
             @RequestParam("file") MultipartFile file) throws Exception {
-
-        String imageUrl = bucketService.uploadProfileImg(file, userId);
-        return SuccessResponse.of(imageUrl);
+        UploadProfileImgRes res = bucketService.uploadProfileImg(file, userId);
+        return SuccessResponse.of(res);
     }
 }
