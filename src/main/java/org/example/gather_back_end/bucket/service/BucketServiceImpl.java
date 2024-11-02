@@ -10,7 +10,10 @@ import com.oracle.bmc.objectstorage.requests.PutObjectRequest;
 import com.oracle.bmc.objectstorage.transfer.UploadConfiguration;
 import com.oracle.bmc.objectstorage.transfer.UploadManager;
 import com.oracle.bmc.objectstorage.transfer.UploadManager.UploadRequest;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Objects;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.domain.User;
@@ -19,11 +22,6 @@ import org.example.gather_back_end.user.dto.UploadProfileImgRes;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -85,7 +83,7 @@ public class BucketServiceImpl implements BucketService {
         User.updateProfileImgUrl(user, profileImgUrl);
         userRepository.save(user);
 
-        log.info("Image uploaded and URL saved to user profile: {}", profileImgUrl);
+        log.info("이미지 업로드 완료: {}", profileImgUrl);
         client.close();
         return UploadProfileImgRes.from(profileImgUrl);
     }
