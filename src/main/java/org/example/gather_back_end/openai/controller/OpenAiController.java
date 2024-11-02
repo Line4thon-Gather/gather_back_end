@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientRequest;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientResponse;
 import org.example.gather_back_end.openai.service.OpenAiService;
+import org.example.gather_back_end.test.exception.TestNotFoundException;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.security.core.Authentication;
@@ -28,5 +29,15 @@ public class OpenAiController implements OpenAiControllerApi {
 
         CustomOpenAiClientResponse response = openAiService.getOpenAiResponse(request);
         return SuccessResponse.of(response);
+    }
+
+    @PostMapping("/test2")
+    public String test(Authentication authentication,@RequestBody String test) {
+        if (authentication == null) {
+            return "null입니다.";
+        }
+        else {
+            return test;
+        }
     }
 }
