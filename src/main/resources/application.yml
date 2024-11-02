@@ -45,6 +45,12 @@ spring:
     api-url: ${OPENAI_API_URL}
     api-key: ${OPENAI_API_KEY}
 
+oracle:
+  bucket:
+    name: ${BUCKET_NAME}
+    name_space: ${BUCKET_NAME_SPACE}
+    profile_img_dir: ${PROFILE_IMG_DIR}
+
 --- ### local 환경 설정
 spring:
   config:
