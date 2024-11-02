@@ -28,14 +28,14 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // OAuth2User
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
 
-        String nickname = customUserDetails.getNickname();
+        String username = customUserDetails.getUsername();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(nickname, role, 60 * 60 * 1000L);
+        String token = jwtUtil.createJwt(username, role, 60 * 60 * 1000L);
 
         response.sendRedirect("https://www.to-gather.info?code=" + "Bearer " + token);
     }

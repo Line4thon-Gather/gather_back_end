@@ -10,5 +10,5 @@ import lombok.Setter;
 public class UserDto {
     private String role;
     private String name;
-    private String nickname;
+    private String username;
 }
