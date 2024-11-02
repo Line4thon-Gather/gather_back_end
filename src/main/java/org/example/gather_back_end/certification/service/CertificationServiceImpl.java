@@ -29,24 +29,23 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Override
     public CertificationUnivAuthRes certificationUnivAuth(CertificationUnivAuthReq req) throws IOException {
-
-        // 1. 인증번호 인증
-        Map<String, Object> certifyCode = UnivCert.certifyCode(univCertApiKey, req.email(), req.univName(),
-                req.code());
-
-        boolean certifyCodeResult = (boolean) certifyCode.get("success");
-
+        boolean certifyCodeResult = verifyCertifyCode(req);
         if (certifyCodeResult) {
-
-            // 2. 인증 상태 확인
-            Map<String, Object> status = UnivCert.status(univCertApiKey, req.email());
-            boolean statusResult = (boolean) status.get("success");
-
-            if (statusResult) {
-                return CertificationUnivAuthRes.from(true);
-            }
+            boolean statusResult = checkStatus(req);
+            return CertificationUnivAuthRes.from(statusResult);
         }
-
         return CertificationUnivAuthRes.from(false);
+    }
+
+    // 인증 번호 인증
+    private boolean verifyCertifyCode(CertificationUnivAuthReq req) throws IOException {
+        Map<String, Object> certifyCode = UnivCert.certifyCode(univCertApiKey, req.email(), req.univName(), req.code());
+        return (boolean) certifyCode.get("success");
+    }
+
+    // 인증 상태 확인
+    private boolean checkStatus(CertificationUnivAuthReq req) throws IOException {
+        Map<String, Object> status = UnivCert.status(univCertApiKey, req.email());
+        return (boolean) status.get("success");
     }
 }
