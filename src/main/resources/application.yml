@@ -51,6 +51,9 @@ oracle:
     name_space: ${BUCKET_NAME_SPACE}
     profile_img_dir: ${PROFILE_IMG_DIR}
 
+univ_cert:
+  api_key: ${UNIV_CERT_API_KEY}
+
 --- ### local 환경 설정
 spring:
   config:
