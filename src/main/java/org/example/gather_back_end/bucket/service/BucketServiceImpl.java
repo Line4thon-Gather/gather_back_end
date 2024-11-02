@@ -59,17 +59,16 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public UploadProfileImgRes uploadProfileImg(MultipartFile file, Long userId) throws Exception {
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            throw new IllegalArgumentException("User not found");
-        }
-        User user = userOpt.get();
+
+        User user = userRepository.getById(userId);
 
         File uploadFile = convertMultiPartToFile(file);
         ObjectStorage client = getClient();
         UploadManager uploadManager = getManager(client);
 
-        String fileName = BUCKET_PROFILE_IMG_DIR + "/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String fileName = BUCKET_PROFILE_IMG_DIR
+                        + "/" + UUID.randomUUID()
+                        + "_" + file.getOriginalFilename();
         String contentType = file.getContentType();
 
         PutObjectRequest request = PutObjectRequest.builder()
