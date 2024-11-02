@@ -21,14 +21,14 @@ public class JwtUtil {
     }
 
     // 현재 사용중인 username 받기
-    public String getNickname(String token) {
+    public String getUsername(String token) {
         return Jwts
                 .parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("nickname", String.class);
+                .get("username", String.class);
     }
 
     public String getRole(String token) {
@@ -52,9 +52,9 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-    public String createJwt(String nickname, String role, Long expiredMs) {
+    public String createJwt(String username, String role, Long expiredMs) {
         return Jwts.builder()
-                .claim("nickname", nickname)
+                .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs)) // token 만료시간

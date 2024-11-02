@@ -49,12 +49,12 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // 토큰에서 username & role 획득
-        String nickname = jwtUtil.getNickname(token);
+        String username = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
 
         // userDto 생성하여 값 set
         UserDto userDto = UserDto.builder()
-                .nickname(nickname)
+                .username(username)
                 .role(role)
                 .build();
 

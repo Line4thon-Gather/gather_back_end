@@ -76,7 +76,7 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
             );
 
             UserDto userDto = UserDto.builder()
-                    .nickname(nickname)
+                    .username(username)
                     .name(oAuth2Response.getName())
                     .role("ROLE_USER")
                     .build();
@@ -90,7 +90,7 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
             userRepository.save(existData);
 
             UserDto userDto = UserDto.builder()
-                    .nickname(existData.getNickname())
+                    .username(existData.getUsername())
                     .name(existData.getName())
                     .role(existData.getRole())
                     .build();
