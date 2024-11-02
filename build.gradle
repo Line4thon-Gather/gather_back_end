@@ -22,6 +22,7 @@ configurations {
 repositories {
     mavenCentral()
     maven { url "https://repo.spring.io/release" }
+    maven{url 'https://jitpack.io'}
 }
 
 dependencies {
@@ -41,6 +42,7 @@ dependencies {
     implementation 'com.oracle.oci.sdk:oci-java-sdk-common-httpclient:3.38.0'
     implementation 'com.oracle.oci.sdk:oci-java-sdk-common-httpclient-choices:3.38.0'
     implementation ('com.oracle.oci.sdk:oci-java-sdk-common-httpclient-jersey3:3.37.0')
+    implementation 'com.github.in-seo:univcert:master-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok'
     implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
     implementation'io.jsonwebtoken:jjwt-impl:0.12.3'
