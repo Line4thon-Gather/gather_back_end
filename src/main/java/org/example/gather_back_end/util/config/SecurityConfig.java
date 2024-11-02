@@ -58,7 +58,7 @@ public class SecurityConfig {
                                 "https://www.to-gather.info",
                                 "http://localhost:5173",
                                 "http://localhost:8080",
-                                "https://backend.to-gather.info/swagger-ui/index.html#"
+                                "https://backend.to-gather.info"
                         ));
                         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                         configuration.setAllowCredentials(true);
@@ -78,7 +78,7 @@ public class SecurityConfig {
                         .failureHandler(customFailureHandler)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**","/api/**").permitAll()
+                        .requestMatchers("/**","/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
