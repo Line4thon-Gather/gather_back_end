@@ -15,7 +15,7 @@ public class UserController {
     private final BucketService bucketService;
 
     @PostMapping("/{userId}/profileImg")
-    public SuccessResponse<?> uploadProfileImg(
+    public SuccessResponse<UploadProfileImgRes> uploadProfileImg(
             @PathVariable Long userId,
             @RequestParam("file") MultipartFile file) throws Exception {
         UploadProfileImgRes res = bucketService.uploadProfileImg(file, userId);
