@@ -3,12 +3,12 @@ package org.example.gather_back_end.certification.dto;
 import lombok.Builder;
 
 @Builder
-public record CertificationUnivEmailRes(
+public record CertificationUnivAuthRes(
         boolean isSuccess
 ) {
 
-    public static CertificationUnivEmailRes from(boolean isSuccess) {
-        return CertificationUnivEmailRes.builder()
+    public static CertificationUnivAuthRes from(boolean isSuccess) {
+        return CertificationUnivAuthRes.builder()
                 .isSuccess(isSuccess)
                 .build();
     }
