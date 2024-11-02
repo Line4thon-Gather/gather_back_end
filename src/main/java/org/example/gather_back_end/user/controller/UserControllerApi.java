@@ -25,7 +25,7 @@ public interface UserControllerApi {
                                 + "    \"timestamp\": \"2024-10-22T21:35:03.755865\",\n"
                                 + "    \"isSuccess\": true,\n"
                                 + "    \"code\": \"200\",\n"
-                                + "    \"message\": \"프로필 사진이 성공적으로 업로드되었습니다.\",\n"
+                                + "    \"message\": \"호출에 성공하였습니다.\",\n"
                                 + "    \"data\": null\n"
                             + "}"),
                             schema = @Schema(implementation = SuccessResponse.class)))
