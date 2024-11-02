@@ -80,7 +80,7 @@ public class User extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public static User createAllUserInfo(String username, String name, String email, String role, String nickname) {
+    public static User createUserInfo(String username, String name, String email, String role, String nickname) {
         return User.builder()
                 .username(username)
                 .name(name)

@@ -67,7 +67,7 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
 
         if (existData == null) {
 
-            userRepository.save(User.createAllUserInfo(
+            userRepository.save(User.createUserInfo(
                     username,
                     oAuth2Response.getName(),
                     oAuth2Response.getEmail(),
