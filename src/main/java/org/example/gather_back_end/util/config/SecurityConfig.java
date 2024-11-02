@@ -57,9 +57,10 @@ public class SecurityConfig {
                         configuration.setAllowedOrigins(Arrays.asList(
                                 "https://www.to-gather.info",
                                 "http://localhost:5173",
-                                "https://localhost:8080"
+                                "http://localhost:8080",
+                                "https://backend.to-gather.info/swagger-ui/index.html#"
                         ));
-                        configuration.setAllowedMethods(Collections.singletonList("*"));
+                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
                         configuration.setMaxAge(3600L);
@@ -77,7 +78,7 @@ public class SecurityConfig {
                         .failureHandler(customFailureHandler)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/**","/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
