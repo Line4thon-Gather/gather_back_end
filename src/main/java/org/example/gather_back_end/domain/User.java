@@ -112,4 +112,11 @@ public class User extends BaseEntity {
         user.isAuthenticated = true;
     }
 
+    // 사업자 인증 시 유저 정보 업데이트
+    public static void updateEntrepreneurAuthInfo(User user) {
+        user.userType = UserType.BUSINESS;
+        user.isFirstLogin = true;
+        user.isAuthenticated = true;
+    }
+
 }

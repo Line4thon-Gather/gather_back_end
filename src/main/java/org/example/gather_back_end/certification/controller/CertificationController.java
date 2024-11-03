@@ -6,8 +6,8 @@ import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
-import org.example.gather_back_end.certification.dto.CertificationEntrepreneurReq;
-import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRes;
+import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
+import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateRes;
 import org.example.gather_back_end.certification.service.CertificationService;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.jwt.util.JwtUtil;
@@ -42,9 +42,18 @@ public class CertificationController implements CertificationControllerApi {
     }
 
     // 사업자 번호 인증
+    /**
     @PostMapping("/entrepreneur")
     public SuccessResponse<CertificationEntrepreneurRes> certificationEntrepreneur(@RequestBody CertificationEntrepreneurReq req) {
         CertificationEntrepreneurRes res = certificationService.certificationEntrepreneur(req);
+        return SuccessResponse.of(res);
+    }
+    **/
+
+    @PostMapping("/entrepreneur")
+    public SuccessResponse<CertificationEntrepreneurValidateRes> certificationEntrepreneur(CustomOAuth2User oAuth2User, @RequestBody CertificationEntrepreneurValidateReq req) {
+        String providerId = JwtUtil.getUsername(oAuth2User.getUsername());
+        CertificationEntrepreneurValidateRes res = certificationService.certificationEntrepreneurValidate(req, providerId);
         return SuccessResponse.of(res);
     }
 }
