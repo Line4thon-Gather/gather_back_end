@@ -10,7 +10,6 @@ import org.example.gather_back_end.certification.client.EntrepreneurClient;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
-import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusRes;
@@ -37,14 +36,14 @@ public class CertificationServiceImpl implements CertificationService {
     private final UserRepository userRepository;
 
     @Override
-    public CertificateUnivEmailRes certificateUnivEmail(CertificateUnivEmailReq req) throws IOException {
+    public void certificateUnivEmail(CertificateUnivEmailReq req) throws IOException {
         Map<String, Object> certify = UnivCert.certify(univCertApiKey, req.email(), req.univName(), true);
         boolean isSuccess = (boolean) certify.get("success");
-        return CertificateUnivEmailRes.from(isSuccess);
+        log.info("@@@@@@ 이메일 인증번호 전송 isSuccess : " + isSuccess);
     }
 
     @Override
-    public CertificateUnivAuthRes certificateUnivAuth(CertificateUnivAuthReq req, String providerId) throws IOException {
+    public void certificateUnivAuth(CertificateUnivAuthReq req, String providerId) throws IOException {
         boolean certifyCodeResult = verifyCertifyCode(req);
         if (certifyCodeResult) {
             boolean statusResult = checkStatus(req);
@@ -52,8 +51,7 @@ public class CertificationServiceImpl implements CertificationService {
             // User 업데이트 (대학생, 최초 로그인, 인증 여부)
             User user = userRepository.getByUsername(providerId);
             User.updateStudentAuthInfo(user);
-
-            return CertificateUnivAuthRes.from(statusResult);
+            return;
         }
         return CertificateUnivAuthRes.from(false);
     }
