@@ -30,7 +30,7 @@ public class CertificationServiceImpl implements CertificationService {
     @Value("${univ_cert.api_key}")
     private String univCertApiKey;
 
-    @Value("${BUSINESS_API_KEY}")
+    @Value("${business.api_key}")
     private String businessApiKey;
 
     private final EntrepreneurClient entrepreneurClient;
@@ -68,6 +68,7 @@ public class CertificationServiceImpl implements CertificationService {
 
         // 외부 API 호출하여 유효성 결과 받기
         GetEntrepreneurValidateRes validResult = fetchEntrepreneurValidationResult(externalApiReq);
+        log.info("@@@@@@@@@ 유효성 결과" + validResult.toString());
 
         // 유효성 검사 코드
         String resCode = validResult.data().getFirst().valid();
