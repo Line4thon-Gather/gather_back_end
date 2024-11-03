@@ -83,6 +83,7 @@ public class CertificationServiceImpl implements CertificationService {
             log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사업자 번호 검사 성공");
             log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사용자 정보 업데이트");
             updateUserEntrepreneurAuthInfo(providerId);
+            return;
         }
 
         log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사업자 상태 검사 실패");
