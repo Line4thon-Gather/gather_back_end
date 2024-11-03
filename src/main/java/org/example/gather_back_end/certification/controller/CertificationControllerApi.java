@@ -15,6 +15,7 @@ import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -55,7 +56,7 @@ public interface CertificationControllerApi {
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @PostMapping
-    SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(CustomOAuth2User auth2User, @RequestBody CertificateUnivAuthReq req) throws IOException;
+    SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(Authentication authentication, @RequestBody CertificateUnivAuthReq req) throws IOException;
 
     @Operation(summary = "사업자 인증",
                 description = "사업자 인증 성공한 경우, data의 isSuccess 필드가 true\n"
@@ -86,6 +87,6 @@ public interface CertificationControllerApi {
             )
     })
     @PostMapping
-    SuccessResponse<?> certificationEntrepreneur(CustomOAuth2User oAuth2User, @RequestBody CertificationEntrepreneurValidateReq req);
+    SuccessResponse<?> certificationEntrepreneur(Authentication authentication, @RequestBody CertificationEntrepreneurValidateReq req);
 
 }
