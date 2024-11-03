@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "인증 관련", description = "유저 인증과 관련된 API")
 public interface CertificationControllerApi {
 
-    @Operation(summary = "이메일 인증번호 전송")
+    @Operation(summary = "이메일 인증번호 전송",
+                description = "이 API에서 200 OK가 떴다면 이메일로 인증번호가 전송되었다는 것을 의미함"
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "인증번호 전송 성공",
                     content = @Content(mediaType = "application/json",
@@ -28,9 +30,8 @@ public interface CertificationControllerApi {
                                 + "    \"isSuccess\": true,\n"
                                 + "    \"code\": \"200\",\n"
                                 + "    \"message\": \"호출에 성공하였습니다.\",\n"
-                                + "    \"data\": {\n"
-                                + "        \"isSuccess\": true\n"
-                                + "    }\n"
+                                + "    \"data\": null\n"
+                                + "    }"
                                 + "}"),
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
