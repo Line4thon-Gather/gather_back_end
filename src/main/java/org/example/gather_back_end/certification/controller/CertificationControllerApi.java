@@ -76,9 +76,9 @@ public interface CertificationControllerApi {
                             examples = @ExampleObject(value = "{\n"
                                 + "    \"timestamp\": \"2024-11-03T15:44:24.484124\",\n"
                                 + "    \"isSuccess\": false,\n"
-                                + "    \"code\": \"400\",\n"
-                                + "    \"message\": \"사업자 인증에 실패하였습니다.\",\n"
-                                + "    \"data\": null\n"
+                                + "    \"code\": \"ENTREPRENEUR_BAD_REQUEST_400\",\n"
+                                + "    \"message\": \"사업자 등록 정보가 일치하지 않음\",\n"
+                                + "    \"httpStatus\": 400\n"
                                 + "}"),
                             schema = @Schema(implementation = SuccessResponse.class))
             )
