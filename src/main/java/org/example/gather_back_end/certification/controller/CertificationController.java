@@ -41,15 +41,7 @@ public class CertificationController implements CertificationControllerApi {
         return SuccessResponse.of(res);
     }
 
-    // 사업자 번호 인증
-    /**
-    @PostMapping("/entrepreneur")
-    public SuccessResponse<CertificationEntrepreneurRes> certificationEntrepreneur(@RequestBody CertificationEntrepreneurReq req) {
-        CertificationEntrepreneurRes res = certificationService.certificationEntrepreneur(req);
-        return SuccessResponse.of(res);
-    }
-    **/
-
+    // 사업자 번호 인증 (validate + status 검증)
     @PostMapping("/entrepreneur")
     public SuccessResponse<CertificationEntrepreneurValidateRes> certificationEntrepreneur(CustomOAuth2User oAuth2User, @RequestBody CertificationEntrepreneurValidateReq req) {
         String providerId = JwtUtil.getUsername(oAuth2User.getUsername());

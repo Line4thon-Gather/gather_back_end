@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByNickname(String nickname);
-//    User findByUsername(String username);
 
     @Query("SELECT u FROM User u WHERE u.username = :username")
     User findByUsernameCustom(@Param("username") String username);

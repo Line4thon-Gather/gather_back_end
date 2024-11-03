@@ -85,49 +85,6 @@ public class CertificationServiceImpl implements CertificationService {
         return CertificationEntrepreneurValidateRes.from(false, "등록된 사업자 정보가 일치하지 않음");
     }
 
-//    @Override
-//    public CertificationEntrepreneurValidateRes certificationEntrepreneurValidate(
-//            CertificationEntrepreneurValidateReq req, String providerId) {
-//
-//        // req 객체를 외부 API 호출 스펙에 맞게 변환
-//        GetEntrepreneurValidateReq externalApiReq = changeReqDtoReqToExternalApiSpecDtoReq(req);
-//
-//        // 외부 API 호출하여 결과 받기
-//        GetEntrepreneurValidateRes validResult = entrepreneurClient.getEntrepreneurValidate(
-//                businessApiKey,
-//                externalApiReq
-//        );
-//
-//        // resCode 01 : 사업자 존재
-//        // resCode 02 : 사업자 존재하지 않음
-//        String resCode = validResult.data().get(0).valid();
-//
-//        if (resCode.equals("01")) { // 사업자 존재
-//            GetEntrepreneurStatusRes statusResult = entrepreneurClient.getEntrepreneurStatus
-//                (
-//                    businessApiKey,
-//                    GetEntrepreneurStatusReq.of(req.b_no()
-//                )
-//            );
-//
-//            boolean isSuccess = statusResult != null && "OK".equals(statusResult.status_code()) && statusResult.match_cnt() > 0;
-//
-//            if (isSuccess) {
-//
-//                // 사용자 Repository 업데이트
-//                User user = userRepository.getByUsername(providerId);
-//                User.updateEntrepreneurAuthInfo(user);
-//
-//                return CertificationEntrepreneurValidateRes.from(true, "사업자 등록 인증 성공");
-//            } else {
-//                return CertificationEntrepreneurValidateRes.from(false, "등록된 사업자 정보가 일치하지 않음");
-//            }
-//
-//        } else { // 사업자 존재 X
-//            return CertificationEntrepreneurValidateRes.from(false, "등록된 사업자 정보가 일치하지 않음");
-//        }
-//    }
-
     private static GetEntrepreneurValidateReq changeReqDtoReqToExternalApiSpecDtoReq(CertificationEntrepreneurValidateReq req) {
         List<CertificationEntrepreneurValidateReq> certificationReqs = List.of(
             new CertificationEntrepreneurValidateReq(
