@@ -40,18 +40,22 @@ public interface CertificationControllerApi {
 
     @Operation(summary = "이메일 인증번호 인증")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "인증번호 인증 성공",
-                    content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\n"
-                                + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
-                                + "    \"isSuccess\": true,\n"
-                                + "    \"code\": \"200\",\n"
-                                + "    \"message\": \"호출에 성공하였습니다.\",\n"
-                                + "    \"data\": {\n"
-                                + "        \"isSuccess\": true\n"
-                                + "    }\n"
-                                + "}"),
-                            schema = @Schema(implementation = SuccessResponse.class))
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "인증번호 인증 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = "{\n"
+                                            + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
+                                            + "    \"isSuccess\": true,\n"
+                                            + "    \"code\": \"200\",\n"
+                                            + "    \"message\": \"호출에 성공하였습니다.\",\n"
+                                            + "    \"data\": null\n"
+                                            + "}"
+                            ),
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    )
             ),
             @ApiResponse(responseCode = "400", description = "인증번호 인증 실패",
                     content = @Content(mediaType = "application/json",
