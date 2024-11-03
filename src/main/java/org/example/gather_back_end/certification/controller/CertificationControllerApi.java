@@ -13,7 +13,6 @@ import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
-import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateRes;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,6 +86,6 @@ public interface CertificationControllerApi {
             )
     })
     @PostMapping
-    SuccessResponse<CertificationEntrepreneurValidateRes> certificationEntrepreneur(CustomOAuth2User oAuth2User, @RequestBody CertificationEntrepreneurValidateReq req);
+    SuccessResponse<?> certificationEntrepreneur(CustomOAuth2User oAuth2User, @RequestBody CertificationEntrepreneurValidateReq req);
 
 }

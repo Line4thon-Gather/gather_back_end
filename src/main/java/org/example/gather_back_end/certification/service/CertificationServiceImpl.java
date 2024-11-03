@@ -12,11 +12,11 @@ import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
-import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateRes;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusRes;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateRes;
+import org.example.gather_back_end.certification.exception.EntrepreneurBadRequestException;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,7 +60,7 @@ public class CertificationServiceImpl implements CertificationService {
 
     // 사업자 등록 검증
     @Override
-    public CertificationEntrepreneurValidateRes certificationEntrepreneurValidate(
+    public void certificationEntrepreneurValidate(
             CertificationEntrepreneurValidateReq req, String providerId) {
 
         // 요청 객체를 외부 API 호출 스펙에 맞게 변환
@@ -72,17 +72,20 @@ public class CertificationServiceImpl implements CertificationService {
         // 유효성 검사 코드
         String resCode = validResult.data().getFirst().valid();
         if (!"01".equals(resCode)) {
-            return CertificationEntrepreneurValidateRes.from(false, "등록된 사업자 정보가 일치하지 않음");
+            log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 유효성 검사 실패");
+            throw new EntrepreneurBadRequestException();
         }
 
         // 사업자 상태 검사
         boolean isSuccess = checkEntrepreneurStatus(req);
         if (isSuccess) {
+            log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사업자 번호 검사 성공");
+            log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사용자 정보 업데이트");
             updateUserEntrepreneurAuthInfo(providerId);
-            return CertificationEntrepreneurValidateRes.from(true, "사업자 등록 인증 성공");
         }
 
-        return CertificationEntrepreneurValidateRes.from(false, "등록된 사업자 정보가 일치하지 않음");
+        log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사업자 상태 검사 실패");
+        throw new EntrepreneurBadRequestException();
     }
 
     private static GetEntrepreneurValidateReq changeReqDtoReqToExternalApiSpecDtoReq(CertificationEntrepreneurValidateReq req) {
