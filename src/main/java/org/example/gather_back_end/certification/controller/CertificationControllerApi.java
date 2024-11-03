@@ -39,7 +39,7 @@ public interface CertificationControllerApi {
 
     @Operation(summary = "이메일 인증번호 인증")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "인증 성공",
+            @ApiResponse(responseCode = "200", description = "인증번호 인증 성공",
                     content = @Content(mediaType = "application/json",
                             examples = @ExampleObject(value = "{\n"
                                 + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
@@ -50,7 +50,19 @@ public interface CertificationControllerApi {
                                 + "        \"isSuccess\": true\n"
                                 + "    }\n"
                                 + "}"),
-                            schema = @Schema(implementation = SuccessResponse.class)))
+                            schema = @Schema(implementation = SuccessResponse.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "인증번호 인증 실패",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n"
+                                + "    \"timestamp\": \"2024-11-03T15:44:24.484124\",\n"
+                                + "    \"isSuccess\": false,\n"
+                                + "    \"code\": \"AUTH_NUMBER_NOT_MATCH_BAD_REQUEST_400\",\n"
+                                + "    \"message\": \"이메일로 전송된 코드와 인증번호가 일치하지 않음\",\n"
+                                + "    \"httpStatus\": 400\n"
++ "}"),
+                            schema = @Schema(implementation = SuccessResponse.class))
+            )
     })
     @PostMapping
     SuccessResponse<?> certificateUnivAuth(Authentication authentication, @RequestBody CertificateUnivAuthReq req) throws IOException;
