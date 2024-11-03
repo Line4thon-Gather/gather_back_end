@@ -6,6 +6,8 @@ import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
+import org.example.gather_back_end.certification.dto.CertificationEntrepreneurReq;
+import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRes;
 import org.example.gather_back_end.certification.service.CertificationService;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +40,7 @@ public class CertificationController implements CertificationControllerApi {
     // 사업자 번호 인증
     @PostMapping("/entrepreneur")
     public SuccessResponse<CertificationEntrepreneurRes> certificationEntrepreneur(@RequestBody CertificationEntrepreneurReq req) {
-        CertificationEntrepreneurReq res = certificationService.certificationEntrepreneur(req);
+        CertificationEntrepreneurRes res = certificationService.certificationEntrepreneur(req);
         return SuccessResponse.of(res);
     }
 }
