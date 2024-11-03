@@ -8,10 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
-import org.example.gather_back_end.certification.dto.CertificationUnivAuthReq;
-import org.example.gather_back_end.certification.dto.CertificationUnivAuthRes;
-import org.example.gather_back_end.certification.dto.CertificationUnivEmailReq;
-import org.example.gather_back_end.certification.dto.CertificationUnivEmailRes;
+import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
+import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
+import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
+import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +35,7 @@ public interface CertificationControllerApi {
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @PostMapping
-    SuccessResponse<CertificationUnivEmailRes> certificationUnivEmail(@RequestBody CertificationUnivEmailReq req) throws IOException;
+    SuccessResponse<CertificateUnivEmailRes> certificateUnivEmail(@RequestBody CertificateUnivEmailReq req) throws IOException;
 
     @Operation(summary = "이메일 인증번호 인증")
     @ApiResponses(value = {
@@ -53,5 +53,5 @@ public interface CertificationControllerApi {
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @PostMapping
-    SuccessResponse<CertificationUnivAuthRes> certificationUnivAuth(@RequestBody CertificationUnivAuthReq req) throws IOException;
+    SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(@RequestBody CertificateUnivAuthReq req) throws IOException;
 }
