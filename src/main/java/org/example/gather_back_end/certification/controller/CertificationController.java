@@ -2,10 +2,12 @@ package org.example.gather_back_end.certification.controller;
 
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import org.example.gather_back_end.certification.dto.CertificationUnivAuthReq;
-import org.example.gather_back_end.certification.dto.CertificationUnivAuthRes;
-import org.example.gather_back_end.certification.dto.CertificationUnivEmailReq;
-import org.example.gather_back_end.certification.dto.CertificationUnivEmailRes;
+import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
+import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
+import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
+import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
+import org.example.gather_back_end.certification.dto.CertificationEntrepreneurReq;
+import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRes;
 import org.example.gather_back_end.certification.service.CertificationService;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,16 +24,23 @@ public class CertificationController implements CertificationControllerApi {
 
     // 이메일 인증번호 받기
     @PostMapping("/univ/email")
-    public SuccessResponse<CertificationUnivEmailRes> certificationUnivEmail(@RequestBody CertificationUnivEmailReq req)
+    public SuccessResponse<CertificateUnivEmailRes> certificateUnivEmail(@RequestBody CertificateUnivEmailReq req)
             throws IOException {
-        CertificationUnivEmailRes res = certificationService.certificationUnivEmail(req);
+        CertificateUnivEmailRes res = certificationService.certificateUnivEmail(req);
         return SuccessResponse.of(res);
     }
 
     // 이메일 인증번호 인증
     @PostMapping("/univ/auth")
-    public SuccessResponse<CertificationUnivAuthRes> certificationUnivAuth(@RequestBody CertificationUnivAuthReq req) throws IOException {
-        CertificationUnivAuthRes res = certificationService.certificationUnivAuth(req);
+    public SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(@RequestBody CertificateUnivAuthReq req) throws IOException {
+        CertificateUnivAuthRes res = certificationService.certificateUnivAuth(req);
+        return SuccessResponse.of(res);
+    }
+
+    // 사업자 번호 인증
+    @PostMapping("/entrepreneur")
+    public SuccessResponse<CertificationEntrepreneurRes> certificationEntrepreneur(@RequestBody CertificationEntrepreneurReq req) {
+        CertificationEntrepreneurRes res = certificationService.certificationEntrepreneur(req);
         return SuccessResponse.of(res);
     }
 }
