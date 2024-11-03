@@ -72,7 +72,7 @@ public interface CertificationControllerApi {
                                 + "    \"code\": \"AUTH_NUMBER_NOT_MATCH_BAD_REQUEST_400\",\n"
                                 + "    \"message\": \"이메일로 전송된 코드와 인증번호가 일치하지 않음\",\n"
                                 + "    \"httpStatus\": 400\n"
-+ "}"),
+                                + "}"),
                             schema = @Schema(implementation = SuccessResponse.class))
             )
     })
