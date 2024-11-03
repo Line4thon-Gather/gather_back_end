@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-public record EntrepreneurClientRes(
+public record GetEntrepreneurStatusRes(
         int request_cnt,
         int match_cnt,
         String status_code,

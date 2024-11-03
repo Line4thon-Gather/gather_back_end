@@ -13,8 +13,8 @@ import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRes;
-import org.example.gather_back_end.certification.dto.EntrepreneurClientReq;
-import org.example.gather_back_end.certification.dto.EntrepreneurClientRes;
+import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusReq;
+import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusRes;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,8 +58,8 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Override
     public CertificationEntrepreneurRes certificationEntrepreneur(CertificationEntrepreneurReq req) {
-        EntrepreneurClientReq clientReq = new EntrepreneurClientReq(List.of(req.number()));
-        EntrepreneurClientRes clientRes = entrepreneurClient.getEntrepreneurClientAuthInfo(businessApiKey, clientReq);
+        GetEntrepreneurStatusReq clientReq = new GetEntrepreneurStatusReq(List.of(req.number()));
+        GetEntrepreneurStatusRes clientRes = entrepreneurClient.getEntrepreneurStatus(businessApiKey, clientReq);
         boolean isSuccess = clientRes != null && "OK".equals(clientRes.status_code()) && clientRes.match_cnt() > 0;
         return CertificationEntrepreneurRes.from(isSuccess);
     }
