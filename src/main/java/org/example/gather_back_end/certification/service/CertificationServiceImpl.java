@@ -8,14 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.certification.client.EntrepreneurClient;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
-import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
-import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusRes;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateRes;
+import org.example.gather_back_end.certification.exception.AuthNumberNotMatchBadRequestException;
 import org.example.gather_back_end.certification.exception.EntrepreneurBadRequestException;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.repository.UserRepository;
@@ -37,25 +36,24 @@ public class CertificationServiceImpl implements CertificationService {
     private final UserRepository userRepository;
 
     @Override
-    public CertificateUnivEmailRes certificateUnivEmail(CertificateUnivEmailReq req) throws IOException {
+    public void certificateUnivEmail(CertificateUnivEmailReq req) throws IOException {
         Map<String, Object> certify = UnivCert.certify(univCertApiKey, req.email(), req.univName(), true);
         boolean isSuccess = (boolean) certify.get("success");
-        return CertificateUnivEmailRes.from(isSuccess);
+        log.info("@@@@@@ 이메일 인증번호 전송 isSuccess : " + isSuccess);
     }
 
     @Override
-    public CertificateUnivAuthRes certificateUnivAuth(CertificateUnivAuthReq req, String providerId) throws IOException {
+    public void certificateUnivAuth(CertificateUnivAuthReq req, String providerId) throws IOException {
         boolean certifyCodeResult = verifyCertifyCode(req);
         if (certifyCodeResult) {
-            boolean statusResult = checkStatus(req);
-
+//            boolean statusResult = checkStatus(req);
+            log.info("@@@@@ 이메일 인증번호 인증 성공");
             // User 업데이트 (대학생, 최초 로그인, 인증 여부)
             User user = userRepository.getByUsername(providerId);
             User.updateStudentAuthInfo(user);
-
-            return CertificateUnivAuthRes.from(statusResult);
+            return;
         }
-        return CertificateUnivAuthRes.from(false);
+        throw new AuthNumberNotMatchBadRequestException();
     }
 
     // 사업자 등록 검증
@@ -83,6 +81,7 @@ public class CertificationServiceImpl implements CertificationService {
             log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사업자 번호 검사 성공");
             log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사용자 정보 업데이트");
             updateUserEntrepreneurAuthInfo(providerId);
+            return;
         }
 
         log.info("[CertificationServiceImpl][certificationEntrepreneurValidate] : 사업자 상태 검사 실패");
