@@ -14,6 +14,7 @@ import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRes;
+import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,7 +56,7 @@ public interface CertificationControllerApi {
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @PostMapping
-    SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(@RequestBody CertificateUnivAuthReq req) throws IOException;
+    SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(CustomOAuth2User auth2User, @RequestBody CertificateUnivAuthReq req) throws IOException;
 
     @PostMapping
     SuccessResponse<CertificationEntrepreneurRes> certificationEntrepreneur(@RequestBody CertificationEntrepreneurReq req);

@@ -9,6 +9,8 @@ import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRes;
 import org.example.gather_back_end.certification.service.CertificationService;
+import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
+import org.example.gather_back_end.util.jwt.util.JwtUtil;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/certification")
 public class CertificationController implements CertificationControllerApi {
 
+    private final JwtUtil jwtUtil;
     private final CertificationService certificationService;
 
     // 이메일 인증번호 받기
@@ -32,7 +35,8 @@ public class CertificationController implements CertificationControllerApi {
 
     // 이메일 인증번호 인증
     @PostMapping("/univ/auth")
-    public SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(@RequestBody CertificateUnivAuthReq req) throws IOException {
+    public SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(CustomOAuth2User auth2User, @RequestBody CertificateUnivAuthReq req) throws IOException {
+        String providerId = JwtUtil.getUsername(auth2User.getUsername());
         CertificateUnivAuthRes res = certificationService.certificateUnivAuth(req);
         return SuccessResponse.of(res);
     }
