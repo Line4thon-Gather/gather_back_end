@@ -4,13 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Builder
-public record CertificationUnivAuthRes(
+public record CertificateUnivAuthRes(
         @Schema(description = "성공 여부", example = "true")
         boolean isSuccess
 ) {
 
-    public static CertificationUnivAuthRes from(boolean isSuccess) {
-        return CertificationUnivAuthRes.builder()
+    public static CertificateUnivAuthRes from(boolean isSuccess) {
+        return CertificateUnivAuthRes.builder()
                 .isSuccess(isSuccess)
                 .build();
     }
