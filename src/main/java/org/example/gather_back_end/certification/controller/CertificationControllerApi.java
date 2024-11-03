@@ -12,8 +12,7 @@ import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailRes;
-import org.example.gather_back_end.certification.dto.CertificationEntrepreneurReq;
-import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRes;
+import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,6 +57,35 @@ public interface CertificationControllerApi {
     @PostMapping
     SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(CustomOAuth2User auth2User, @RequestBody CertificateUnivAuthReq req) throws IOException;
 
+    @Operation(summary = "사업자 인증",
+                description = "사업자 인증 성공한 경우, data의 isSuccess 필드가 true\n"
+                                + "사업자 인증 실패 시, data의 isSuccess 필드가 false"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "인증 성공",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n"
+                                + "    \"timestamp\": \"2024-11-03T15:44:24.484124\",\n"
+                                + "    \"isSuccess\": true,\n"
+                                + "    \"code\": \"200\",\n"
+                                + "    \"message\": \"호출에 성공하였습니다.\",\n"
+                                + "    \"data\": null\n"
+                                + "}"),
+                            schema = @Schema(implementation = SuccessResponse.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "인증 실패",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n"
+                                + "    \"timestamp\": \"2024-11-03T15:44:24.484124\",\n"
+                                + "    \"isSuccess\": false,\n"
+                                + "    \"code\": \"400\",\n"
+                                + "    \"message\": \"사업자 인증에 실패하였습니다.\",\n"
+                                + "    \"data\": null\n"
+                                + "}"),
+                            schema = @Schema(implementation = SuccessResponse.class))
+            )
+    })
     @PostMapping
-    SuccessResponse<CertificationEntrepreneurRes> certificationEntrepreneur(@RequestBody CertificationEntrepreneurReq req);
+    SuccessResponse<?> certificationEntrepreneur(CustomOAuth2User oAuth2User, @RequestBody CertificationEntrepreneurValidateReq req);
+
 }
