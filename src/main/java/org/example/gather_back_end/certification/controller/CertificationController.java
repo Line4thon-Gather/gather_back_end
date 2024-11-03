@@ -4,7 +4,6 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
-import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.service.CertificationService;

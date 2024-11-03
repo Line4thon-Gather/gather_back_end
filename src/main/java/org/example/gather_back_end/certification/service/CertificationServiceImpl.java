@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.certification.client.EntrepreneurClient;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
-import org.example.gather_back_end.certification.dto.CertificateUnivAuthRes;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusRes;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateRes;
+import org.example.gather_back_end.certification.exception.AuthNumberNotMatchBadRequestException;
 import org.example.gather_back_end.certification.exception.EntrepreneurBadRequestException;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.repository.UserRepository;
@@ -46,14 +46,14 @@ public class CertificationServiceImpl implements CertificationService {
     public void certificateUnivAuth(CertificateUnivAuthReq req, String providerId) throws IOException {
         boolean certifyCodeResult = verifyCertifyCode(req);
         if (certifyCodeResult) {
-            boolean statusResult = checkStatus(req);
-
+//            boolean statusResult = checkStatus(req);
+            log.info("@@@@@ 이메일 인증번호 인증 성공");
             // User 업데이트 (대학생, 최초 로그인, 인증 여부)
             User user = userRepository.getByUsername(providerId);
             User.updateStudentAuthInfo(user);
             return;
         }
-        return CertificateUnivAuthRes.from(false);
+        throw new AuthNumberNotMatchBadRequestException();
     }
 
     // 사업자 등록 검증
