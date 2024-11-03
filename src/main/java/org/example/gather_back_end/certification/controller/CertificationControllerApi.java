@@ -23,18 +23,25 @@ public interface CertificationControllerApi {
                 description = "이 API에서 200 OK가 떴다면 이메일로 인증번호가 전송되었다는 것을 의미함"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "인증번호 전송 성공",
-                    content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\n"
-                                + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
-                                + "    \"isSuccess\": true,\n"
-                                + "    \"code\": \"200\",\n"
-                                + "    \"message\": \"호출에 성공하였습니다.\",\n"
-                                + "    \"data\": null\n"
-                                + "    }"
-                                + "}"),
-                            schema = @Schema(implementation = SuccessResponse.class)))
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "인증번호 전송 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = "{\n"
+                                            + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
+                                            + "    \"isSuccess\": true,\n"
+                                            + "    \"code\": \"200\",\n"
+                                            + "    \"message\": \"호출에 성공하였습니다.\",\n"
+                                            + "    \"data\": null\n"
+                                            + "}"
+                            ),
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    )
+            )
     })
+
     @PostMapping
     SuccessResponse<?> certificateUnivEmail(@RequestBody CertificateUnivEmailReq req) throws IOException;
 
