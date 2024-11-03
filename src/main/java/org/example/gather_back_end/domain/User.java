@@ -3,6 +3,8 @@ package org.example.gather_back_end.domain;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,6 +13,7 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +22,9 @@ import org.example.gather_back_end.util.entity.BaseEntity;
 @Entity
 @Table(name = "Users")
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
     @Id
@@ -61,6 +66,16 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String contactEmail;
 
+    // 대학생/사업자 여부
+    @Enumerated(value = EnumType.STRING)
+    private UserType userType;
+
+    @Builder.Default
+    private boolean isFirstLogin = false;
+
+    @Builder.Default
+    private boolean isAuthenticated = false;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Portfolio> portfolioList = new ArrayList<>();
 
@@ -69,16 +84,6 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Work> workList = new ArrayList<>();
-
-    @Builder
-    private User(Long id, String username, String name, String email, String role, String nickname) {
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.email = email;
-        this.role = role;
-        this.nickname = nickname;
-    }
 
     public static User createUserInfo(String username, String name, String email, String role, String nickname) {
         return User.builder()
