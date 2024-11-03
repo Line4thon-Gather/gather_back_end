@@ -105,4 +105,18 @@ public class User extends BaseEntity {
         user.profileImgUrl = profileImgUrl;
     }
 
+    // 대학생 인증 시 유저 정보 업데이트
+    public static void updateStudentAuthInfo(User user) {
+        user.userType = UserType.STUDENT;
+        user.isFirstLogin = true;
+        user.isAuthenticated = true;
+    }
+
+    // 사업자 인증 시 유저 정보 업데이트
+    public static void updateEntrepreneurAuthInfo(User user) {
+        user.userType = UserType.BUSINESS;
+        user.isFirstLogin = true;
+        user.isAuthenticated = true;
+    }
+
 }

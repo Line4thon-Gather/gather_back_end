@@ -63,7 +63,7 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
 
         String nickname = "USER" + numericEncryptedDateTime;
 
-        User existData = userRepository.findByUsername(username);
+        User existData = userRepository.findByUsernameCustom(username);
 
         if (existData == null) {
 

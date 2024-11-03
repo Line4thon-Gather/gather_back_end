@@ -1,16 +1,28 @@
 package org.example.gather_back_end.certification.dto;
 
 import java.util.List;
-import lombok.Builder;
 
-@Builder
-public record EntrepreneurClientRes(
+public record GetEntrepreneurValidateRes(
         int request_cnt,
-        int match_cnt,
+        int valid_cnt,
         String status_code,
-        List<Data> data
+        List<BusinessData> data
 ) {
-    public record Data(
+
+    public record BusinessData(
+            String b_no,
+            String valid,
+            RequestParam request_param,
+            Status status
+    ) {}
+
+    public record RequestParam(
+            String b_no,
+            String start_dt,
+            String p_nm
+    ) {}
+
+    public record Status(
             String b_no,
             String b_stt,
             String b_stt_cd,
