@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "entrepreneur-auth", url = "${BUSINESS_API_URL}")
 public interface EntrepreneurClient {
 
+    // 사업자 등록 상태 API
     @PostMapping(value = "status", produces = "application/json")
     GetEntrepreneurStatusRes getEntrepreneurStatus(
             @RequestParam("serviceKey") String serviceKey,
             @RequestBody GetEntrepreneurStatusReq req
     );
 
+    // 사업자 등록 검증 API
     @PostMapping(value = "validate", produces = "application/json")
     GetEntrepreneurValidateRes getEntrepreneurValidate(
             @RequestParam("serviceKey") String serviceKey,
