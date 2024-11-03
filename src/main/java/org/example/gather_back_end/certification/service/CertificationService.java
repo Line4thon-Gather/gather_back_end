@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface CertificationService {
     CertificateUnivEmailRes certificateUnivEmail(CertificateUnivEmailReq req) throws IOException;
-    CertificateUnivAuthRes certificateUnivAuth(CertificateUnivAuthReq req) throws IOException;
+    CertificateUnivAuthRes certificateUnivAuth(CertificateUnivAuthReq req, String providerId) throws IOException;
     CertificationEntrepreneurRes certificationEntrepreneur(CertificationEntrepreneurReq req);
 }

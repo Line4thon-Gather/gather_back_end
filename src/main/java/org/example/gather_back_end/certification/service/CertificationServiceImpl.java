@@ -15,6 +15,8 @@ import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRe
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurRes;
 import org.example.gather_back_end.certification.dto.EntrepreneurClientReq;
 import org.example.gather_back_end.certification.dto.EntrepreneurClientRes;
+import org.example.gather_back_end.domain.User;
+import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,7 @@ public class CertificationServiceImpl implements CertificationService {
     private String businessApiKey;
 
     private final EntrepreneurClient entrepreneurClient;
+    private final UserRepository userRepository;
 
     @Override
     public CertificateUnivEmailRes certificateUnivEmail(CertificateUnivEmailReq req) throws IOException {
@@ -39,10 +42,15 @@ public class CertificationServiceImpl implements CertificationService {
     }
 
     @Override
-    public CertificateUnivAuthRes certificateUnivAuth(CertificateUnivAuthReq req) throws IOException {
+    public CertificateUnivAuthRes certificateUnivAuth(CertificateUnivAuthReq req, String providerId) throws IOException {
         boolean certifyCodeResult = verifyCertifyCode(req);
         if (certifyCodeResult) {
             boolean statusResult = checkStatus(req);
+
+            // User 업데이트 (대학생, 최초 로그인, 인증 여부)
+            User user = userRepository.getByUsername(providerId);
+            User.updateStudentAuthInfo(user);
+
             return CertificateUnivAuthRes.from(statusResult);
         }
         return CertificateUnivAuthRes.from(false);

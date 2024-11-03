@@ -37,7 +37,7 @@ public class CertificationController implements CertificationControllerApi {
     @PostMapping("/univ/auth")
     public SuccessResponse<CertificateUnivAuthRes> certificateUnivAuth(CustomOAuth2User auth2User, @RequestBody CertificateUnivAuthReq req) throws IOException {
         String providerId = JwtUtil.getUsername(auth2User.getUsername());
-        CertificateUnivAuthRes res = certificationService.certificateUnivAuth(req);
+        CertificateUnivAuthRes res = certificationService.certificateUnivAuth(req, providerId);
         return SuccessResponse.of(res);
     }
 
