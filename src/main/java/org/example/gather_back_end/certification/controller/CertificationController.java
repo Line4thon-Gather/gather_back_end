@@ -34,4 +34,11 @@ public class CertificationController implements CertificationControllerApi {
         CertificationUnivAuthRes res = certificationService.certificationUnivAuth(req);
         return SuccessResponse.of(res);
     }
+
+    // 사업자 번호 인증
+    @PostMapping("/entrepreneur")
+    public SuccessResponse<CertificationEntrepreneurRes> certificationEntrepreneur(@RequestBody CertificationEntrepreneurReq req) {
+        CertificationEntrepreneurReq res = certificationService.certificationEntrepreneur(req);
+        return SuccessResponse.of(res);
+    }
 }
