@@ -22,4 +22,6 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 
     default List<GetPortfolioRes> getAllByUser(User user) {return findAllByUser(user).orElseThrow(PortfolioNotFoundException::new);
     }
+
+    void deleteAllByUser(User user);
 }

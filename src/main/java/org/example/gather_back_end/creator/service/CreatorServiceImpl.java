@@ -21,12 +21,17 @@ public class CreatorServiceImpl implements CreatorService {
 
     // 크리에이터 등록
     @Override
-    public void createCreator(Long userId, String introductionTitle, String introductionContent, String contactKakaoId, String contactEmail){
+    public void createCreator(
+            Long userId,
+            String nickname,
+            String introductionTitle,
+            String introductionContent,
+            String contactKakaoId,
+            String contactEmail
+    ){
 
         User user = userRepository.getById(userId);
-
-        user.createCreatorInfo(introductionTitle, introductionContent, contactKakaoId, contactEmail);
-
+        user.createCreatorInfo(user,nickname, introductionTitle, introductionContent, contactKakaoId, contactEmail);
         userRepository.save(user);
     };
 
@@ -38,6 +43,7 @@ public class CreatorServiceImpl implements CreatorService {
 
         List<GetPortfolioRes> getPortfolioResList = portfolioRepository.getAllByUser(user);
         List<GetWorkRes> getWorkResList = workRepository.findAllByUser(user);
+
         // GetCreatorRes에 하나하나 다 담아야함
         GetCreatorRes res = new GetCreatorRes(
                 nickname,

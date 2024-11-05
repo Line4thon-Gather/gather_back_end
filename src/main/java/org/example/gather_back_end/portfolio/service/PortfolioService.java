@@ -7,4 +7,5 @@ public interface PortfolioService {
 
     void createPortfolio(Long userId, List<CreatePortfolioReq> createPortfolioReqs);
 
+    void deletePortfolio(Long userId);
 }

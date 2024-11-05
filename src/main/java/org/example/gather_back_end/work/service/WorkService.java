@@ -8,4 +8,5 @@ public interface WorkService {
 
     void createWork(Long userId, List<CreateWorkReq> createWorkReqList);
 
+    void deleteWork(Long userId);
 }

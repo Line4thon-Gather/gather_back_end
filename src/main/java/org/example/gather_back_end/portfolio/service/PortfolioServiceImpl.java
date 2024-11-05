@@ -7,6 +7,7 @@ import org.example.gather_back_end.portfolio.dto.CreatePortfolioReq;
 import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -22,7 +23,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
         User user = userRepository.getById(userId);
 
-        for(CreatePortfolioReq portfolio : createPortfolioReqList){
+        for (CreatePortfolioReq portfolio : createPortfolioReqList){
             portfolioRepository.save(Portfolio.createPortfolioInfo(
                     user,
                     portfolio.title(),
@@ -31,4 +32,16 @@ public class PortfolioServiceImpl implements PortfolioService {
             ));
         }
     }
+
+    @Override
+    @Transactional
+    public void deletePortfolio(Long userId){
+        User user = userRepository.getById(userId);
+
+        if (portfolioRepository.findAllByUser(user).isPresent()) {
+            portfolioRepository.deleteAllByUser(user);
+        }
+
+    }
+
 }

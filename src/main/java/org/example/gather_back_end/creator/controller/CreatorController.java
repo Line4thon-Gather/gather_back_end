@@ -35,12 +35,15 @@ public class CreatorController {
 
         User user = userRepository.getByUsername(customOAuth2User.getUsername());
 
-        portfolioService.createPortfolio(user.getId(), req.createPortfolioReqList());
+        portfolioService.deletePortfolio(user.getId());
+        workService.deleteWork(user.getId());
 
+        portfolioService.createPortfolio(user.getId(), req.createPortfolioReqList());
         workService.createWork(user.getId(), req.createWorkReqList());
 
         creatorService.createCreator(
                 user.getId(),
+                req.nickname(),
                 req.introductionTitle(),
                 req.introductionContent(),
                 req.contactKaKaoId(),
