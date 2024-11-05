@@ -16,6 +16,7 @@ import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateRes;
 import org.example.gather_back_end.certification.exception.AuthNumberNotMatchBadRequestException;
 import org.example.gather_back_end.certification.exception.EntrepreneurBadRequestException;
+import org.example.gather_back_end.certification.exception.UnivNotFoundException;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +38,17 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Override
     public void certificateUnivEmail(CertificateUnivEmailReq req) throws IOException {
+
+        // 인증 가능한 대학교명 체크
+        Map<String, Object> check = UnivCert.check(req.univName());
+        boolean isChecked = (boolean) check.get("success");
+
+        if (!isChecked) {
+            log.info("@@@@@@ 인증 불가 대학, https://univcert.com/instruction8 에서 확인");
+            throw new UnivNotFoundException();
+        }
+
+        // 이메일 전송
         Map<String, Object> certify = UnivCert.certify(univCertApiKey, req.email(), req.univName(), true);
         boolean isSuccess = (boolean) certify.get("success");
         log.info("@@@@@@ 이메일 인증번호 전송 isSuccess : " + isSuccess);
