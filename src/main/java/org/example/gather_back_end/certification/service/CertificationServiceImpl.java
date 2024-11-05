@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.gather_back_end.certification.client.EmailCheckClient;
 import org.example.gather_back_end.certification.client.EntrepreneurClient;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
+import org.example.gather_back_end.certification.dto.GetEmailExistCheckRes;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusRes;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateReq;
@@ -33,7 +35,11 @@ public class CertificationServiceImpl implements CertificationService {
     @Value("${business.api_key}")
     private String businessApiKey;
 
+    @Value("${EMAIL_CHECK_API_KEY}")
+    private String emailCheckApiKey;
+
     private final EntrepreneurClient entrepreneurClient;
+    private final EmailCheckClient emailCheckClient;
     private final UserRepository userRepository;
 
     @Override
@@ -46,6 +52,12 @@ public class CertificationServiceImpl implements CertificationService {
         if (!isChecked) {
             log.info("@@@@@@ 인증 불가 대학, https://univcert.com/instruction8 에서 확인");
             throw new UnivNotFoundException();
+        }
+
+        // 실제 존재하는 이메일인지 체크
+        GetEmailExistCheckRes emailExistCheck = emailCheckClient.getEmailExistCheck(emailCheckApiKey, req.email());
+        if (!emailExistCheck.smtpCheck()) { // smtpCheck 필드가 false 이면 실제 존재하는 이메일 아님
+            throw new EmailBadRequestException();
         }
 
         // 이메일 전송

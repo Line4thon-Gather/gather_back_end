@@ -1,5 +1,6 @@
 package org.example.gather_back_end.certification.client;
 
+import org.example.gather_back_end.certification.dto.GetEmailExistCheckRes;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,7 +10,7 @@ public interface EmailCheckClient {
 
     // 이메일 실제 존재 여부 확인 API
     @GetMapping(produces = "application/json")
-    GetEmailExistCheck getEmailExistCheck(
+    GetEmailExistCheckRes getEmailExistCheck(
             @RequestParam("apiKey") String apiKey,
             @RequestParam("emailAddress") String emailAddress
     );
