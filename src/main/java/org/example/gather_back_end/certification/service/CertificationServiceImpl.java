@@ -17,6 +17,7 @@ import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusRes;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateRes;
 import org.example.gather_back_end.certification.exception.AuthNumberNotMatchBadRequestException;
+import org.example.gather_back_end.certification.exception.EmailBadRequestException;
 import org.example.gather_back_end.certification.exception.EntrepreneurBadRequestException;
 import org.example.gather_back_end.certification.exception.UnivNotFoundException;
 import org.example.gather_back_end.domain.User;
