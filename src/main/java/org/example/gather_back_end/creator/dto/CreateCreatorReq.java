@@ -9,6 +9,7 @@ import java.util.*;
 
 @Builder
 public record CreateCreatorReq(
+        String nickname,
         String introductionTitle,
         String introductionContent,
         String contactKaKaoId,
@@ -19,6 +20,7 @@ public record CreateCreatorReq(
 
     public static CreateCreatorReq from(User user) {
         return CreateCreatorReq.builder()
+                .nickname(user.getNickname())
                 .introductionTitle(user.getIntroductionTitle())
                 .introductionContent(user.getIntroductionContent())
                 .contactKaKaoId(user.getContactKakaoId())

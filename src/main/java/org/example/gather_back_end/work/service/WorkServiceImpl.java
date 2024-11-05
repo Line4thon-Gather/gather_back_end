@@ -7,6 +7,7 @@ import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.repository.WorkRepository;
 import org.example.gather_back_end.work.dto.CreateWorkReq;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,4 +37,13 @@ public class WorkServiceImpl implements WorkService {
             );
         }
     };
+
+    @Override
+    @Transactional
+    public void deleteWork(Long userId){
+        User user = userRepository.getById(userId);
+
+        if (workRepository.findAllByUser(user) != null)
+            workRepository.deleteAllByUser(user);
+    }
 }

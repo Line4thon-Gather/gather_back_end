@@ -20,4 +20,5 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     List<GetWorkRes> findAllByUser(User user);
 
+    void deleteAllByUser(User user);
 }
