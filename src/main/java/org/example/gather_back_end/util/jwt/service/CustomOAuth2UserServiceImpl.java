@@ -56,7 +56,7 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
                 throw new RuntimeException(e);
             }
 
-            if (userRepository.findByNickname("USER" + numericEncryptedDateTime) == null) {
+            if (userRepository.findByNickname("USER" + numericEncryptedDateTime).isEmpty()) {
                 break;
             }
         }
