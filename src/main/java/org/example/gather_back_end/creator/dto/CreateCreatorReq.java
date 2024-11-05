@@ -1,9 +1,9 @@
 package org.example.gather_back_end.creator.dto;
 
 import lombok.Builder;
-import org.example.gather_back_end.domain.Portfolio;
 import org.example.gather_back_end.domain.User;
-import org.example.gather_back_end.domain.Work;
+import org.example.gather_back_end.portfolio.dto.CreatePortfolioReq;
+import org.example.gather_back_end.work.dto.CreateWorkReq;
 
 import java.util.*;
 
@@ -13,8 +13,8 @@ public record CreateCreatorReq(
         String introductionContent,
         String contactKaKaoId,
         String contactEmail,
-        List<Portfolio> portfolioList,
-        List<Work> workList
+        List<CreatePortfolioReq> createPortfolioReqList,
+        List<CreateWorkReq> createWorkReqList
 ) {
 
     public static CreateCreatorReq from(User user) {
@@ -23,8 +23,6 @@ public record CreateCreatorReq(
                 .introductionContent(user.getIntroductionContent())
                 .contactKaKaoId(user.getContactKakaoId())
                 .contactEmail(user.getContactEmail())
-                .portfolioList(user.getPortfolioList())
-                .workList(user.getWorkList())
                 .build();
     }
 }

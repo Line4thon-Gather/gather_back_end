@@ -120,12 +120,11 @@ public class User extends BaseEntity {
     }
 
     // 유저 크리에이터 등록
-    public void createCreatorInfo(String introductionTitle, String introductionContent, String contactKakaoId, String contactEmail, List<Portfolio> portfolioList) {
+    public void createCreatorInfo(String introductionTitle, String introductionContent, String contactKakaoId, String contactEmail) {
         this.introductionTitle = introductionTitle;
         this.introductionContent = introductionContent;
         this.contactKakaoId = contactKakaoId;
         this.contactEmail = contactEmail;
-        this.portfolioList = portfolioList;
     }
 
 

@@ -1,10 +1,10 @@
 package org.example.gather_back_end.creator.service;
 
-import org.example.gather_back_end.domain.Portfolio;
-
-import java.util.List;
+import org.example.gather_back_end.creator.dto.GetCreatorRes;
 
 public interface CreatorService {
 
-    void createCreator(String username, String introductionTitle, String introductionContent, String contactKakaoId, String contactEmail, List<Portfolio> portfolioList);
+    void createCreator(Long userId, String introductionTitle, String introductionContent, String contactKakaoId, String contactEmail);
+
+    GetCreatorRes getCreator(String nickname);
 }

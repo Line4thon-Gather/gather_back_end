@@ -46,7 +46,7 @@ public class Portfolio extends BaseEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private  String fileUrl;
 
-    //포트폴리오 생성
+    // 포트폴리오 생성
     public static Portfolio createPortfolioInfo(User user, String title, String thumbnailImgUrl, String fileUrl) {
         return Portfolio.builder()
                 .user(user)
@@ -55,5 +55,7 @@ public class Portfolio extends BaseEntity {
                 .fileUrl(fileUrl)
                 .build();
     }
+
+    // 포트폴리오 업데이트
 
 }

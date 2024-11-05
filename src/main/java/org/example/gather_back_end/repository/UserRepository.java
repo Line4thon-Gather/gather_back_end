@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByNickname(String nickname);
 
     @Query("SELECT u FROM User u WHERE u.username = :username")
     User findByUsernameCustom(@Param("username") String username);
@@ -26,4 +25,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     }
 
     Optional<User> findById(Long id);
+
+    Optional<User> findByNickname(String nickname);
+
+    default User getByNickname(String nickname) {
+        return findByNickname(nickname).orElseThrow(UserNotFoundException::new);
+    }
 }

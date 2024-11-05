@@ -27,9 +27,7 @@ public interface CreatorControllerApi {
                                     + "    \"isSuccess\": true,\n"
                                     + "    \"code\": \"200\",\n"
                                     + "    \"message\": \"호출에 성공하였습니다.\",\n"
-                                    + "    \"data\": {\n"
-                                    + "        \"isSuccess\": true\n"
-                                    + "    }\n"
+                                    + "    \"data\": \"null"
                                     + "}"),
                             schema = @Schema(implementation = SuccessResponse.class)))
     })

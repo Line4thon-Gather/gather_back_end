@@ -3,6 +3,7 @@ package org.example.gather_back_end.portfolio.service;
 import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.domain.Portfolio;
 import org.example.gather_back_end.domain.User;
+import org.example.gather_back_end.portfolio.dto.CreatePortfolioReq;
 import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -17,19 +18,17 @@ public class PortfolioServiceImpl implements PortfolioService {
     private final UserRepository userRepository;
 
     @Override
-    public List<Portfolio> createPortfolio(String username, List<Portfolio> portfolioList){
+    public void createPortfolio(Long userId, List<CreatePortfolioReq> createPortfolioReqList){
 
-        User user =userRepository.getByUsername(username);
+        User user = userRepository.getById(userId);
 
-        for(Portfolio portfolio : portfolioList){
+        for(CreatePortfolioReq portfolio : createPortfolioReqList){
             portfolioRepository.save(Portfolio.createPortfolioInfo(
                     user,
-                    portfolio.getTitle(),
-                    portfolio.getThumbnailImgUrl(),
-                    portfolio.getFileUrl()
+                    portfolio.title(),
+                    portfolio.thumbnailImgUrl(),
+                    portfolio.fileUrl()
             ));
         }
-
-        return portfolioRepository.findAllByUser(user);
     }
 }
