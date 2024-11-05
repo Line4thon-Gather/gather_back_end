@@ -13,6 +13,7 @@ import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -39,9 +40,25 @@ public interface CertificationControllerApi {
                             ),
                             schema = @Schema(implementation = SuccessResponse.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "올바르지 않은 대학명",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = "{\n"
+                                            + "    \"timestamp\": \"2024-11-03T18:08:57.452930427\",\n"
+                                            + "    \"isSuccess\": false,\n"
+                                            + "    \"code\": \"UNIV_NOT_FOUND_EXCEPTION\",\n"
+                                            + "    \"message\": \"올바르지 않은 대학명\",\n"
+                                            + "    \"httpStatus\": 404\n"
+                                            + "}"
+                            ),
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
             )
     })
-
     @PostMapping
     SuccessResponse<?> certificateUnivEmail(@RequestBody CertificateUnivEmailReq req) throws IOException;
 
