@@ -42,6 +42,23 @@ public interface CertificationControllerApi {
                     )
             ),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 이메일로 인증번호 전송하려고 하면 발생하는 오류",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = "{\n"
+                                            + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
+                                            + "    \"isSuccess\": false,\n"
+                                            + "    \"code\": \"EMAIL_BAD_REQUEST_EXCEPTION\",\n"
+                                            + "    \"message\": \"존재하지 않는 이메일 주소\",\n"
+                                            + "    \"httpStatus\": 400\n"
+                                            + "}"
+                            ),
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    )
+            ),
+            @ApiResponse(
                     responseCode = "404",
                     description = "올바르지 않은 대학명",
                     content = @Content(
