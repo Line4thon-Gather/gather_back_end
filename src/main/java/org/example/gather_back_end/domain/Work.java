@@ -12,14 +12,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.gather_back_end.util.entity.BaseEntity;
 
 @Entity
 @Table(name = "Works")
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Work extends BaseEntity {
 
     @Id
@@ -47,4 +51,14 @@ public class Work extends BaseEntity {
     // 작업 카테고리
     @Enumerated(EnumType.STRING)
     private WorkType category;
+
+    public static Work createWorkInfo(User user, String title, Integer period, Integer startPrice, WorkType category) {
+        return Work.builder()
+                .user(user)
+                .title(title)
+                .period(period)
+                .startPrice(startPrice)
+                .category(category)
+                .build();
+    }
 }

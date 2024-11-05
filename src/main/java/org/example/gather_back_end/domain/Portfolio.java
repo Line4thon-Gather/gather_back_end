@@ -13,11 +13,15 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.gather_back_end.util.entity.BaseEntity;
+import lombok.Builder;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "Portfolio")
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Portfolio extends BaseEntity {
 
     @Id
@@ -41,4 +45,17 @@ public class Portfolio extends BaseEntity {
     // 포트폴리오 파일 주소
     @Column(nullable = false, columnDefinition = "TEXT")
     private  String fileUrl;
+
+    // 포트폴리오 생성
+    public static Portfolio createPortfolioInfo(User user, String title, String thumbnailImgUrl, String fileUrl) {
+        return Portfolio.builder()
+                .user(user)
+                .title(title)
+                .thumbnailImgUrl(thumbnailImgUrl)
+                .fileUrl(fileUrl)
+                .build();
+    }
+
+    // 포트폴리오 업데이트
+
 }
