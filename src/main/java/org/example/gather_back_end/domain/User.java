@@ -134,6 +134,7 @@ public class User extends BaseEntity {
         user.contactEmail = contactEmail;
     }
 
+    // 기본 프로필 이미지 업데이트
     public static void updateProfileImgUrl(User user, String profileImgUrl) {
         user.profileImgUrl = profileImgUrl;
     }
