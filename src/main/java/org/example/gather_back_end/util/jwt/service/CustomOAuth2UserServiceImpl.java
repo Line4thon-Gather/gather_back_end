@@ -6,7 +6,6 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.gather_back_end.bucket.service.BucketService;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
@@ -26,7 +25,6 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
 
     private final UserRepository userRepository;
     private final LocalDateTimeNumericEncryption localDateTimeNumericEncryption;
-    private final BucketService bucketService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -67,11 +65,9 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
 
         User existData = userRepository.findByUsernameCustom(username);
 
-        // Default로 기본 이미지 넣기 (default_profile.png <- OCI)
         if (existData == null) {
 
             userRepository.save(User.createUserInfo(
-                    bucketService.defaultProfileImgUrl(),
                     username,
                     oAuth2Response.getName(),
                     oAuth2Response.getEmail(),
@@ -89,13 +85,10 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
 
         } else {
 
-            // 유저 정보 업데이트
             existData.updateUserInfo(oAuth2Response.getName(), oAuth2Response.getEmail());
 
-            // 업데이트 된 유저 정보
             userRepository.save(existData);
 
-            // 수정된 이름과 이메일을 다시 토큰에 넣기
             UserDto userDto = UserDto.builder()
                     .username(existData.getUsername())
                     .name(existData.getName())
