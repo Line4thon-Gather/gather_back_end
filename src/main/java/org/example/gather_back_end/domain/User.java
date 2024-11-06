@@ -85,10 +85,8 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Work> workList = new ArrayList<>();
 
-    // 유저 생성
-    public static User createUserInfo(String profileImgUrl, String username, String name, String email, String role, String nickname) {
+    public static User createUserInfo(String username, String name, String email, String role, String nickname) {
         return User.builder()
-                .profileImgUrl(profileImgUrl)
                 .username(username)
                 .name(name)
                 .email(email)
@@ -103,6 +101,9 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
+    public static void updateProfileImgUrl(User user, String profileImgUrl) {
+        user.profileImgUrl = profileImgUrl;
+    }
 
     // 대학생 인증 시 유저 정보 업데이트
     public static void updateStudentAuthInfo(User user) {
@@ -134,7 +135,4 @@ public class User extends BaseEntity {
         user.contactEmail = contactEmail;
     }
 
-    public static void updateProfileImgUrl(User user, String profileImgUrl) {
-        user.profileImgUrl = profileImgUrl;
-    }
 }
