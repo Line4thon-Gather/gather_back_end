@@ -56,7 +56,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public UploadProfileImgRes uploadProfileImg(MultipartFile file, Long userId) throws Exception {
+    public void uploadProfileImg(MultipartFile file, Long userId) throws Exception {
 
         User user = userRepository.getById(userId);
 
@@ -85,7 +85,6 @@ public class BucketServiceImpl implements BucketService {
 
         log.info("이미지 업로드 완료: {}", profileImgUrl);
         client.close();
-        return UploadProfileImgRes.from(profileImgUrl);
     }
 
     @Override
@@ -104,5 +103,10 @@ public class BucketServiceImpl implements BucketService {
         fos.write(file.getBytes());
         fos.close();
         return convFile;
+    }
+
+    @Override
+    public String defaultProfileImgUrl() {
+        return DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + "default_profile.png";
     }
 }
