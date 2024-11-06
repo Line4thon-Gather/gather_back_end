@@ -4,13 +4,11 @@ import lombok.Builder;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.portfolio.dto.CreatePortfolioReq;
 import org.example.gather_back_end.work.dto.CreateWorkReq;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
 @Builder
 public record CreateCreatorReq(
-        MultipartFile profileImgUrl,
         String nickname,
         String introductionTitle,
         String introductionContent,

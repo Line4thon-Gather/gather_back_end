@@ -12,4 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/users")
 public class UserController implements UserControllerApi {
 
+    private final BucketService bucketService;
+
+    @PostMapping("/{userId}/profileImg")
+    public SuccessResponse<UploadProfileImgRes> uploadProfileImg(
+            @PathVariable Long userId, // TODO: 나중에 Authentication 으로 바꾸기
+            @RequestParam("file") MultipartFile file) throws Exception {
+        UploadProfileImgRes res = bucketService.uploadProfileImg(file, userId);
+        return SuccessResponse.of(res);
+    }
 }
