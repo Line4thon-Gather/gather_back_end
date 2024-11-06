@@ -31,7 +31,7 @@ public class CreatorServiceImpl implements CreatorService {
     ){
 
         User user = userRepository.getById(userId);
-        user.createCreatorInfo(user,nickname, introductionTitle, introductionContent, contactKakaoId, contactEmail);
+        user.createCreatorInfo(user, nickname, introductionTitle, introductionContent, contactKakaoId, contactEmail);
         userRepository.save(user);
     };
 
