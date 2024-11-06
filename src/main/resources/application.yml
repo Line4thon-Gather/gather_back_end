@@ -59,6 +59,10 @@ business:
   api_key: ${BUSINESS_API_KEY}
   api_url: ${BUSINESS_API_URL}
 
+email_check:
+  api_key: ${EMAIL_CHECK_API_KEY}
+  api_url: ${EMAIL_CHECK_API_URL}
+
 --- ### local 환경 설정
 spring:
   config:

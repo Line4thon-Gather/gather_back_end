@@ -137,5 +137,4 @@ public class User extends BaseEntity {
     public static void updateProfileImgUrl(User user, String profileImgUrl) {
         user.profileImgUrl = profileImgUrl;
     }
-
 }
