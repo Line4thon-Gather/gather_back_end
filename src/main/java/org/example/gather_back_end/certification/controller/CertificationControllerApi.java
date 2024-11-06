@@ -13,6 +13,7 @@ import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -39,9 +40,42 @@ public interface CertificationControllerApi {
                             ),
                             schema = @Schema(implementation = SuccessResponse.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 이메일로 인증번호 전송하려고 하면 발생하는 오류",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = "{\n"
+                                            + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
+                                            + "    \"isSuccess\": false,\n"
+                                            + "    \"code\": \"EMAIL_BAD_REQUEST_EXCEPTION\",\n"
+                                            + "    \"message\": \"존재하지 않는 이메일 주소\",\n"
+                                            + "    \"httpStatus\": 400\n"
+                                            + "}"
+                            ),
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "올바르지 않은 대학명",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = "{\n"
+                                            + "    \"timestamp\": \"2024-11-03T18:08:57.452930427\",\n"
+                                            + "    \"isSuccess\": false,\n"
+                                            + "    \"code\": \"UNIV_NOT_FOUND_EXCEPTION\",\n"
+                                            + "    \"message\": \"올바르지 않은 대학명\",\n"
+                                            + "    \"httpStatus\": 404\n"
+                                            + "}"
+                            ),
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
             )
     })
-
     @PostMapping
     SuccessResponse<?> certificateUnivEmail(@RequestBody CertificateUnivEmailReq req) throws IOException;
 
