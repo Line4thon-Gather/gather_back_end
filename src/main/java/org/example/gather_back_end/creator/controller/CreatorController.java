@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/creator")
-public class CreatorController {
+public class CreatorController implements CreatorControllerApi {
 
     private final CreatorService creatorService;
     private final PortfolioService portfolioService;

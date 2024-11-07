@@ -14,4 +14,9 @@ public interface BucketService {
     MultipartFile downloadFile(Long userId, String type) throws Exception;
 
     String defaultProfileImgUrl();
+
+    String createThumbnailImg(MultipartFile file) throws Exception;
+
+    String createPortfolioPdf(MultipartFile file) throws Exception;
+
 }
