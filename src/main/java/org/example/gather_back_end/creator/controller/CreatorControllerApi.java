@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.gather_back_end.creator.dto.CreateCreatorReq;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -32,6 +34,21 @@ public interface CreatorControllerApi {
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @PostMapping
-    SuccessResponse<?> createCreator(Authentication authentication, @RequestBody CreateCreatorReq req) throws IOException;
+    SuccessResponse<?> createCreator(Authentication authentication, @RequestBody CreateCreatorReq req) throws Exception;
 
+    @Operation(summary = "사용자 프로필, 실명 가져오기 완료")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "사용자 프로필, 실명 가져오기 완료",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n"
+                                    + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
+                                    + "    \"isSuccess\": true,\n"
+                                    + "    \"code\": \"200\",\n"
+                                    + "    \"message\": \"호출에 성공하였습니다.\",\n"
+                                    + "    \"data\": \"null"
+                                    + "}"),
+                            schema = @Schema(implementation = SuccessResponse.class)))
+    })
+    @GetMapping
+    SuccessResponse<?> getCreator(@PathVariable String nickname);
 }

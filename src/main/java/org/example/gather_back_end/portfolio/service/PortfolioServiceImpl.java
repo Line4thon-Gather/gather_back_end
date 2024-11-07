@@ -1,6 +1,7 @@
 package org.example.gather_back_end.portfolio.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.gather_back_end.bucket.service.BucketService;
 import org.example.gather_back_end.domain.Portfolio;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.portfolio.dto.CreatePortfolioReq;
@@ -17,6 +18,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     private final PortfolioRepository portfolioRepository;
     private final UserRepository userRepository;
+    private final BucketService bucketService;
 
     @Override
     public void createPortfolio(Long userId, List<CreatePortfolioReq> createPortfolioReqList){
@@ -24,12 +26,16 @@ public class PortfolioServiceImpl implements PortfolioService {
         User user = userRepository.getById(userId);
 
         for (CreatePortfolioReq portfolio : createPortfolioReqList){
-            portfolioRepository.save(Portfolio.createPortfolioInfo(
-                    user,
-                    portfolio.title(),
-                    portfolio.thumbnailImgUrl(),
-                    portfolio.fileUrl()
-            ));
+            try {
+                portfolioRepository.save(Portfolio.createPortfolioInfo(
+                        user,
+                        portfolio.title(),
+                        bucketService.createThumbnailImg(portfolio.thumbnailImgUrl()),
+                        bucketService.createPortfolioPdf(portfolio.fileUrl())
+                ));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

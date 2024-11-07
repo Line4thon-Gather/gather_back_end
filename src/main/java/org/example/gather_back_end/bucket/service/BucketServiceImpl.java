@@ -36,6 +36,12 @@ public class BucketServiceImpl implements BucketService {
     @Value("${bucket.profile_img_dir}")
     private String BUCKET_PROFILE_IMG_DIR;
 
+    @Value(("${bucket.thumbnail_img_dir}"))
+    private String BUCKET_THUMBNAIL_IMG_DIR;
+
+    @Value(("${bucket.pdf_dir}"))
+    private String BUCKET_PDF_DIR;
+
     private final UserRepository userRepository;
 
     public static final String DEFAULT_URI_PREFIX = "https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/";
@@ -107,5 +113,67 @@ public class BucketServiceImpl implements BucketService {
     @Override
     public String defaultProfileImgUrl() {
         return DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + "default_profile.png";
+    }
+
+    // 썸네일 이미지 생성
+    @Override
+    public String createThumbnailImg(MultipartFile file) throws Exception {
+
+        File uploadFile = convertMultiPartToFile(file);
+        ObjectStorage client = getClient();
+        UploadManager uploadManager = getManager(client);
+
+        String fileName = BUCKET_THUMBNAIL_IMG_DIR
+                + "/" + UUID.randomUUID()
+                + "_" + file.getOriginalFilename();
+        String contentType = file.getContentType();
+
+        PutObjectRequest request = PutObjectRequest.builder()
+                .bucketName(BUCKET_NAME)
+                .namespaceName(BUCKET_NAME_SPACE)
+                .objectName(fileName)
+                .contentType(contentType)
+                .build();
+
+        UploadRequest uploadDetails = UploadRequest.builder(uploadFile).build(request);
+        uploadManager.upload(uploadDetails);
+
+        String thumbNailImgUrl = DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + fileName.replace("/", "%2F");
+
+        log.info("이미지 업로드 완료: {}", thumbNailImgUrl);
+        client.close();
+
+        return thumbNailImgUrl;
+    }
+
+    // 포트폴리오 생성
+    @Override
+    public String createPortfolioPdf(MultipartFile file) throws Exception {
+
+        File uploadFile = convertMultiPartToFile(file);
+        ObjectStorage client = getClient();
+        UploadManager uploadManager = getManager(client);
+
+        String fileName = BUCKET_PDF_DIR
+                + "/" + UUID.randomUUID()
+                + "_" + file.getOriginalFilename();
+        String contentType = file.getContentType();
+
+        PutObjectRequest request = PutObjectRequest.builder()
+                .bucketName(BUCKET_NAME)
+                .namespaceName(BUCKET_NAME_SPACE)
+                .objectName(fileName)
+                .contentType(contentType)
+                .build();
+
+        UploadRequest uploadDetails = UploadRequest.builder(uploadFile).build(request);
+        uploadManager.upload(uploadDetails);
+
+        String portfolioPdfUrl = DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + fileName.replace("/", "%2F");
+
+        log.info("이미지 업로드 완료: {}", portfolioPdfUrl);
+        client.close();
+
+        return portfolioPdfUrl;
     }
 }
