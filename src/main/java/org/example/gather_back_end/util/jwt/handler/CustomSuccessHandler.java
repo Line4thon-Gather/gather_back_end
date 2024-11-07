@@ -37,7 +37,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String token = jwtUtil.createJwt(username, role, 60 * 60 * 1000L);
 
-        response.sendRedirect("https://www.to-gather.info/redirect?code=" + "Bearer " + token);
+        //response.sendRedirect("https://www.to-gather.info/redirect?code=" + "Bearer " + token);
+        response.sendRedirect("http://localhost:5173/redirect?code=" + "Bearer " + token);
     }
 }
 
