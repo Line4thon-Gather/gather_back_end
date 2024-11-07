@@ -1,6 +1,5 @@
 package org.example.gather_back_end.bucket.service;
 
-import org.example.gather_back_end.user.dto.UploadProfileImgRes;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface BucketService {
