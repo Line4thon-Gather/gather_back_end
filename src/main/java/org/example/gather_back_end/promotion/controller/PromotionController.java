@@ -22,9 +22,10 @@ public class PromotionController {
 
     @PostMapping("/timeline")
     public SuccessResponse<List<PromotionRes>> createPromotionStrategy(
+            // TODO: 로그인 완성되면 Authentication 추가하기
+            // TODO: DB에 req 정보 저장하기
 //            Authentication authentication,
             @RequestBody PromotionReq req) {
-        log.info("@@@@@@ RequestBody : " + req.toString());
         List<PromotionRes> res = promotionService.createPromotionStrategy(req);
         return SuccessResponse.of(res);
     }
