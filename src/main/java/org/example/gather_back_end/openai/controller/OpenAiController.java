@@ -21,11 +21,14 @@ public class OpenAiController implements OpenAiControllerApi {
     private final OpenAiService openAiService;
 
     @PostMapping("/test")
-    public SuccessResponse<CustomOpenAiClientResponse> requestToOpenAi(Authentication authentication,@RequestBody CustomOpenAiClientRequest request) {
-        CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-        if(customOAuth2User == null) {
-            return null;
-        }
+    public SuccessResponse<CustomOpenAiClientResponse> requestToOpenAi(
+//            Authentication authentication,
+            @RequestBody CustomOpenAiClientRequest request
+    ) {
+//        CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+//        if (customOAuth2User == null) {
+//            return null;
+//        }
 
         CustomOpenAiClientResponse response = openAiService.getOpenAiResponse(request);
         return SuccessResponse.of(response);

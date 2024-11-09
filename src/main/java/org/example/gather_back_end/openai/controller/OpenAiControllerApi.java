@@ -14,7 +14,10 @@ public interface OpenAiControllerApi {
 
     @Operation(summary = "Open AI 테스트용")
     @PostMapping
-    SuccessResponse<CustomOpenAiClientResponse> requestToOpenAi(Authentication authentication, @RequestBody CustomOpenAiClientRequest request);
+    SuccessResponse<CustomOpenAiClientResponse> requestToOpenAi(
+//            Authentication authentication,
+            @RequestBody CustomOpenAiClientRequest request
+    );
 
 
 }
