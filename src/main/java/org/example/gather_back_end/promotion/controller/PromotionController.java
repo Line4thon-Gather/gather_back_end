@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/promotion")
-public class PromotionController {
+public class PromotionController implements PromotionControllerApi {
 
     private final PromotionService promotionService;
 
