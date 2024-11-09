@@ -1,4 +1,4 @@
-package org.example.gather_back_end.promotionrequest.dto;
+package org.example.gather_back_end.promotion.dto;
 
 import org.example.gather_back_end.domain.WorkType;
 
