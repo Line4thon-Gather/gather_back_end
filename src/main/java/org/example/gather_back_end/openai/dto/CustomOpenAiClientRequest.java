@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
 
-@Builder
 public record CustomOpenAiClientRequest(
         @Schema(description = "사용할 OpenAI 모델의 이름", example = "gpt-4o-mini-2024-07-18")
         String model,
@@ -15,16 +14,33 @@ public record CustomOpenAiClientRequest(
 ) {
 
     @Builder
-    public static class CustomOpenAiClientRequestBuilder {
-        @Builder.Default
-        private String model = "gpt-4o-mini";
+    public static CustomOpenAiClientRequest create(String model, List<OpenAiRequestMessage> messages) {
+        return new CustomOpenAiClientRequest(
+                model != null ? model : "gpt-4o-mini",
+                messages != null ? messages : new ArrayList<>()
+        );
+    }
 
-        @Builder.Default
+    public static CustomOpenAiClientRequestBuilder builder() {
+        return new CustomOpenAiClientRequestBuilder();
+    }
+
+    public static class CustomOpenAiClientRequestBuilder {
+        private String model = "gpt-4o-mini";
         private List<OpenAiRequestMessage> messages = new ArrayList<>();
+
+        public CustomOpenAiClientRequestBuilder model(String model) {
+            this.model = model;
+            return this;
+        }
 
         public CustomOpenAiClientRequestBuilder addMessage(String role, String content) {
             this.messages.add(new OpenAiRequestMessage(role, content));
             return this;
+        }
+
+        public CustomOpenAiClientRequest build() {
+            return new CustomOpenAiClientRequest(model, List.copyOf(messages));
         }
     }
 }
