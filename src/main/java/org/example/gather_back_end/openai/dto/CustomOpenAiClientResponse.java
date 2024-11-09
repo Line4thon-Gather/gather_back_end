@@ -31,6 +31,11 @@ public class CustomOpenAiClientResponse {
     @Schema(description = "요청 및 응답에 사용된 토큰 정보")
     private Usage usage;
 
+    public String getContent() {
+        // choices 배열에서 첫 번째 요소의 message의 content를 반환
+        return choices != null && !choices.isEmpty() ? choices.get(0).message.content : null;
+    }
+
     @Getter
     @Setter
     @NoArgsConstructor

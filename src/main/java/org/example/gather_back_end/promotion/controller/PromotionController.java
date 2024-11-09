@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/marketing")
+@RequestMapping("/api/promotion")
 public class PromotionController {
 
     private final PromotionService promotionService;
 
-    @PostMapping
-    public SuccessResponse<?> createPromotionStrategy(
+    @PostMapping("/timeline")
+    public SuccessResponse<List<PromotionRes>> createPromotionStrategy(
 //            Authentication authentication,
             @RequestBody PromotionReq req) {
         log.info("@@@@@@ RequestBody : " + req.toString());
