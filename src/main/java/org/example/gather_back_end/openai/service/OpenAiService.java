@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.openai.client.OpenAiClient;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientRequest;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientResponse;
+import org.example.gather_back_end.promotion.dto.PromotionReq;
+import org.example.gather_back_end.util.constant.OpenAiPrompt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,17 @@ public class OpenAiService {
     @Value("${spring.openai.api-key}")
     private String openAiApiKey;
 
-    public CustomOpenAiClientResponse getOpenAiResponse(CustomOpenAiClientRequest request) {
+    public CustomOpenAiClientResponse getOpenAiResponse(PromotionReq req) {
         String authHeader = "Bearer " + openAiApiKey;
-        return openAiClient.postCustomOpenAiClientResponse(authHeader, request);
+
+        CustomOpenAiClientRequest realRequestDto = CustomOpenAiClientRequest.builder()
+                .model("gpt-4o-mini")
+                .addMessage("system", OpenAiPrompt.SYSTEM_PROMPT)
+                .addMessage("user", OpenAiPrompt.USER1) // ex1 - req
+                .addMessage("assistant", OpenAiPrompt.ASSISTANT1) // ex1 - res
+                .addMessage("user", req.toString() + " " + OpenAiPrompt.FINAL_REQUEST_PROMPT) // 최종 요청 문구
+                .build();
+
+        return openAiClient.postCustomOpenAiClientResponse(authHeader, realRequestDto);
     }
 }
