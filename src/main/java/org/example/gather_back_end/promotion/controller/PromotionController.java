@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class PromotionController {
 
     @PostMapping
-    public SuccessResponse<?> createMarketingStrategy(Authentication authentication, @RequestBody PromotionReq req) {
+    public SuccessResponse<?> createMarketingStrategy(
+//            Authentication authentication,
+            @RequestBody PromotionReq req) {
         log.info("@@@@@@ RequestBody : " + req.toString());
         return null;
     }
