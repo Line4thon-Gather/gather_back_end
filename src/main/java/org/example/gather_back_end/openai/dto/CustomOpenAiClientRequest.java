@@ -14,7 +14,7 @@ import lombok.Setter;
 public class CustomOpenAiClientRequest {
 
     @Schema(description = "사용할 OpenAI 모델의 이름", example = "gpt-4o-mini-2024-07-18")
-    private String model;
+    private String model = "gpt-4o-mini";
 
     @Schema(description = "모델에 제공할 메시지 목록")
     private List<OpenAiRequestMessage> messages;

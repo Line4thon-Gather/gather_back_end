@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PromotionServiceImpl implements PromotionService {
 
+
+
     @Override
     public List<PromotionRes> createPromotionStrategy(PromotionReq req) {
         return null;
