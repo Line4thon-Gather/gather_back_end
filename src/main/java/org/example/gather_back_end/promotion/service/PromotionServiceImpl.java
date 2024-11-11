@@ -6,8 +6,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.openai.service.OpenAiService;
-import org.example.gather_back_end.promotion.dto.PromotionTimelineReq;
-import org.example.gather_back_end.promotion.dto.PromotionTimelineRes;
+import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
+import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineRes;
 import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
