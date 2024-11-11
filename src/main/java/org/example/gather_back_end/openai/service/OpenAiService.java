@@ -17,7 +17,7 @@ public class OpenAiService {
 
     private final OpenAiClient openAiClient;
 
-    @Value("${spring.openai.api-key}")
+    @Value("${openai.api-key}")
     private String openAiApiKey;
 
     public CustomOpenAiClientResponse getAboutTimelineOpenAiResponse(PromotionTimelineReq req) {
