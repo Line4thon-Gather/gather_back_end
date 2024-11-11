@@ -82,15 +82,52 @@ public class PromotionPricePrompt {
             """;
     // 더미데이터 22번
     public static final String USER2 = """
+            {
+                "budget": 167000,
+                "firstMeans": "VIDEO",
+                "secondMeans": "SNS_POST",
+                "thirdMeans": null,
+                "instagramPromotionPeriod" : 7
             }
             """;
     public static final String ASSISTANT2 = """
+            [
+              {
+                  "means": "영상",
+                  "cost": "92,400",
+                  "rate": 70
+              },
+              {
+                  "means": "SNS 게시물",
+                  "cost": "39,600",
+                  "rate": 30
+              }
+            ]
             """;
 
     // 더미데이터 23번
     public static final String USER3 = """
+            {
+                "budget": 157000,
+                "firstMeans": "PRINTS",
+                "secondMeans": "SNS_POST",
+                "thirdMeans": null,
+                "instagramPromotionPeriod" : 10
+            }
             """;
     public static final String ASSISTANT3 = """
+            [
+              {
+                  "means": "인쇄물",
+                  "cost": "74,900",
+                  "rate": 70
+              },
+              {
+                  "means": "SNS 게시물",
+                  "cost": "32,100",
+                  "rate": 30
+              }
+            ]
             """;
     public static final String FINAL_REQUEST_PROMPT = "json 형태로 결과 데이터만 주세요.";
 }
