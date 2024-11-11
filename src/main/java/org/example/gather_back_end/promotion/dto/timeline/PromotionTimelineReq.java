@@ -1,11 +1,11 @@
-package org.example.gather_back_end.promotion.dto;
+package org.example.gather_back_end.promotion.dto.timeline;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.example.gather_back_end.domain.WorkType;
 
-public record PromotionReq(
+public record PromotionTimelineReq(
         @Schema(description = "홍보 제목", example = "OOO 동아리 모집")
         String title,
 
