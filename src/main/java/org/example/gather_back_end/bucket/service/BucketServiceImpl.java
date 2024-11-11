@@ -12,6 +12,8 @@ import com.oracle.bmc.objectstorage.transfer.UploadManager;
 import com.oracle.bmc.objectstorage.transfer.UploadManager.UploadRequest;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +49,6 @@ public class BucketServiceImpl implements BucketService {
     public static final String DEFAULT_URI_PREFIX = "https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/";
 
     private ObjectStorage getClient() throws Exception {
-
         // 서버에서 작동되어야 하는 경로
         ConfigFileReader.ConfigFile config = ConfigFileReader.parse("~/.oci", "DEFAULT");
         AuthenticationDetailsProvider provider = new ConfigFileAuthenticationDetailsProvider(config);
@@ -62,9 +63,30 @@ public class BucketServiceImpl implements BucketService {
         return new UploadManager(client, configuration);
     }
 
+    // 파일을 MultipartFile에서 File로 변환하는 메소드
+    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+        // 임시 파일 생성
+        File tempFile = File.createTempFile("upload-", file.getOriginalFilename());
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(file.getBytes());
+        }
+        return tempFile;
+    }
+
+    // 이미지 업로드 후 임시 파일 삭제
+    private void deleteTempFile(File file) {
+        if (file != null && file.exists()) {
+            try {
+                Files.delete(file.toPath());
+                log.info("임시 파일 삭제 완료: {}", file.getAbsolutePath());
+            } catch (IOException e) {
+                log.error("임시 파일 삭제 실패: {}", file.getAbsolutePath(), e);
+            }
+        }
+    }
+
     @Override
     public void uploadProfileImg(MultipartFile file, Long userId) throws Exception {
-
         User user = userRepository.getById(userId);
 
         File uploadFile = convertMultiPartToFile(file);
@@ -72,8 +94,8 @@ public class BucketServiceImpl implements BucketService {
         UploadManager uploadManager = getManager(client);
 
         String fileName = BUCKET_PROFILE_IMG_DIR
-                        + "/" + UUID.randomUUID()
-                        + "_" + file.getOriginalFilename();
+                + "/" + UUID.randomUUID()
+                + "_" + file.getOriginalFilename();
         String contentType = file.getContentType();
 
         PutObjectRequest request = PutObjectRequest.builder()
@@ -91,6 +113,9 @@ public class BucketServiceImpl implements BucketService {
         userRepository.save(user);
 
         log.info("이미지 업로드 완료: {}", profileImgUrl);
+
+        // 임시 파일 삭제
+        deleteTempFile(uploadFile);
         client.close();
     }
 
@@ -104,14 +129,6 @@ public class BucketServiceImpl implements BucketService {
         return null;
     }
 
-    private File convertMultiPartToFile(MultipartFile file) throws Exception {
-        File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
-    }
-
     @Override
     public String defaultProfileImgUrl() {
         return DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + "profileImg/default_profile.png";
@@ -120,12 +137,10 @@ public class BucketServiceImpl implements BucketService {
     // 썸네일 이미지 생성
     @Override
     public String createThumbnailImg(MultipartFile file) throws Exception {
-
         File uploadFile = convertMultiPartToFile(file);
         ObjectStorage client = getClient();
         UploadManager uploadManager = getManager(client);
 
-        // TODO: null 삭제, 주석 해제
         String fileName = BUCKET_THUMBNAIL_IMG_DIR
                 + "/" + UUID.randomUUID()
                 + "_" + file.getOriginalFilename();
@@ -144,20 +159,22 @@ public class BucketServiceImpl implements BucketService {
         String thumbNailImgUrl = DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + fileName.replace("/", "%2F");
 
         log.info("이미지 업로드 완료: {}", thumbNailImgUrl);
+
+        // 임시 파일 삭제
+        deleteTempFile(uploadFile);
+
         client.close();
 
         return thumbNailImgUrl;
     }
 
-    // 포트폴리오 생성
+    // 포트폴리오 PDF 생성
     @Override
     public String createPortfolioPdf(MultipartFile file) throws Exception {
-
         File uploadFile = convertMultiPartToFile(file);
         ObjectStorage client = getClient();
         UploadManager uploadManager = getManager(client);
 
-        // TODO: null 삭제, 주석 해제
         String fileName = BUCKET_PDF_DIR
                 + "/" + UUID.randomUUID()
                 + "_" + file.getOriginalFilename();
@@ -176,6 +193,10 @@ public class BucketServiceImpl implements BucketService {
         String portfolioPdfUrl = DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + fileName.replace("/", "%2F");
 
         log.info("이미지 업로드 완료: {}", portfolioPdfUrl);
+
+        // 임시 파일 삭제
+        deleteTempFile(uploadFile);
+
         client.close();
 
         return portfolioPdfUrl;
