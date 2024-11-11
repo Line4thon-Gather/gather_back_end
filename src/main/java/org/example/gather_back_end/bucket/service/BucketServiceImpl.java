@@ -27,27 +27,28 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class BucketServiceImpl implements BucketService {
 
-    @Value("${bucket.name}")
+    @Value("${oracle.bucket.name}")
     private String BUCKET_NAME;
 
-    @Value("${bucket.name_space}")
+    @Value("${oracle.bucket.name_space}")
     private String BUCKET_NAME_SPACE;
 
-    @Value("${bucket.profile_img_dir}")
+    @Value("${oracle.bucket.profile_img_dir}")
     private String BUCKET_PROFILE_IMG_DIR;
 
-    // TODO: 주석 해제, application.yml, .env.local 공유
-//    @Value("${bucket.thumbnail_img_dir}")
-//    private String BUCKET_THUMBNAIL_IMG_DIR;
-//
-//    @Value("${bucket.pdf_dir}")
-//    private String BUCKET_PDF_DIR;
+    @Value("${oracle.bucket.thumbnail_img_dir}")
+    private String BUCKET_THUMBNAIL_IMG_DIR;
+
+    @Value("${oracle.bucket.pdf_dir}")
+    private String BUCKET_PDF_DIR;
 
     private final UserRepository userRepository;
 
     public static final String DEFAULT_URI_PREFIX = "https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/";
 
     private ObjectStorage getClient() throws Exception {
+
+        // 서버에서 작동되어야 하는 경로
         ConfigFileReader.ConfigFile config = ConfigFileReader.parse("~/.oci", "DEFAULT");
         AuthenticationDetailsProvider provider = new ConfigFileAuthenticationDetailsProvider(config);
         return ObjectStorageClient.builder().region(Region.AP_CHUNCHEON_1).build(provider);
@@ -113,7 +114,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public String defaultProfileImgUrl() {
-        return DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + "default_profile.png";
+        return DEFAULT_URI_PREFIX + BUCKET_NAME_SPACE + "/b/" + BUCKET_NAME + "/o/" + "profileImg/default_profile.png";
     }
 
     // 썸네일 이미지 생성
@@ -125,8 +126,7 @@ public class BucketServiceImpl implements BucketService {
         UploadManager uploadManager = getManager(client);
 
         // TODO: null 삭제, 주석 해제
-        String fileName = null
-//        String fileName = BUCKET_THUMBNAIL_IMG_DIR
+        String fileName = BUCKET_THUMBNAIL_IMG_DIR
                 + "/" + UUID.randomUUID()
                 + "_" + file.getOriginalFilename();
         String contentType = file.getContentType();
@@ -158,8 +158,7 @@ public class BucketServiceImpl implements BucketService {
         UploadManager uploadManager = getManager(client);
 
         // TODO: null 삭제, 주석 해제
-        String fileName = null
-//        String fileName = BUCKET_PDF_DIR
+        String fileName = BUCKET_PDF_DIR
                 + "/" + UUID.randomUUID()
                 + "_" + file.getOriginalFilename();
         String contentType = file.getContentType();

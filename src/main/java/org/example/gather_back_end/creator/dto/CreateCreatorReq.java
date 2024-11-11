@@ -10,7 +10,6 @@ import java.util.*;
 
 @Builder
 public record CreateCreatorReq(
-        MultipartFile profileImgUrl,
         String nickname,
         String introductionTitle,
         String introductionContent,
