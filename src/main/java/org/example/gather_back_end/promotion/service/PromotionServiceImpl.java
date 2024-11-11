@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.openai.service.OpenAiService;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostReq;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostRes;
@@ -23,9 +24,8 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     // TODO: 데이터 저장 로직 추가
-//    public List<PromotionRes> createPromotionStrategy(PromotionReq req, String providerId) {
-    public List<PromotionTimelineRes> createPromotionStrategy(PromotionTimelineReq req) {
-//        User user = userRepository.getByUsername(providerId);
+    public List<PromotionTimelineRes> createPromotionStrategy(PromotionTimelineReq req, String providerId) {
+        User user = userRepository.getByUsername(providerId);
         String result = openAiService.getAboutTimelineOpenAiResponse(req).getContent();
         return parseContentToTimelineRes(result);
     }
