@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientResponse;
 import org.example.gather_back_end.openai.service.OpenAiService;
 import org.example.gather_back_end.promotion.dto.PromotionReq;
 import org.example.gather_back_end.promotion.dto.PromotionRes;
+import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -17,9 +19,13 @@ import org.springframework.stereotype.Service;
 public class PromotionServiceImpl implements PromotionService {
 
     private final OpenAiService openAiService;
+    private final UserRepository userRepository;
 
     @Override
+    // TODO: 데이터 저장 로직 추가
+//    public List<PromotionRes> createPromotionStrategy(PromotionReq req, String providerId) {
     public List<PromotionRes> createPromotionStrategy(PromotionReq req) {
+//        User user = userRepository.getByUsername(providerId);
         String result = openAiService.getOpenAiResponse(req).getContent();
         return parseContentToPromotionRes(result);
     }

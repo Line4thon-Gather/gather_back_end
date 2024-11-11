@@ -36,11 +36,12 @@ public class BucketServiceImpl implements BucketService {
     @Value("${bucket.profile_img_dir}")
     private String BUCKET_PROFILE_IMG_DIR;
 
-    @Value(("${bucket.thumbnail_img_dir}"))
-    private String BUCKET_THUMBNAIL_IMG_DIR;
-
-    @Value(("${bucket.pdf_dir}"))
-    private String BUCKET_PDF_DIR;
+    // TODO: 주석 해제, application.yml, .env.local 공유
+//    @Value("${bucket.thumbnail_img_dir}")
+//    private String BUCKET_THUMBNAIL_IMG_DIR;
+//
+//    @Value("${bucket.pdf_dir}")
+//    private String BUCKET_PDF_DIR;
 
     private final UserRepository userRepository;
 
@@ -123,7 +124,9 @@ public class BucketServiceImpl implements BucketService {
         ObjectStorage client = getClient();
         UploadManager uploadManager = getManager(client);
 
-        String fileName = BUCKET_THUMBNAIL_IMG_DIR
+        // TODO: null 삭제, 주석 해제
+        String fileName = null
+//        String fileName = BUCKET_THUMBNAIL_IMG_DIR
                 + "/" + UUID.randomUUID()
                 + "_" + file.getOriginalFilename();
         String contentType = file.getContentType();
@@ -154,7 +157,9 @@ public class BucketServiceImpl implements BucketService {
         ObjectStorage client = getClient();
         UploadManager uploadManager = getManager(client);
 
-        String fileName = BUCKET_PDF_DIR
+        // TODO: null 삭제, 주석 해제
+        String fileName = null
+//        String fileName = BUCKET_PDF_DIR
                 + "/" + UUID.randomUUID()
                 + "_" + file.getOriginalFilename();
         String contentType = file.getContentType();
