@@ -1,5 +1,8 @@
 package org.example.gather_back_end.util.constant;
 
+/**
+ * 홍보 타임라인 관련 프롬프트
+ */
 public class TimelinePrompt {
 
     public static final String SYSTEM_PROMPT = """
