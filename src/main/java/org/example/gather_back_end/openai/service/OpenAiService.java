@@ -26,6 +26,10 @@ public class OpenAiService {
                 .addMessage("system", OpenAiPrompt.SYSTEM_PROMPT)
                 .addMessage("user", OpenAiPrompt.USER1) // ex1 - req
                 .addMessage("assistant", OpenAiPrompt.ASSISTANT1) // ex1 - res
+                .addMessage("user", OpenAiPrompt.USER2) // ex2 - req
+                .addMessage("assistant", OpenAiPrompt.ASSISTANT2) // ex2 - res
+                .addMessage("user", OpenAiPrompt.USER3) // ex3 - req
+                .addMessage("assistant", OpenAiPrompt.ASSISTANT3) // ex3 - res
                 .addMessage("user", req.toString() + " " + OpenAiPrompt.FINAL_REQUEST_PROMPT) // 최종 요청 문구
                 .build();
 
