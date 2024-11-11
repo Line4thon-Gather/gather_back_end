@@ -32,4 +32,10 @@ public class PromotionController implements PromotionControllerApi {
         List<PromotionTimelineRes> res = promotionService.createPromotionStrategy(req);
         return SuccessResponse.of(res);
     }
+
+    @PostMapping("/cost-management")
+    public SuccessResponse<List<PromotionCostRes>> createPromotionCost(@RequestBody PromotionCostReq req) {
+        List<PromotionCostRes> res = promotionService.createPromotionCost(req);
+        return SuccessResponse.of(res);
+    }
 }
