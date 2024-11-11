@@ -7,4 +7,5 @@ import org.example.gather_back_end.promotion.dto.PromotionRes;
 public interface PromotionService {
 
     List<PromotionRes> createPromotionStrategy (PromotionReq req);
+//    List<PromotionRes> createPromotionStrategy (PromotionReq req, String providerId);
 }
