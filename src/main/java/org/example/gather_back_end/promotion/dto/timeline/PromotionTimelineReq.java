@@ -3,6 +3,8 @@ package org.example.gather_back_end.promotion.dto.timeline;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
+import org.example.gather_back_end.domain.PromotionRequest;
+import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.domain.WorkType;
 
 public record PromotionTimelineReq(
@@ -29,4 +31,19 @@ public record PromotionTimelineReq(
         @Nullable
         @Schema(description = "3순위 홍보 수단 (null 가능)", example = "VIDEO")
         WorkType thirdMeans
-) {}
+) {
+
+    public PromotionRequest toPromotionRequest(PromotionTimelineReq req, User user) {
+        return new PromotionRequest(
+                user,
+                req.title,
+                req.period,
+                req.targetNumberOfPeople,
+                req.budget,
+                req.firstMeans,
+                req.secondMeans,
+                req.thirdMeans
+        );
+    }
+
+}

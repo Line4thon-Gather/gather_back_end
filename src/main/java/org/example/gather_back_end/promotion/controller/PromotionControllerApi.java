@@ -13,6 +13,7 @@ import org.example.gather_back_end.promotion.dto.cost.PromotionCostRes;
 import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
 import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineRes;
 import org.example.gather_back_end.util.response.SuccessResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -55,7 +56,10 @@ public interface PromotionControllerApi {
                     + "            ]\n" + "        }\n" + "    ]\n"
                     + "}"), schema = @Schema(implementation = SuccessResponse.class)))})
     @PostMapping
-    SuccessResponse<List<PromotionTimelineRes>> createPromotionTimeline(@RequestBody PromotionTimelineReq req);
+    SuccessResponse<List<PromotionTimelineRes>> createPromotionTimeline(
+            Authentication authentication,
+            @RequestBody PromotionTimelineReq req
+    );
 
     @Operation(summary = "비용 관리")
     @ApiResponses(value = {
@@ -69,5 +73,8 @@ public interface PromotionControllerApi {
                     + "            \"rate\": 10\n" + "        }\n" + "    ]\n"
                     + "}"), schema = @Schema(implementation = SuccessResponse.class)))})
     @PostMapping
-    SuccessResponse<List<PromotionCostRes>> createPromotionCost(@RequestBody PromotionCostReq req);
+    SuccessResponse<List<PromotionCostRes>> createPromotionCost(
+            Authentication authentication,
+            @RequestBody PromotionCostReq req
+    );
 }

@@ -46,9 +46,9 @@ spring:
             authorization-grant-type: ${GOOGLE_AUTHORIZATION_GRANT_TYPE}
             scope: ${GOOGLE_SCOPE}
 
-  openai:
-    api-url: ${OPENAI_API_URL}
-    api-key: ${OPENAI_API_KEY}
+openai:
+  api-url: ${OPENAI_API_URL}
+  api-key: ${OPENAI_API_KEY}
 
 oracle:
   bucket:

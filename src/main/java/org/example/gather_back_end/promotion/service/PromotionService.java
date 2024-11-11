@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface PromotionService {
 
-    List<PromotionTimelineRes> createPromotionStrategy (PromotionTimelineReq req);
-//    List<PromotionRes> createPromotionStrategy (PromotionReq req, String providerId);
+    List<PromotionTimelineRes> createPromotionStrategy (PromotionTimelineReq req, String providerId);
 
     List<PromotionCostRes> createPromotionCost(PromotionCostReq req);
 }
