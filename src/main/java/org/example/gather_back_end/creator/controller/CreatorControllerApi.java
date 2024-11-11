@@ -13,9 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.io.IOException;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 @Tag(name = "크리에이터 프로필 관련", description = "크리에이터 프로필 관련된 API")
 public interface CreatorControllerApi {
@@ -34,7 +34,13 @@ public interface CreatorControllerApi {
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @PostMapping
-    SuccessResponse<?> createCreator(Authentication authentication, @RequestBody CreateCreatorReq req) throws Exception;
+    SuccessResponse<?> createCreator(
+            Authentication authentication,
+            @RequestPart CreateCreatorReq req,  // 이름, 소개 제목, 소개글, 카카오 아이디, 이메일
+            @RequestPart MultipartFile profileImgUrl, // 프로필 사진
+            @RequestPart List<MultipartFile> thumbnailImgUrlList,  // 썸네일 이미지
+            @RequestPart List<MultipartFile> portfolioPdfList    // 포트폴리오
+    ) throws Exception;
 
     @Operation(summary = "사용자 프로필, 실명 가져오기 완료")
     @ApiResponses(value = {

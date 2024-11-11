@@ -9,6 +9,7 @@ import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -21,17 +22,22 @@ public class PortfolioServiceImpl implements PortfolioService {
     private final BucketService bucketService;
 
     @Override
-    public void createPortfolio(Long userId, List<CreatePortfolioReq> createPortfolioReqList){
+    public void createPortfolio(
+            Long userId,
+            List<CreatePortfolioReq> createPortfolioReqList,
+            List<MultipartFile> thumbnailImgUrlList,
+            List<MultipartFile> portfolioPdfList
+            ){
 
         User user = userRepository.getById(userId);
 
-        for (CreatePortfolioReq portfolio : createPortfolioReqList){
+        for (int i=0; i<createPortfolioReqList.size(); i++) {
             try {
                 portfolioRepository.save(Portfolio.createPortfolioInfo(
                         user,
-                        portfolio.title(),
-                        bucketService.createThumbnailImg(portfolio.thumbnailImgUrl()),
-                        bucketService.createPortfolioPdf(portfolio.fileUrl())
+                        createPortfolioReqList.get(i).title(),
+                        bucketService.createThumbnailImg(thumbnailImgUrlList.get(i)),
+                        bucketService.createPortfolioPdf(portfolioPdfList.get(i))
                 ));
             } catch (Exception e) {
                 throw new RuntimeException(e);

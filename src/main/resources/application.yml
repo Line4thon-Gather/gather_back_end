@@ -2,6 +2,11 @@ spring:
   application:
     name: gather_back_end
 
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
   datasource:
     url: jdbc:mysql://localhost:3306/gather
     username: ${DATABASE_USERNAME}
@@ -49,7 +54,9 @@ oracle:
   bucket:
     name: ${BUCKET_NAME}
     name_space: ${BUCKET_NAME_SPACE}
-    profile_img_dir: ${PROFILE_IMG_DIR}
+    profile_img_dir: ${BUCKET_PROFILE_IMG_DIR}
+    thumbnail_img_dir: ${BUCKET_THUMBNAIL_IMG_DIR}
+    pdf_dir: ${BUCKET_PDF_DIR}
 
 univ_cert:
   api_key: ${UNIV_CERT_API_KEY}
