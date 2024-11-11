@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
 import org.example.gather_back_end.util.entity.BaseEntity;
 
 // 홍보 요청 내역
@@ -66,4 +67,16 @@ public class PromotionRequest extends BaseEntity {
 
     @OneToOne(mappedBy = "promotionRequest", cascade = CascadeType.ALL, orphanRemoval = true)
     private PromotionResult promotionResult;
+
+    public PromotionRequest(User user, String title, Integer period, Integer targetNumberOfPeople, Long budget,
+                            WorkType firstMeans, WorkType secondMeans, WorkType thirdMeans) {
+        this.user = user;
+        this.title = title;
+        this.period = period;
+        this.targetNumberOfPeople = targetNumberOfPeople;
+        this.budget = budget;
+        this.firstMeans = firstMeans;
+        this.secondMeans = secondMeans;
+        this.thirdMeans = thirdMeans;
+    }
 }
