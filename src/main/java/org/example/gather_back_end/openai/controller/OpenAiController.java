@@ -28,7 +28,7 @@ public class OpenAiController implements OpenAiControllerApi {
 //            return null;
 //        }
 
-        CustomOpenAiClientResponse response = openAiService.getOpenAiResponse(request);
+        CustomOpenAiClientResponse response = openAiService.getAboutTimelineOpenAiResponse(request);
         return SuccessResponse.of(response);
     }
 

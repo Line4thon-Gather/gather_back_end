@@ -3,7 +3,7 @@ package org.example.gather_back_end.util.constant;
 /**
  * 홍보 비용 관련 프롬프트
  */
-public class PromotionPricePrompt {
+public class CostPrompt {
 
     public static final String SYSTEM_PROMPT = """
             당신은 홍보 전략을 생성해주는 컨설턴트입니다. 최종 목적은 홍보 비용 관리를 위한 JSON 데이터를 만드는 것입니다. 아래와 같은 JSON 형식으로 홍보 전략을 생성해 달라고 요청이 올 것입니다.
