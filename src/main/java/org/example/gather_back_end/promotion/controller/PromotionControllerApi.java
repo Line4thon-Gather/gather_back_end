@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "홍보 타임라인 관련", description = "타임라인 생성, 비용 관리")
 public interface PromotionControllerApi {
 
-    @Operation(summary = "이메일 인증번호 인증")
+    @Operation(summary = "타임라인 정보 생성")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
