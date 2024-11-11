@@ -2,11 +2,9 @@ package org.example.gather_back_end.openai.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.gather_back_end.openai.dto.CustomOpenAiClientRequest;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientResponse;
-import org.example.gather_back_end.promotion.dto.PromotionReq;
+import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
 import org.example.gather_back_end.util.response.SuccessResponse;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -17,7 +15,7 @@ public interface OpenAiControllerApi {
     @PostMapping
     SuccessResponse<CustomOpenAiClientResponse> requestToOpenAi(
 //            Authentication authentication,
-            @RequestBody PromotionReq request
+            @RequestBody PromotionTimelineReq request
     );
 
 
