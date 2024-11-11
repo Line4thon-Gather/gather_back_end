@@ -10,6 +10,9 @@ public record Task(
         int start,
 
         @Schema(description = "마감일", example = "1")
-        int end
+        int end,
+
+        @Schema(description = "한 줄 팁", example = "상호 배려와 사전 확정된 기획으로 원활한 촬영을 준비하세요!")
+        String tip
 ) {
 }
