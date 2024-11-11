@@ -5,8 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 public record CreatePortfolioReq(
-        String title,
-        MultipartFile thumbnailImgUrl,
-        MultipartFile fileUrl
+        String title
 ) {
 }

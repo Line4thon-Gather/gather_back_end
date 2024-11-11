@@ -11,15 +11,16 @@ import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.example.gather_back_end.work.service.WorkService;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,8 +33,14 @@ public class CreatorController implements CreatorControllerApi {
     private final WorkService workService;
     private final BucketService bucketService;
 
-    @PostMapping()
-    public SuccessResponse<?> createCreator(Authentication authentication, @RequestBody CreateCreatorReq req) throws Exception {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public SuccessResponse<?> createCreator(
+            Authentication authentication,
+            @RequestPart CreateCreatorReq req,  // 이름, 소개 제목, 소개글, 카카오 아이디, 이메일
+            @RequestPart MultipartFile profileImgUrl, // 프로필 사진
+            @RequestPart List<MultipartFile> thumbnailImgUrlList,  // 썸네일 이미지
+            @RequestPart List<MultipartFile> portfolioPdfList    // 포트폴리오
+            ) throws Exception {
 
         CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
@@ -42,11 +49,11 @@ public class CreatorController implements CreatorControllerApi {
         portfolioService.deletePortfolio(user.getId());
         workService.deleteWork(user.getId());
 
-        portfolioService.createPortfolio(user.getId(), req.createPortfolioReqList());
+        portfolioService.createPortfolio(user.getId(), req.createPortfolioReqList(), thumbnailImgUrlList, portfolioPdfList);
         workService.createWork(user.getId(), req.createWorkReqList());
 
-        if (req.profileImgUrl() != null) {
-            bucketService.uploadProfileImg(req.profileImgUrl(), user.getId());
+        if (profileImgUrl != null) {
+            bucketService.uploadProfileImg(profileImgUrl, user.getId());
         }
 
         creatorService.createCreator(
