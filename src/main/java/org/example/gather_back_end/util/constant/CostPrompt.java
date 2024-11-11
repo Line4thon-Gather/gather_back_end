@@ -12,7 +12,7 @@ public class CostPrompt {
                 "budget": 646000,
                 "firstMeans": "PRINTS",
                 "secondMeans": "VIDEO",
-                "thirdMeans": "SNS_POSTS",
+                "thirdMeans": "SNS_POST",
                 "instagramPromotionPeriod" : 20
             }
                     
