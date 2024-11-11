@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.openai.client.OpenAiClient;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientRequest;
 import org.example.gather_back_end.openai.dto.CustomOpenAiClientResponse;
-import org.example.gather_back_end.promotion.dto.PromotionReq;
+import org.example.gather_back_end.promotion.dto.PromotionTimelineReq;
 import org.example.gather_back_end.util.constant.TimelinePrompt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class OpenAiService {
     @Value("${spring.openai.api-key}")
     private String openAiApiKey;
 
-    public CustomOpenAiClientResponse getOpenAiResponse(PromotionReq req) {
+    public CustomOpenAiClientResponse getOpenAiResponse(PromotionTimelineReq req) {
         String authHeader = "Bearer " + openAiApiKey;
 
         CustomOpenAiClientRequest realRequestDto = CustomOpenAiClientRequest.builder()

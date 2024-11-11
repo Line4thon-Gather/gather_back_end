@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
-import org.example.gather_back_end.promotion.dto.PromotionReq;
-import org.example.gather_back_end.promotion.dto.PromotionRes;
+import org.example.gather_back_end.promotion.dto.PromotionTimelineReq;
+import org.example.gather_back_end.promotion.dto.PromotionTimelineRes;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -99,7 +99,7 @@ public interface PromotionControllerApi {
     })
 
     @PostMapping
-    SuccessResponse<List<PromotionRes>> createPromotionStrategy(
-            @RequestBody PromotionReq req
+    SuccessResponse<List<PromotionTimelineRes>> createPromotionTimeline(
+            @RequestBody PromotionTimelineReq req
     );
 }

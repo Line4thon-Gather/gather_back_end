@@ -1,11 +1,11 @@
 package org.example.gather_back_end.promotion.service;
 
 import java.util.List;
-import org.example.gather_back_end.promotion.dto.PromotionReq;
-import org.example.gather_back_end.promotion.dto.PromotionRes;
+import org.example.gather_back_end.promotion.dto.PromotionTimelineReq;
+import org.example.gather_back_end.promotion.dto.PromotionTimelineRes;
 
 public interface PromotionService {
 
-    List<PromotionRes> createPromotionStrategy (PromotionReq req);
+    List<PromotionTimelineRes> createPromotionStrategy (PromotionTimelineReq req);
 //    List<PromotionRes> createPromotionStrategy (PromotionReq req, String providerId);
 }
