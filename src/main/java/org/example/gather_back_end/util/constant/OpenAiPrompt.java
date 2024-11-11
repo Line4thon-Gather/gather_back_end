@@ -45,6 +45,7 @@ public class OpenAiPrompt {
         
         
         - 실제 "tip" 필드에는 "상세문구"에 대한 내용이 들어가야 합니다.
+        - 아래는 상세문구입니다.
         
         SNS_POST
         1. 내용 정리 및 컨택 (SNS_POST_TIP_1) : "단체의 키워드와 아이덴티티를 명확히 정리해, 디자이너와 최고의 결과물을 만들어보세요!"
@@ -117,58 +118,10 @@ public class OpenAiPrompt {
         """;
 
     public static final String USER1 = """
-            {
-                "title": "OOO 동아리 모집",
-                "period": 55,
-                "targetNumberOfPeople": 392,
-                "budget": 646000,
-                "firstMeans": "PRINTS",
-                "secondMeans": "VIDEO",
-                "thirdMeans": "SNS_POST"
-            }
             """;
     public static final String ASSISTANT1 = """
-            [
-              {
-                "period": 55,
-                "category": "PRINTS",
-                "tasks": [
-                  { "name": "기획", "start": 0, "end": 2, "tip" : "PRINTS_TIP_1" },
-                  { "name": "디자인", "start": 2, "end": 7, "tip" : "PRINTS_TIP_2" },
-            			{ "name": "출력", "start": 7, "end": 8, "tip" : "PRINTS_TIP_3" },
-                  { "name": "게시요청_캠퍼스픽", "start": 8, "end": 9, "tip" : "PRINTS_CAMPUSPICK_REQUEST" },
-                  { "name": "승인기간_캠퍼스픽", "start": 9, "end": 11, "tip" : "PRINTS_CAMPUSPICK_APPROVE_PERIOD" },
-                  { "name": "최종게시_캠퍼스픽", "start": 11, "end": 55, "tip" : "PRINTS_CAMPUSPICK_FINAL_POST" },
-                  { "name": "게시_요즘것들", "start": 8, "end": 55, "tip" : "PRINTS_ALLFORYOUNG" },
-                  { "name": "게시_에브리타임", "start": 8, "end": 55, "tip" : "PRINTS_EVERYTIME" },
-                  { "name": "게시_인스타그램", "start": 8, "end": 55, "tip" : "PRINTS_INSTAGRAM" },
-                ]
-              },
-              {
-                "period": 55,
-                "category": "VIDEO",
-                "tasks": [
-                  { "name": "예산 확정/기획", "start": 0, "end": 1, "tip" : "VIDEO_TIP_1" },
-                  { "name": "제작사 선정", "start": 1, "end": 3, "tip" : "VIDEO_TIP_2" },
-                  { "name": "협의", "start": 3, "end": 5, "tip" : "VIDEO_TIP_3" },
-                  { "name": "촬영", "start": 5, "end": 19, "tip" : "VIDEO_TIP_4" },
-                  { "name": "게시_틱톡", "start": 19, "end": 55, "tip" : "VIDEO_TIKTOK" },
-                  { "name": "게시_유튜브", "start": 19, "end": 55, "tip" : "VIDEO_YOUTUBE" },
-                  { "name": "게시_인스타그램", "start": 19, "end": 55, "tip" : "VIDEO_INSTAGRAM" }
-                ]
-              },
-              {
-                "period": 55,
-                "category": "SNS_POST",
-                "tasks": [
-            		    { "name": "내용 정리 및 컨택", "start": 0, "end": 2, "tip" : "SNS_POST_TIP_1" },
-            		    { "name": "제작", "start": 2, "end": 8, "tip" : "SNS_POST_TIP_2" },
-            		    { "name": "게시_인스타그램", "start": 8, "end": 55, "tip" : "SNS_POST_INSTAGRAM" },
-                ]
-              }
-            ]
             """;
-
+    // 더미데이터 22번
     public static final String USER2 = """
             {
             	"title": "4호선톤 서포터즈 구함",
@@ -181,31 +134,83 @@ public class OpenAiPrompt {
             }
             """;
     public static final String ASSISTANT2 = """
-            [
-              {
-                "period": 76,
-                "category": "VIDEO",
-                "tasks": [
-                  { "name": "예산 확정/기획", "start": 0, "end": 1 },
-                  { "name": "제작사 선정", "start": 1, "end": 2 },
-                  { "name": "협의", "start": 2, "end": 4 },
-                  { "name": "촬영", "start": 4, "end": 11 },
-                  { "name": "게시_틱톡", "start": 11, "end": 76 },
-                  { "name": "게시_유튜브", "start": 11, "end": 76 },
-                  { "name": "게시_인스타", "start": 11, "end": 76 }
-                ]
-              },
-              {
-                "period": 76,
-                "category": "SNS_POST",\s
-                "tasks": [
-            		    { "name": "내용 정리 및 컨택", "start": 0, "end": 3, "tip" : "SNS_POST_TIP_1" },
-            		    { "name": "제작", "start": 3, "end": 10, "tip" : "SNS_POST_TIP_2" },
-            		    { "name": "게시_인스타그램", "start": 10, "end": 76, "tip" : "SNS_POST_INSTAGRAM" },
-                ]
-              }
-            }
+        [
+           {
+              "period":76,
+              "category":"VIDEO",
+              "tasks":[
+                 {
+                    "name":"예산 확정/기획",
+                    "start":0,
+                    "end":1,
+                    "tip":"단체의 매력을 정리해 소통을 준비하고, 크리에이터와 함께 아이디어를 실현하세요!"
+                 },
+                 {
+                    "name":"제작사 선정",
+                    "start":1,
+                    "end":2,
+                    "tip":"꼼꼼히 포트폴리오를 읽고, 다양한 옵션에서 본인과 맞는 디자이너를 찾아보세요!"
+                 },
+                 {
+                    "name":"협의",
+                    "start":2,
+                    "end":4,
+                    "tip":"정확한 요구와 예의를 갖춰 소통하고, '투게더에서 보고 연락 드렸어요!'로 시작해보세요!"
+                 },
+                 {
+                    "name":"촬영",
+                    "start":4,
+                    "end":11,
+                    "tip":"상호 배려와 사전 확정된 기획으로 원활한 촬영을 준비하세요!"
+                 },
+                 {
+                    "name":"게시_틱톡",
+                    "start":11,
+                    "end":76,
+                    "tip":"트렌디한 틱톡으로 바이럴 주인공이 되어, 젊은 층을 사로잡아보세요!"
+                 },
+                 {
+                    "name":"게시_유튜브",
+                    "start":11,
+                    "end":76,
+                    "tip":"700억 조회수의 유튜브 쇼츠로 짧고 강렬하게 단체를 홍보하세요!"
+                 },
+                 {
+                    "name":"게시_인스타",
+                    "start":11,
+                    "end":76,
+                    "tip":"일 5000원으로 릴스로 관심을 끌고, 바이럴의 주인공이 되어보세요!"
+                 }
+              ]
+           },
+           {
+              "period":76,
+              "category":"SNS_POST",
+              "tasks":[
+                 {
+                    "name":"내용 정리 및 컨택",
+                    "start":0,
+                    "end":3,
+                    "tip":"단체의 키워드와 아이덴티티를 명확히 정리해, 디자이너와 최고의 결과물을 만들어보세요!"
+                 },
+                 {
+                    "name":"제작",
+                    "start":3,
+                    "end":10,
+                    "tip":"담당자를 지정해 크리에이터와 빠르고 예의 있게 소통하세요!"
+                 },
+                 {
+                    "name":"게시_인스타그램",
+                    "start":10,
+                    "end":76,
+                    "tip":"일 5000원 투자로 짧은 기간에 최대 효과로 더 많은 사람들에게 정보를 알리세요!"
+                 }
+              ]
+           }
+        ]
             """;
+
+    // 더미데이터 23번
     public static final String USER3 = """
             {
             	"title": "4호선톤 서포터즈 구함",
@@ -218,32 +223,92 @@ public class OpenAiPrompt {
             }
             """;
     public static final String ASSISTANT3 = """
-            [
-              {
-                "period": 48,
-                "category": "PRINTS",
-                "tasks": [
-                  { "name": "기획", "start": 0, "end": 2, "tip" : "PRINTS_TIP_1" },
-                  { "name": "디자인", "start": 2, "end": 10, "tip" : "PRINTS_TIP_2" },
-            			{ "name": "출력", "start": 10, "end": 11, "tip" : "PRINTS_TIP_3" },
-                  { "name": "게시요청_캠퍼스픽", "start": 11, "end": 12, "tip" : "PRINTS_CAMPUSPICK_REQUEST" },
-                  { "name": "승인기간_캠퍼스픽", "start": 12, "end": 14, "tip" : "PRINTS_CAMPUSPICK_APPROVE_PERIOD" },
-                  { "name": "최종게시_캠퍼스픽", "start": 14, "end": 48, "tip" : "PRINTS_CAMPUSPICK_FINAL_POST" },
-                  { "name": "게시_요즘것들", "start": 11, "end": 48, "tip" : "PRINTS_ALLFORYOUNG" },
-                  { "name": "게시_에브리타임", "start": 11, "end": 48, "tip" : "PRINTS_EVERYTIME" },
-                  { "name": "게시_인스타그램", "start": 11, "end": 48, "tip" : "PRINTS_INSTAGRAM" },
-                ]
-              },
-              {
-                "period": 48,
-                "category": "SNS_POST",\s
-                "tasks": [
-            		    { "name": "내용 정리 및 컨택", "start": 0, "end": 2, "tip" : "SNS_POST_TIP_1" },
-            		    { "name": "제작", "start": 2, "end": 9, "tip" : "SNS_POST_TIP_2" },
-            		    { "name": "게시_인스타그램", "start": 9, "end": 39, "tip" : "SNS_POST_INSTAGRAM" },
-                ]
-              }
-            }
+        [
+           {
+              "period":48,
+              "category":"PRINTS",
+              "tasks":[
+                 {
+                    "name":"기획",
+                    "start":0,
+                    "end":2,
+                    "tip":"단체의 매력을 정리해 소통을 준비하고, 크리에이터와 함께 아이디어를 실현하세요!"
+                 },
+                 {
+                    "name":"디자인",
+                    "start":2,
+                    "end":10,
+                    "tip":"단체의 색깔과 캐릭터를 정하고, 원하는 내용을 간결하게 정리해 디자이너와 원활히 소통하세요!"
+                 },
+                 {
+                    "name":"출력",
+                    "start":10,
+                    "end":11,
+                    "tip":"시간적 여유가 있다면 Bizhows로, 급하다면 학교나 인쇄소에서 사이즈를 미리 확인 후 인쇄하세요!"
+                 },
+                 {
+                    "name":"게시요청_캠퍼스픽",
+                    "start":11,
+                    "end":12,
+                    "tip":"접근성 높은 캠퍼스픽에 포스터를 준비해 효과적으로 홍보하세요!"
+                 },
+                 {
+                    "name":"승인기간_캠퍼스픽",
+                    "start":12,
+                    "end":14,
+                    "tip":"관리자의 승인을 받기까지 최대 48시간이 소요됩니다!"
+                 },
+                 {
+                    "name":"최종게시_캠퍼스픽",
+                    "start":14,
+                    "end":48,
+                    "tip":"캠퍼스픽에서 대학생들의 문의를 놓치지 않도록 매일 확인하세요!"
+                 },
+                 {
+                    "name":"게시_요즘것들",
+                    "start":11,
+                    "end":48,
+                    "tip":"대학생과 청년을 위한 다양한 활동 정보를 제공하는 요즘것들에 꼭 홍보하세요!"
+                 },
+                 {
+                    "name":"게시_에브리타임",
+                    "start":11,
+                    "end":48,
+                    "tip":"대학생 대상 홍보엔 에브리타임이 최적! 3일 주기로 원하는 학과 게시판에 꾸준히 올려보세요!"
+                 },
+                 {
+                    "name":"게시_인스타그램",
+                    "start":11,
+                    "end":48,
+                    "tip":"20대를 타겟으로 인스타그램 유행을 활용해 효율적으로 홍보하세요!"
+                 }
+              ]
+           },
+           {
+              "period":48,
+              "category":"SNS_POST",
+              "tasks":[
+                 {
+                    "name":"내용 정리 및 컨택",
+                    "start":0,
+                    "end":2,
+                    "tip":"단체의 키워드와 아이덴티티를 명확히 정리해, 디자이너와 최고의 결과물을 만들어보세요!"
+                 },
+                 {
+                    "name":"제작",
+                    "start":2,
+                    "end":9,
+                    "tip":"담당자를 지정해 크리에이터와 빠르고 예의 있게 소통하세요!"
+                 },
+                 {
+                    "name":"게시_인스타그램",
+                    "start":9,
+                    "end":39,
+                    "tip":"일 5000원 투자로 짧은 기간에 최대 효과로 더 많은 사람들에게 정보를 알리세요!"
+                 }
+              ]
+           }
+        ]
             """;
     public static final String FINAL_REQUEST_PROMPT = "json 형태로 결과 데이터만 주세요.";
 }
