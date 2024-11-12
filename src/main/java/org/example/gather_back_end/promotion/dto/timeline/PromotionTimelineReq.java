@@ -25,12 +25,12 @@ public record PromotionTimelineReq(
         WorkType firstMeans,
 
         @Nullable
-        @Schema(description = "2순위 홍보 수단 (null 가능)", example = "SNS_POST")
-        WorkType secondMeans,
+        @Schema(description = "2순위 홍보 수단 (빈 문자열 가능)", example = "SNS_POST")
+        String secondMeans,
 
         @Nullable
-        @Schema(description = "3순위 홍보 수단 (null 가능)", example = "VIDEO")
-        WorkType thirdMeans
+        @Schema(description = "3순위 홍보 수단 (빈 문자열 가능)", example = "VIDEO")
+        String thirdMeans
 ) {
 
     public PromotionRequest toPromotionRequest(PromotionTimelineReq req, User user) {
@@ -41,9 +41,14 @@ public record PromotionTimelineReq(
                 req.targetNumberOfPeople,
                 req.budget,
                 req.firstMeans,
-                req.secondMeans,
-                req.thirdMeans
+                parseWorkType(req.secondMeans),
+                parseWorkType(req.thirdMeans)
         );
+    }
+
+    // 빈 문자열("")에 대한 처리
+    private WorkType parseWorkType(String means) {
+        return (means == null || means.isEmpty()) ? null : WorkType.valueOf(means);
     }
 
 }

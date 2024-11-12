@@ -31,6 +31,9 @@ public class CostPrompt {
                 SNS_POST // SNS 게시물 (카드뉴스, 피드 등)
                         
                 홍보 수단은 무조건 1개 이상 작성되어 있습니다.
+                홍보 수단에 대한 주의사항은 다음과 같습니다.
+                값이 없는 경우에는 null이 아니라 빈 문자열("")로 오게 되어있습니다.
+                secondMeans, thirdMeans에 빈 문자열("")이 오면 해당 홍보 수단은 제외하고 응답해 주세요. 즉, null이라고 생각하면 편합니다.
                         
                 그럼 아래와 같은 json 데이터 타입으로 응답을 해줘야 합니다.
                         
@@ -86,7 +89,7 @@ public class CostPrompt {
                 "budget": 167000,
                 "firstMeans": "VIDEO",
                 "secondMeans": "SNS_POST",
-                "thirdMeans": null,
+                "thirdMeans": "",
                 "instagramPromotionPeriod" : 7
             }
             """;
@@ -111,7 +114,7 @@ public class CostPrompt {
                 "budget": 157000,
                 "firstMeans": "PRINTS",
                 "secondMeans": "SNS_POST",
-                "thirdMeans": null,
+                "thirdMeans": "",
                 "instagramPromotionPeriod" : 10
             }
             """;
