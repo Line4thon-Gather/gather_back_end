@@ -35,6 +35,9 @@ public class TimelinePrompt {
             SNS_POST // SNS 게시물 (카드뉴스, 피드 등) 
                     
             홍보 수단은 무조건 1개 이상 작성되어 있습니다.
+            홍보 수단에 대한 주의사항은 다음과 같습니다.
+            값이 없는 경우에는 null이 아니라 빈 문자열("")로 오게 되어있습니다.
+            secondMeans, thirdMeans에 빈 문자열("")이 오면 해당 홍보 수단은 제외하고 응답해 주세요. 즉, null이라고 생각하면 편합니다.
                     
             그럼 아래와 같은 json 데이터 타입으로 응답을 해줘야 합니다.
                     
@@ -133,7 +136,7 @@ public class TimelinePrompt {
             	"budget": 167000,
             	"firstMeans": "VIDEO",
             	"secondMeans": "SNS_POST",
-            	"thirdMeans": null
+            	"thirdMeans": ""
             }
             """;
     public static final String ASSISTANT2 = """
@@ -221,8 +224,8 @@ public class TimelinePrompt {
             	"targetNumberOfPeople": 432,
             	"budget": 157000,
             	"firstMeans": "PRINTS",
-            	"secondMeans": "SNS_POST",
-            	"thirdMEans": null
+            	"secondMeans": "",
+            	"thirdMeans": ""
             }
             """;
     public static final String ASSISTANT3 = """
@@ -284,30 +287,6 @@ public class TimelinePrompt {
                         "start":11,
                         "end":48,
                         "tip":"20대를 타겟으로 인스타그램 유행을 활용해 효율적으로 홍보하세요!"
-                     }
-                  ]
-               },
-               {
-                  "period":48,
-                  "category":"SNS_POST",
-                  "tasks":[
-                     {
-                        "name":"내용 정리 및 컨택",
-                        "start":0,
-                        "end":2,
-                        "tip":"단체의 키워드와 아이덴티티를 명확히 정리해, 디자이너와 최고의 결과물을 만들어보세요!"
-                     },
-                     {
-                        "name":"제작",
-                        "start":2,
-                        "end":9,
-                        "tip":"담당자를 지정해 크리에이터와 빠르고 예의 있게 소통하세요!"
-                     },
-                     {
-                        "name":"게시_인스타그램",
-                        "start":9,
-                        "end":39,
-                        "tip":"일 5000원 투자로 짧은 기간에 최대 효과로 더 많은 사람들에게 정보를 알리세요!"
                      }
                   ]
                }
