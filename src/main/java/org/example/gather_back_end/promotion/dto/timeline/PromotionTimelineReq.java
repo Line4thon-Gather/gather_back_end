@@ -25,11 +25,11 @@ public record PromotionTimelineReq(
         WorkType firstMeans,
 
         @Nullable
-        @Schema(description = "2순위 홍보 수단 (null 가능)", example = "SNS_POST")
+        @Schema(description = "2순위 홍보 수단 (빈 문자열 가능)", example = "SNS_POST")
         String secondMeans,
 
         @Nullable
-        @Schema(description = "3순위 홍보 수단 (null 가능)", example = "VIDEO")
+        @Schema(description = "3순위 홍보 수단 (빈 문자열 가능)", example = "VIDEO")
         String thirdMeans
 ) {
 
