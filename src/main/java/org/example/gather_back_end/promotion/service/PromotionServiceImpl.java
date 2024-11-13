@@ -241,7 +241,10 @@ public class PromotionServiceImpl implements PromotionService {
                 .map(WorkTypeConverter::toKorean) // 유틸리티 클래스 사용
                 .collect(Collectors.toList());
 
-        int startPrice = user.getWorkList().isEmpty() ? 0 : user.getWorkList().get(0).getStartPrice();
+        // startPrice에 천 단위 콤마 붙이기
+        int startPriceValue = user.getWorkList().isEmpty() ? 0 : user.getWorkList().get(0).getStartPrice();
+        String startPrice = Comma.formatWithComma(startPriceValue);
+
         String thumbnailUrl = user.getPortfolioList().isEmpty() ? "" : user.getPortfolioList().get(0).getThumbnailImgUrl();
 
         return new BestCreatorRes(

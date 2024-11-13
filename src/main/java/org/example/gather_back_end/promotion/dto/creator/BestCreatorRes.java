@@ -15,7 +15,7 @@ public record BestCreatorRes(
         String introductionTitle,
 
         @Schema(description = "작업 시작 가격", example = "5000")
-        int startPrice,
+        String startPrice,
 
         @Schema(description = "포트폴리오 썸네일 주소", example = "dfdfd")
         String thumbnailImgUrl
