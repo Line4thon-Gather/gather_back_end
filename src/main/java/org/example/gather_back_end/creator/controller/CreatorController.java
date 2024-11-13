@@ -33,6 +33,7 @@ public class CreatorController implements CreatorControllerApi {
     private final WorkService workService;
     private final BucketService bucketService;
 
+    // 크리에이터 등록
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<?> createCreator(
             Authentication authentication,
@@ -74,6 +75,15 @@ public class CreatorController implements CreatorControllerApi {
     public SuccessResponse<?> getCreator(@PathVariable String nickname) {
 
         GetCreatorRes getCreatorRes = creatorService.getCreator(nickname);
+
+        return SuccessResponse.of(getCreatorRes);
+    }
+
+    // 크리에이터 등록 초기화면 불러오기
+    @GetMapping
+    public SuccessResponse<?> getCreatorInfo(Authentication authentication) {
+
+        GetCreatorRes getCreatorRes = creatorService.getCreatorInfo(authentication);
 
         return SuccessResponse.of(getCreatorRes);
     }

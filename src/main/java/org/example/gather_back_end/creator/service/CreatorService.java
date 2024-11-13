@@ -1,6 +1,7 @@
 package org.example.gather_back_end.creator.service;
 
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
+import org.springframework.security.core.Authentication;
 
 public interface CreatorService {
 
@@ -14,4 +15,6 @@ public interface CreatorService {
     );
 
     GetCreatorRes getCreator(String nickname);
+
+    GetCreatorRes getCreatorInfo(Authentication authentication);
 }
