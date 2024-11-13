@@ -42,9 +42,10 @@ public interface CreatorControllerApi {
             @RequestPart List<MultipartFile> portfolioPdfList    // 포트폴리오
     ) throws Exception;
 
-    @Operation(summary = "사용자 프로필, 실명 가져오기 완료")
+    @Operation(summary = "크리에이터 상세 페이지 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "사용자 프로필, 실명 가져오기 완료",
+            @ApiResponse(responseCode = "200",
+                    description = "크리에이터 상세 페이지 조회 nickname = 크리에이터명",
                     content = @Content(mediaType = "application/json",
                             examples = @ExampleObject(value = "{\n"
                                     + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"

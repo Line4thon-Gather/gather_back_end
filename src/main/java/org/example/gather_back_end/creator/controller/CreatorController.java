@@ -68,6 +68,8 @@ public class CreatorController implements CreatorControllerApi {
         return SuccessResponse.of(null);
     }
 
+
+    // 크리에이터 상세 페이지 조회
     @GetMapping("/{nickname}")
     public SuccessResponse<?> getCreator(@PathVariable String nickname) {
 
