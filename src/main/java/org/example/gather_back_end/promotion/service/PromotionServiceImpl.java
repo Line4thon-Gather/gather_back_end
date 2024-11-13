@@ -24,6 +24,7 @@ import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineRes;
 import org.example.gather_back_end.repository.PromotionRequestRepository;
 import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.util.format.Comma;
+import org.example.gather_back_end.util.format.WorkTypeConverter;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -233,20 +234,19 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     private BestCreatorRes convertToRes(User user) {
-        // 사용자가 가진 모든 Work의 WorkType을 리스트로 수집하고 중복 제거
-        List<WorkType> workTypes = user.getWorkList().stream()
+        // WorkType을 한글명으로 변환하여 리스트로 수집
+        List<String> workTypesInKorean = user.getWorkList().stream()
                 .map(Work::getCategory)
                 .distinct() // 중복 제거
+                .map(WorkTypeConverter::toKorean) // 유틸리티 클래스 사용
                 .collect(Collectors.toList());
 
-        // 사용자의 첫 번째 Work의 startPrice와 포트폴리오 썸네일을 가져옴
         int startPrice = user.getWorkList().isEmpty() ? 0 : user.getWorkList().get(0).getStartPrice();
         String thumbnailUrl = user.getPortfolioList().isEmpty() ? "" : user.getPortfolioList().get(0).getThumbnailImgUrl();
 
-        // BestCreatorRes 객체 생성
         return new BestCreatorRes(
                 user.getNickname(),
-                workTypes, // 중복이 제거된 WorkType 리스트
+                workTypesInKorean, // 한글로 변환된 WorkType 리스트
                 user.getIntroductionTitle(),
                 startPrice,
                 thumbnailUrl
