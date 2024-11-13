@@ -35,11 +35,15 @@ public class PromotionController implements PromotionControllerApi {
         return SuccessResponse.of(res);
     }
 
+    // 사용 X
+    /**
     @GetMapping("/test")
     public SuccessResponse<List<BestCreatorRes>> findBestCreator(@RequestBody BestCreatorReq req) {
         List<BestCreatorRes> res = promotionService.findBestCreator(req);
         return SuccessResponse.of(res);
     }
+    **/
+
     // 사용 X
     /**
     @PostMapping("/timeline")
