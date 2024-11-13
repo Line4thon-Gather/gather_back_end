@@ -2,12 +2,17 @@ package org.example.gather_back_end.promotion.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.domain.PromotionRequest;
 import org.example.gather_back_end.domain.User;
+import org.example.gather_back_end.domain.Work;
+import org.example.gather_back_end.domain.WorkType;
 import org.example.gather_back_end.openai.service.OpenAiService;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostReq;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostRes;
@@ -80,24 +85,96 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public List<BestCreatorRes> findBestCreator(BestCreatorReq req) {
 
+        /**
+         * 크리에이터로 등록한 User를 찾는다.
+         */
+        List<User> allCreators = userRepository.findAllCreators();
+        List<BestCreatorRes> bestCreators = new ArrayList<>();
+        Set<String> uniqueUsernames = new HashSet<>();
+
         if (!req.firstMeans().isEmpty() && !req.secondMeans().isEmpty() && !req.thirdMeans().isEmpty()) {
             log.info("세 개 수단 모두 등록됨");
-            /**
-             *
-             */
-        } else if (!req.firstMeans().isEmpty() && !req.secondMeans().isEmpty()) {
+
+            // 각 수단에 맞는 User 필터링
+            List<User> firstMeansUsers = allCreators.stream()
+                    .filter(user -> user.getWorkList().stream()
+                            .anyMatch(work -> work.getCategory().name().equals(req.firstMeans()) && work.getStartPrice() <= req.firstMeansPrice()))
+                    .limit(3)
+                    .toList();
+
+            List<User> secondMeansUsers = allCreators.stream()
+                    .filter(user -> user.getWorkList().stream()
+                            .anyMatch(work -> work.getCategory().name().equals(req.secondMeans()) && work.getStartPrice() <= req.secondMeansPrice()))
+                    .limit(2)
+                    .toList();
+
+            List<User> thirdMeansUsers = allCreators.stream()
+                    .filter(user -> user.getWorkList().stream()
+                            .anyMatch(work -> work.getCategory().name().equals(req.thirdMeans()) && work.getStartPrice() <= req.thirdMeansPrice()))
+                    .limit(1)
+                    .toList();
+
+            // 중복된 사용자 제거하면서 BestCreatorRes 리스트 생성
+            firstMeansUsers.stream()
+                    .map(this::convertToRes)
+                    .filter(bestCreator -> uniqueUsernames.add(bestCreator.nickname())) // 중복 검사
+                    .forEach(bestCreators::add);
+
+            secondMeansUsers.stream()
+                    .map(this::convertToRes)
+                    .filter(bestCreator -> uniqueUsernames.add(bestCreator.nickname())) // 중복 검사
+                    .forEach(bestCreators::add);
+
+            thirdMeansUsers.stream()
+                    .map(this::convertToRes)
+                    .filter(bestCreator -> uniqueUsernames.add(bestCreator.nickname())) // 중복 검사
+                    .forEach(bestCreators::add);
+
+        }  else if (!req.firstMeans().isEmpty() && !req.secondMeans().isEmpty()) {
             log.info("두 개 수단 등록됨");
-            /**
-             *
-             */
-        } else {
+
+            // firstMeans에서 4개, secondMeans에서 2개 필터링
+            List<User> firstMeansUsers = allCreators.stream()
+                    .filter(user -> user.getWorkList().stream()
+                            .anyMatch(work -> work.getCategory().name().equals(req.firstMeans()) && work.getStartPrice() <= req.firstMeansPrice()))
+                    .limit(4)
+                    .toList();
+
+            List<User> secondMeansUsers = allCreators.stream()
+                    .filter(user -> user.getWorkList().stream()
+                            .anyMatch(work -> work.getCategory().name().equals(req.secondMeans()) && work.getStartPrice() <= req.secondMeansPrice()))
+                    .limit(2)
+                    .toList();
+
+            // 중복된 사용자 제거하면서 BestCreatorRes 리스트 생성
+            firstMeansUsers.stream()
+                    .map(this::convertToRes)
+                    .filter(bestCreator -> uniqueUsernames.add(bestCreator.nickname())) // 중복 검사
+                    .forEach(bestCreators::add);
+
+            secondMeansUsers.stream()
+                    .map(this::convertToRes)
+                    .filter(bestCreator -> uniqueUsernames.add(bestCreator.nickname())) // 중복 검사
+                    .forEach(bestCreators::add);
+
+        } else if (!req.firstMeans().isEmpty()) {
             log.info("한 개 수단만 등록됨");
-            /**
-             *
-             */
+
+            // firstMeans에서만 6개 필터링
+            List<User> firstMeansUsers = allCreators.stream()
+                    .filter(user -> user.getWorkList().stream()
+                            .anyMatch(work -> work.getCategory().name().equals(req.firstMeans()) && work.getStartPrice() <= req.firstMeansPrice()))
+                    .limit(6)
+                    .toList();
+
+            // 중복된 사용자 제거하면서 BestCreatorRes 리스트 생성
+            firstMeansUsers.stream()
+                    .map(this::convertToRes)
+                    .filter(bestCreator -> uniqueUsernames.add(bestCreator.nickname())) // 중복 검사
+                    .forEach(bestCreators::add);
         }
 
-        return null;
+        return bestCreators;
     }
 
     // Open AI로부터 받은 응답을 파싱
@@ -149,6 +226,27 @@ public class PromotionServiceImpl implements PromotionService {
                 secondMeansPrice,
                 req.thirdMeans().toString(),
                 thirdMeansPrice
+        );
+    }
+
+    private BestCreatorRes convertToRes(User user) {
+        // 사용자가 가진 모든 Work의 WorkType을 리스트로 수집하고 중복 제거
+        List<WorkType> workTypes = user.getWorkList().stream()
+                .map(Work::getCategory)
+                .distinct() // 중복 제거
+                .collect(Collectors.toList());
+
+        // 사용자의 첫 번째 Work의 startPrice와 포트폴리오 썸네일을 가져옴
+        int startPrice = user.getWorkList().isEmpty() ? 0 : user.getWorkList().get(0).getStartPrice();
+        String thumbnailUrl = user.getPortfolioList().isEmpty() ? "" : user.getPortfolioList().get(0).getThumbnailImgUrl();
+
+        // BestCreatorRes 객체 생성
+        return new BestCreatorRes(
+                user.getNickname(),
+                workTypes, // 중복이 제거된 WorkType 리스트
+                user.getIntroductionTitle(),
+                startPrice,
+                thumbnailUrl
         );
     }
 

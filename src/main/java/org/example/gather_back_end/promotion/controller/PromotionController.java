@@ -1,5 +1,6 @@
 package org.example.gather_back_end.promotion.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.promotion.dto.creator.BestCreatorReq;
@@ -35,9 +36,9 @@ public class PromotionController implements PromotionControllerApi {
     }
 
     @GetMapping("/test")
-    public SuccessResponse<BestCreatorRes> findBestCreator(@RequestBody BestCreatorReq req) {
-        promotionService.findBestCreator(req);
-        return SuccessResponse.of(null);
+    public SuccessResponse<List<BestCreatorRes>> findBestCreator(@RequestBody BestCreatorReq req) {
+        List<BestCreatorRes> res = promotionService.findBestCreator(req);
+        return SuccessResponse.of(res);
     }
     // 사용 X
     /**
