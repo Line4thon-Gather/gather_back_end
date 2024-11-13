@@ -23,7 +23,7 @@ public interface PromotionControllerApi {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "인증번호 전송 성공",
+                    description = "호출 성공",
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
