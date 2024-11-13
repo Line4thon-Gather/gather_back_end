@@ -58,4 +58,23 @@ public interface CreatorControllerApi {
     })
     @GetMapping
     SuccessResponse<?> getCreator(@PathVariable String nickname);
+
+    @Operation(summary = "크리에이터 등록 초기 화면 불러 오기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "크리에이터 등록 초기화면 불러오기 즉 크리에이터 등록을 클릭 시"
+                    +" 기존에 저장 되어 있던 크리에이터 정보 불러 온다.",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n"
+                                    + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
+                                    + "    \"isSuccess\": true,\n"
+                                    + "    \"code\": \"200\",\n"
+                                    + "    \"message\": \"호출에 성공하였습니다.\",\n"
+                                    + "    \"data\": \"null"
+                                    + "}"),
+                            schema = @Schema(implementation = SuccessResponse.class)))
+    })
+    @GetMapping
+    SuccessResponse<?> getCreatorInfo(Authentication authentication);
+
 }
