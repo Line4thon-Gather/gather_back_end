@@ -1,5 +1,6 @@
 package org.example.gather_back_end.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.user.exception.UserNotFoundException;
@@ -31,4 +32,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
     default User getByNickname(String nickname) {
         return findByNickname(nickname).orElseThrow(UserNotFoundException::new);
     }
+
+    // 크리에이터 찾기
+    @Query("SELECT u FROM User u " +
+           "JOIN u.workList w " +
+           "JOIN u.portfolioList p " +
+           "WHERE u.introductionTitle IS NOT NULL " + // 소개글 제목 존재
+           "AND SIZE(u.workList) > 0 " + // 작업 가능 항목 등록
+           "AND SIZE(u.portfolioList) > 0 ") // 포트폴리오 등록
+    // TODO: 포트폴리오 더미데이터 모두 넣은 후 주석 해제
+//           "AND SIZE(u.portfolioList) > 0 " + // 포트폴리오 등록
+//           "AND p.thumbnailImgUrl IS NOT NULL " + // 포트폴리오 썸네일 존재
+//           "AND p.fileUrl IS NOT NULL") // 포트폴리오 파일 존재
+    List<User> findAllCreators();
+
 }
