@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.domain.PromotionRequest;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.domain.Work;
-import org.example.gather_back_end.domain.WorkType;
 import org.example.gather_back_end.openai.service.OpenAiService;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostReq;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostRes;
