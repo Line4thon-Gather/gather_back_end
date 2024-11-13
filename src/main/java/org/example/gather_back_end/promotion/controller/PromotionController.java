@@ -2,12 +2,15 @@ package org.example.gather_back_end.promotion.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.gather_back_end.promotion.dto.creator.BestCreatorReq;
+import org.example.gather_back_end.promotion.dto.creator.BestCreatorRes;
 import org.example.gather_back_end.promotion.dto.promotion.PromotionRes;
 import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
 import org.example.gather_back_end.promotion.service.PromotionService;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,11 @@ public class PromotionController implements PromotionControllerApi {
         return SuccessResponse.of(res);
     }
 
+    @GetMapping("/test")
+    public SuccessResponse<BestCreatorRes> findBestCreator(@RequestBody BestCreatorReq req) {
+        promotionService.findBestCreator(req);
+        return SuccessResponse.of(null);
+    }
     // 사용 X
     /**
     @PostMapping("/timeline")

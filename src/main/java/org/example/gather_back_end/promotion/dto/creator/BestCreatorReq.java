@@ -1,6 +1,7 @@
 package org.example.gather_back_end.promotion.dto.creator;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
 
 public record BestCreatorReq(
         @Schema(description = "1순위 홍보 수단 (필수)", example = "PRINTS")
@@ -21,4 +22,6 @@ public record BestCreatorReq(
         @Schema(description = "3순위 홍보 수단에 소요되는 비용", example = "0")
         int thirdMeansPrice
 ) {
+
+
 }

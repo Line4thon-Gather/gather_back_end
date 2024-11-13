@@ -3,6 +3,7 @@ package org.example.gather_back_end.promotion.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.domain.PromotionRequest;
@@ -10,11 +11,14 @@ import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.openai.service.OpenAiService;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostReq;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostRes;
+import org.example.gather_back_end.promotion.dto.creator.BestCreatorReq;
+import org.example.gather_back_end.promotion.dto.creator.BestCreatorRes;
 import org.example.gather_back_end.promotion.dto.promotion.PromotionRes;
 import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
 import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineRes;
 import org.example.gather_back_end.repository.PromotionRequestRepository;
 import org.example.gather_back_end.repository.UserRepository;
+import org.example.gather_back_end.util.format.Comma;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -41,6 +45,15 @@ public class PromotionServiceImpl implements PromotionService {
         // 비용 관리 정보
         List<PromotionCostRes> costList = createPromotionCost(promotionCostReq);
 
+        // 추천 크리에이터 정보 호출을 위한 dto 변경
+        int firstMeansPrice = Comma.getWithoutComma(costList, 0);
+        int secondMeansPrice = Comma.getWithoutComma(costList, 1);
+        int thirdMeansPrice = Comma.getWithoutComma(costList, 2);
+
+        BestCreatorReq bestCreatorReq = toBestCreatorReq(req, firstMeansPrice, secondMeansPrice, thirdMeansPrice);
+
+        log.info(bestCreatorReq.toString());
+
         // 응답
         return new PromotionRes(timelineList, costList);
 
@@ -61,6 +74,30 @@ public class PromotionServiceImpl implements PromotionService {
     public List<PromotionCostRes> createPromotionCost(PromotionCostReq req) {
         String result = openAiService.getAboutCostOpenAiResponse(req).getContent();
         return parseContentToCostRes(result);
+    }
+
+    // 크리에이터 추천
+    @Override
+    public List<BestCreatorRes> findBestCreator(BestCreatorReq req) {
+
+        if (!req.firstMeans().isEmpty() && !req.secondMeans().isEmpty() && !req.thirdMeans().isEmpty()) {
+            log.info("세 개 수단 모두 등록됨");
+            /**
+             *
+             */
+        } else if (!req.firstMeans().isEmpty() && !req.secondMeans().isEmpty()) {
+            log.info("두 개 수단 등록됨");
+            /**
+             *
+             */
+        } else {
+            log.info("한 개 수단만 등록됨");
+            /**
+             *
+             */
+        }
+
+        return null;
     }
 
     // Open AI로부터 받은 응답을 파싱
@@ -98,4 +135,21 @@ public class PromotionServiceImpl implements PromotionService {
                 .findFirst()
                 .orElse(0);
     }
+
+    private BestCreatorReq toBestCreatorReq(
+            PromotionTimelineReq req,
+            int firstMeansPrice,
+            int secondMeansPrice,
+            int thirdMeansPrice
+    ) {
+        return new BestCreatorReq(
+                req.firstMeans().toString(),
+                firstMeansPrice,
+                req.secondMeans().toString(),
+                secondMeansPrice,
+                req.thirdMeans().toString(),
+                thirdMeansPrice
+        );
+    }
+
 }
