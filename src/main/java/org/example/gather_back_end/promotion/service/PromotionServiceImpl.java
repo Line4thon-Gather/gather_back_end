@@ -49,6 +49,7 @@ public class PromotionServiceImpl implements PromotionService {
 
         // 비용 관리 정보
         List<PromotionCostRes> costList = createPromotionCost(promotionCostReq);
+        log.info("비용 정보 : " +  costList.getFirst().cost());
 
         // 추천 크리에이터 정보 호출을 위한 dto 변경
         int firstMeansPrice = Comma.getWithoutComma(costList, 0);
@@ -57,10 +58,12 @@ public class PromotionServiceImpl implements PromotionService {
 
         BestCreatorReq bestCreatorReq = toBestCreatorReq(req, firstMeansPrice, secondMeansPrice, thirdMeansPrice);
 
+        List<BestCreatorRes> creatorList = findBestCreator(bestCreatorReq);
+
         log.info(bestCreatorReq.toString());
 
         // 응답
-        return new PromotionRes(timelineList, costList);
+        return new PromotionRes(timelineList, costList, creatorList);
 
     }
 
@@ -129,7 +132,6 @@ public class PromotionServiceImpl implements PromotionService {
                     .map(this::convertToRes)
                     .filter(bestCreator -> uniqueUsernames.add(bestCreator.nickname())) // 중복 검사
                     .forEach(bestCreators::add);
-
         }  else if (!req.firstMeans().isEmpty() && !req.secondMeans().isEmpty()) {
             log.info("두 개 수단 등록됨");
 
@@ -174,6 +176,7 @@ public class PromotionServiceImpl implements PromotionService {
                     .forEach(bestCreators::add);
         }
 
+        log.info(bestCreators.toString());
         return bestCreators;
     }
 
