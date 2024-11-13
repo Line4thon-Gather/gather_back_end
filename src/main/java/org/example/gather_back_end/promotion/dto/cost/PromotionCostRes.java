@@ -1,5 +1,6 @@
 package org.example.gather_back_end.promotion.dto.cost;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.gather_back_end.promotion.dto.creator.BestCreatorReq;
 import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
@@ -15,6 +16,7 @@ public record PromotionCostRes(
         Integer rate
 ) {
 
+        @JsonIgnore
         public String getCostWithoutComma() {
                 return cost.replace(",", "");
         }
