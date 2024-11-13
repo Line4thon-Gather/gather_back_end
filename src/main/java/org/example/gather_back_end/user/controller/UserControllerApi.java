@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Tag(name = "User 관련", description = "유저와 관련된 API")
 public interface UserControllerApi {
 
-    @Operation(summary = "프로필 사진, 이름 불러오기", description = "유저의 프로필 사진, 이름 불러오는 API")
+    @Operation(summary = "프로필 사진, 유저 닉네임 불러오기",
+            description = "유저의 프로필 사진, 이름 불러오는 API 토큰만 존재하면 됩니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(mediaType = "application/json",
