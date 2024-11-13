@@ -76,6 +76,7 @@ public class PromotionServiceImpl implements PromotionService {
         }
     }
 
+    // Open AI로부터 받은 응답을 파싱
     private List<PromotionCostRes> parseContentToCostRes(String content) {
         ObjectMapper objectMapper = new ObjectMapper();
 

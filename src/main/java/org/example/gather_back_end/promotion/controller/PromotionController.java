@@ -35,6 +35,8 @@ public class PromotionController implements PromotionControllerApi {
         return SuccessResponse.of(res);
     }
 
+    // 사용 X
+    /**
     @PostMapping("/timeline")
     public SuccessResponse<List<PromotionTimelineRes>> createPromotionTimeline(
             Authentication authentication,
@@ -44,7 +46,10 @@ public class PromotionController implements PromotionControllerApi {
         List<PromotionTimelineRes> res = promotionService.createPromotionStrategy(req, providerId);
         return SuccessResponse.of(res);
     }
+    **/
 
+    // 사용 X
+    /**
     @PostMapping("/cost-management")
     public SuccessResponse<List<PromotionCostRes>> createPromotionCost(
             Authentication authentication,
@@ -54,4 +59,5 @@ public class PromotionController implements PromotionControllerApi {
         List<PromotionCostRes> res = promotionService.createPromotionCost(req);
         return SuccessResponse.of(res);
     }
+    **/
 }
