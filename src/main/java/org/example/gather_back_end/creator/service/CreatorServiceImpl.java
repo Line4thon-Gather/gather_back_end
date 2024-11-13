@@ -7,7 +7,9 @@ import org.example.gather_back_end.portfolio.dto.GetPortfolioRes;
 import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.repository.WorkRepository;
+import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.work.dto.GetWorkRes;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -55,6 +57,33 @@ public class CreatorServiceImpl implements CreatorService {
                 user.getContactKakaoId(),
                 user.getContactEmail()
                 );
+
+        return res;
+
+    }
+
+    // 크리에이터 등록 초기 화면
+    @Override
+    public GetCreatorRes getCreatorInfo(Authentication authentication){
+
+        CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+
+        User user = userRepository.getByUsername(customOAuth2User.getUsername());
+
+        List<GetPortfolioRes> getPortfolioResList = portfolioRepository.getAllByUser(user);
+        List<GetWorkRes> getWorkResList = workRepository.findAllByUser(user);
+
+        // GetCreatorRes에 하나하나 다 담아야함
+        GetCreatorRes res = new GetCreatorRes(
+                user.getNickname(),
+                user.getProfileImgUrl(),
+                user.getIntroductionTitle(),
+                user.getIntroductionContent(),
+                getPortfolioResList,
+                getWorkResList,
+                user.getContactKakaoId(),
+                user.getContactEmail()
+        );
 
         return res;
 
