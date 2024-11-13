@@ -49,7 +49,7 @@ public class PromotionRequest extends BaseEntity {
 
     // 보유한 예산
     @Column(nullable = false)
-    private Long budget;
+    private Integer budget;
 
     // 1순위 홍보 수단
     @Enumerated(EnumType.STRING)
@@ -67,7 +67,7 @@ public class PromotionRequest extends BaseEntity {
     @OneToOne(mappedBy = "promotionRequest", cascade = CascadeType.ALL, orphanRemoval = true)
     private PromotionResult promotionResult;
 
-    public PromotionRequest(User user, String title, Integer period, Integer targetNumberOfPeople, Long budget,
+    public PromotionRequest(User user, String title, Integer period, Integer targetNumberOfPeople, Integer budget,
                             WorkType firstMeans, WorkType secondMeans, WorkType thirdMeans) {
         this.user = user;
         this.title = title;

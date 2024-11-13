@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostReq;
 import org.example.gather_back_end.promotion.dto.cost.PromotionCostRes;
+import org.example.gather_back_end.promotion.dto.promotion.PromotionRes;
 import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineReq;
 import org.example.gather_back_end.promotion.dto.timeline.PromotionTimelineRes;
 import org.example.gather_back_end.promotion.service.PromotionService;
@@ -24,6 +25,15 @@ public class PromotionController implements PromotionControllerApi {
 
     private final PromotionService promotionService;
 
+    @PostMapping
+    public SuccessResponse<PromotionRes> createAllPromotionInfo(
+            Authentication authentication,
+            @RequestBody PromotionTimelineReq req) {
+        CustomOAuth2User user = (CustomOAuth2User) authentication.getPrincipal();
+        String providerId = user.getUsername();
+        PromotionRes res = promotionService.createAllPromotionInfo(req, providerId);
+        return SuccessResponse.of(res);
+    }
 
     @PostMapping("/timeline")
     public SuccessResponse<List<PromotionTimelineRes>> createPromotionTimeline(
