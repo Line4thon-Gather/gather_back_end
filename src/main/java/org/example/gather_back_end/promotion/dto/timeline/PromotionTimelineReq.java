@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import org.example.gather_back_end.domain.PromotionRequest;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.domain.WorkType;
+import org.example.gather_back_end.promotion.dto.cost.PromotionCostReq;
 
 public record PromotionTimelineReq(
         @Schema(description = "홍보 제목", example = "OOO 동아리 모집")
@@ -18,7 +19,7 @@ public record PromotionTimelineReq(
         Integer targetNumberOfPeople,
 
         @Schema(description = "보유한 예산", example = "835000")
-        Long budget,
+        Integer budget,
 
         @NotNull
         @Schema(description = "1순위 홍보 수단 (필수)", example = "PRINTS")
@@ -49,6 +50,18 @@ public record PromotionTimelineReq(
     // 빈 문자열("")에 대한 처리
     private WorkType parseWorkType(String means) {
         return (means == null || means.isEmpty()) ? null : WorkType.valueOf(means);
+    }
+
+
+    // PromotionCostReq로 변환하는 메서드 추가
+    public PromotionCostReq toPromotionCostReq(int instagramPromotionPeriod) {
+        return new PromotionCostReq(
+                this.budget,
+                this.firstMeans.toString(),
+                this.secondMeans,
+                this.thirdMeans,
+                instagramPromotionPeriod
+        );
     }
 
 }
