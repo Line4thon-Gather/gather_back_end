@@ -44,6 +44,15 @@ public class CertificationController implements CertificationControllerApi {
         return SuccessResponse.of(null);
     }
 
+    // 인증된 이메일 초기화
+    @PostMapping("/univ/clear")
+    public SuccessResponse<?> clearCertificateUnivAuth(
+            @RequestBody ClearCertificateUnivAuthReq req
+    ) throws IOException {
+        certificationService.certificateUnivAuth(req);
+        return SuccessResponse.of(null);
+    }
+
     // 사업자 번호 인증 (validate + status 검증)
     @PostMapping("/entrepreneur")
     public SuccessResponse<?> certificationEntrepreneur(
