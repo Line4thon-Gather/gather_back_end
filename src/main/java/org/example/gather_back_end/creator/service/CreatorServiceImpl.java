@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
 import org.example.gather_back_end.creator.dto.filtering.CreatorInfo;
 import org.example.gather_back_end.domain.User;
+import org.example.gather_back_end.domain.WorkType;
 import org.example.gather_back_end.portfolio.dto.GetPortfolioRes;
 import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
@@ -107,11 +108,15 @@ public class CreatorServiceImpl implements CreatorService {
         Sort sort = switch (align) {
             case "lowPrice" -> Sort.by(Sort.Direction.ASC, "workList.startPrice");
             case "highPrice" -> Sort.by(Sort.Direction.DESC, "workList.startPrice");
-            default -> Sort.by(Sort.Direction.DESC, "createAt"); // 기본 정렬은 최신순
+            default -> Sort.by(Sort.Direction.DESC, "createAt");
         };
 
         Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-        Page<User> creators = userRepository.customFiltering(price, sortedPageable);
+
+        // category를 WorkType으로 변환, 값이 없는 경우 null로 설정
+        WorkType workCategory = (category != null) ? WorkType.valueOf(category) : null;
+
+        Page<User> creators = userRepository.customFiltering(price, workCategory, sortedPageable);
 
         Set<Long> seenIds = new LinkedHashSet<>();
         List<CreatorInfo> creatorInfoList = creators.getContent().stream()
@@ -129,5 +134,6 @@ public class CreatorServiceImpl implements CreatorService {
 
         return PageResponse.of(res);
     }
+
 
 }
