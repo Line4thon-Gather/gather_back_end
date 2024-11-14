@@ -11,6 +11,7 @@ import java.io.IOException;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
+import org.example.gather_back_end.certification.dto.ClearCertificateUnivAuthReq;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.ErrorResponse;
@@ -112,6 +113,40 @@ public interface CertificationControllerApi {
     })
     @PostMapping
     SuccessResponse<?> certificateUnivAuth(Authentication authentication, @RequestBody CertificateUnivAuthReq req) throws IOException;
+
+    @Operation(summary = "이메일 인증 초기화")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "인증 초기화 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = "{\n"
+                                            + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
+                                            + "    \"isSuccess\": true,\n"
+                                            + "    \"code\": \"200\",\n"
+                                            + "    \"message\": \"호출에 성공하였습니다.\",\n"
+                                            + "    \"data\": null\n"
+                                            + "}"
+                            ),
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "400", description = "인증 초기화 실패(인증되지 않은 이메일에 대해 호출하면 발생)",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n"
+                                + "    \"timestamp\": \"2024-11-03T15:44:24.484124\",\n"
+                                + "    \"isSuccess\": false,\n"
+                                + "    \"code\": \"EMAIL_CLEAR_BAD_REQUEST_400\",\n"
+                                + "    \"message\": \"이메일 인증 초기화 실패\",\n"
+                                + "    \"httpStatus\": 400\n"
+                                + "}"),
+                            schema = @Schema(implementation = SuccessResponse.class))
+            )
+    })
+    @PostMapping
+    SuccessResponse<?> clearCertificateUnivAuth(@RequestBody ClearCertificateUnivAuthReq req) throws IOException;
 
     @Operation(summary = "사업자 인증",
                 description = "사업자 인증 성공한 경우, data의 isSuccess 필드가 true\n"

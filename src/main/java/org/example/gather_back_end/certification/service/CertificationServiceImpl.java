@@ -11,6 +11,7 @@ import org.example.gather_back_end.certification.client.EntrepreneurClient;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
+import org.example.gather_back_end.certification.dto.ClearCertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.GetEmailExistCheckRes;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurStatusRes;
@@ -18,6 +19,7 @@ import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateReq;
 import org.example.gather_back_end.certification.dto.GetEntrepreneurValidateRes;
 import org.example.gather_back_end.certification.exception.AuthNumberNotMatchBadRequestException;
 import org.example.gather_back_end.certification.exception.EmailBadRequestException;
+import org.example.gather_back_end.certification.exception.EmailClearBadRequestException;
 import org.example.gather_back_end.certification.exception.EntrepreneurBadRequestException;
 import org.example.gather_back_end.certification.exception.UnivNotFoundException;
 import org.example.gather_back_end.domain.User;
@@ -79,6 +81,15 @@ public class CertificationServiceImpl implements CertificationService {
             return;
         }
         throw new AuthNumberNotMatchBadRequestException();
+    }
+
+    @Override
+    public void clearCertificateUnivAuth(ClearCertificateUnivAuthReq req) throws IOException {
+        Map<String, Object> clear = UnivCert.clear(univCertApiKey, req.email());
+        boolean isSuccess = (boolean) clear.get("success");
+        if (!isSuccess) {
+            throw new EmailClearBadRequestException();
+        }
     }
 
     // 사업자 등록 검증
