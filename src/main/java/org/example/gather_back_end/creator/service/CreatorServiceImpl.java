@@ -1,7 +1,7 @@
 package org.example.gather_back_end.creator.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.gather_back_end.creator.dto.FilteringCreatorRes;
+import org.example.gather_back_end.creator.dto.filtering.FilteringCreatorRes;
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.portfolio.dto.GetPortfolioRes;

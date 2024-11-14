@@ -1,6 +1,6 @@
 package org.example.gather_back_end.creator.service;
 
-import org.example.gather_back_end.creator.dto.FilteringCreatorRes;
+import org.example.gather_back_end.creator.dto.filtering.FilteringCreatorRes;
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
 import org.springframework.security.core.Authentication;
 

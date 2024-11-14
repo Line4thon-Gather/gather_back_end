@@ -1,10 +1,9 @@
-package org.example.gather_back_end.creator.dto;
+package org.example.gather_back_end.creator.dto.filtering;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
-public record FilteringCreatorRes(
-
+public record CreatorInfo(
         @Schema(description = "크리에이터명", example = "hello")
         String nickname,
 
