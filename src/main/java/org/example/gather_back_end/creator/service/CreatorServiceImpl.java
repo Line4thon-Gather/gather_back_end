@@ -1,19 +1,20 @@
 package org.example.gather_back_end.creator.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.gather_back_end.creator.dto.filtering.FilteringCreatorRes;
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
+import org.example.gather_back_end.creator.dto.filtering.CreatorInfo;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.portfolio.dto.GetPortfolioRes;
 import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.repository.WorkRepository;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
+import org.example.gather_back_end.util.response.PageResponse;
 import org.example.gather_back_end.work.dto.GetWorkRes;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -92,7 +93,7 @@ public class CreatorServiceImpl implements CreatorService {
     }
 
     @Override
-    public FilteringCreatorRes filteringCreator(String providerId, Pageable pageable, Integer price, String category, String align) {
+    public PageResponse<CreatorInfo> filteringCreator(String providerId, Pageable pageable, Integer price, String category, String align) {
         return null;
     }
 
