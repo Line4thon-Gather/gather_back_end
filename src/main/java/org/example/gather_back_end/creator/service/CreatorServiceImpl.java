@@ -18,7 +18,9 @@ import org.example.gather_back_end.util.response.PageResponse;
 import org.example.gather_back_end.work.dto.GetWorkRes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -102,12 +104,18 @@ public class CreatorServiceImpl implements CreatorService {
     @Override
     public PageResponse<CreatorInfo> filteringCreator(String providerId, Pageable pageable, Integer price, String category, String align) {
 
-        Page<User> creators = userRepository.customFiltering(price, pageable);
+        Sort sort = switch (align) {
+            case "lowPrice" -> Sort.by(Sort.Direction.ASC, "workList.startPrice");
+            case "highPrice" -> Sort.by(Sort.Direction.DESC, "workList.startPrice");
+            default -> Sort.by(Sort.Direction.DESC, "createAt"); // 기본 정렬은 최신순
+        };
 
-        // 중복 제거: User ID 기준으로 중복된 User 제거
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        Page<User> creators = userRepository.customFiltering(price, sortedPageable);
+
         Set<Long> seenIds = new LinkedHashSet<>();
         List<CreatorInfo> creatorInfoList = creators.getContent().stream()
-                .filter(user -> seenIds.add(user.getId())) // 중복 ID는 add 실패하여 필터링됨
+                .filter(user -> seenIds.add(user.getId()))
                 .map(user -> CreatorInfo.from(
                         user,
                         user.getWorkList().stream()
@@ -117,10 +125,8 @@ public class CreatorServiceImpl implements CreatorService {
                 ))
                 .collect(Collectors.toList());
 
-        // 페이지네이션된 결과
-        PageImpl<CreatorInfo> res = new PageImpl<>(creatorInfoList, pageable, creatorInfoList.size());
+        PageImpl<CreatorInfo> res = new PageImpl<>(creatorInfoList, sortedPageable, creatorInfoList.size());
 
-        // PageResponse 반환
         return PageResponse.of(res);
     }
 
