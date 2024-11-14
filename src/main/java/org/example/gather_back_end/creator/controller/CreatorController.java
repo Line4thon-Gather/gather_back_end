@@ -3,6 +3,7 @@ package org.example.gather_back_end.creator.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.bucket.service.BucketService;
 import org.example.gather_back_end.creator.dto.CreateCreatorReq;
+import org.example.gather_back_end.creator.dto.FilteringCreatorRes;
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
 import org.example.gather_back_end.creator.service.CreatorService;
 import org.example.gather_back_end.domain.User;
@@ -93,7 +94,7 @@ public class CreatorController implements CreatorControllerApi {
     @GetMapping("/filtering")
     public SuccessResponse<FilteringCreatorRes> filteringCreator(
             Authentication authentication,
-            @RequestParam(value = "price") String price,
+            @RequestParam(value = "price") Integer price,
             @RequestParam(value = "category") String category,
             @RequestParam(value = "align", defaultValue = "recently") String recently
     ) {
