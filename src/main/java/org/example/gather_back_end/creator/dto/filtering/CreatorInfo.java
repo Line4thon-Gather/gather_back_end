@@ -3,6 +3,7 @@ package org.example.gather_back_end.creator.dto.filtering;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Comparator;
 import java.util.List;
+import org.example.gather_back_end.domain.Portfolio;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.domain.Work;
 
@@ -23,7 +24,7 @@ public record CreatorInfo(
         String thumbnailImgUrl
 ) {
 
-    public static CreatorInfo from(User user, List<String> availableWork, String startPrice) {
+    public static CreatorInfo from(User user, List<String> availableWork, List<Portfolio> portfolioList) {
 
         // workList에서 startPrice 중 가장 작은 값 찾기
         String minStartPrice = user.getWorkList().stream()
@@ -37,7 +38,7 @@ public record CreatorInfo(
                 availableWork,
                 user.getIntroductionTitle(),
                 minStartPrice,
-                user.getProfileImgUrl()
+                portfolioList.getFirst().getThumbnailImgUrl()
         );
     }
 }

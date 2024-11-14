@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
 import org.example.gather_back_end.creator.dto.filtering.CreatorInfo;
 import org.example.gather_back_end.domain.User;
-import org.example.gather_back_end.domain.Work;
 import org.example.gather_back_end.portfolio.dto.GetPortfolioRes;
 import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
@@ -114,7 +113,7 @@ public class CreatorServiceImpl implements CreatorService {
                         user.getWorkList().stream()
                                 .map(work -> work.getCategory().name())
                                 .toList(),
-                        user.getProfileImgUrl()
+                        user.getPortfolioList()
                 ))
                 .collect(Collectors.toList());
 
