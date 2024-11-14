@@ -2,9 +2,11 @@ package org.example.gather_back_end.creator.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
 import org.example.gather_back_end.creator.dto.filtering.CreatorInfo;
 import org.example.gather_back_end.domain.User;
+import org.example.gather_back_end.domain.Work;
 import org.example.gather_back_end.portfolio.dto.GetPortfolioRes;
 import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
@@ -12,12 +14,15 @@ import org.example.gather_back_end.repository.WorkRepository;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.PageResponse;
 import org.example.gather_back_end.work.dto.GetWorkRes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class CreatorServiceImpl implements CreatorService {
 
     private final UserRepository userRepository;
@@ -94,7 +99,21 @@ public class CreatorServiceImpl implements CreatorService {
 
     @Override
     public PageResponse<CreatorInfo> filteringCreator(String providerId, Pageable pageable, Integer price, String category, String align) {
-        return null;
+
+        // TODO: 여기 변경 필요
+        Page<User> creators = userRepository.findAllByOrderByCreateAtDesc(pageable);
+
+        // dto로 변환
+        List<CreatorInfo> creatorInfoList = creators.getContent().stream()
+                .map(user -> CreatorInfo.from(user, user.getWorkList().stream().map(Work::getTitle).toList(),
+                        user.getProfileImgUrl()))
+                .toList();
+
+        // 페이지네이션된 결과
+        PageImpl<CreatorInfo> res = new PageImpl<>(creatorInfoList, pageable, creators.getTotalElements());
+
+        // PageResponse 반환
+        return PageResponse.of(res);
     }
 
 }

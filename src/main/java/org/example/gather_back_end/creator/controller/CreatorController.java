@@ -98,13 +98,15 @@ public class CreatorController implements CreatorControllerApi {
     public SuccessResponse<PageResponse<CreatorInfo>> filteringCreator(
             Authentication authentication,
             @PageableDefault(size = 12, page = 0) Pageable pageable,
-            @RequestParam(value = "price") Integer price,
-            @RequestParam(value = "category") String category,
-            @RequestParam(value = "align", defaultValue = "recently") String recently
+            @RequestParam(value = "price", required = false) Integer price,
+            @RequestParam(value = "category", required = false) String category,  // 필수 아님
+            @RequestParam(value = "align", defaultValue = "recently", required = false) String recently
+
     ) {
         CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
         String providerId = customOAuth2User.getUsername();
         PageResponse<CreatorInfo> res = creatorService.filteringCreator(providerId, pageable, price, category, recently);
         return SuccessResponse.of(res);
     }
+
 }

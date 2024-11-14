@@ -3,7 +3,10 @@ package org.example.gather_back_end.repository;
 import java.util.List;
 import java.util.Optional;
 import org.example.gather_back_end.domain.User;
+import org.example.gather_back_end.domain.WorkType;
 import org.example.gather_back_end.user.exception.UserNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     default User getById(Long id) {
         return findById(id).orElseThrow(UserNotFoundException::new);
     }
+
     default User getByUsername(String username) {
         return findByUsername(username).orElseThrow(UserNotFoundException::new);
     }
@@ -35,15 +39,40 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // 크리에이터 찾기
     @Query("SELECT u FROM User u " +
-           "JOIN u.workList w " +
-           "JOIN u.portfolioList p " +
-           "WHERE u.introductionTitle IS NOT NULL " + // 소개글 제목 존재
-           "AND SIZE(u.workList) > 0 " + // 작업 가능 항목 등록
-           "AND SIZE(u.portfolioList) > 0 ") // 포트폴리오 등록
+            "JOIN u.workList w " +
+            "JOIN u.portfolioList p " +
+            "WHERE u.introductionTitle IS NOT NULL " + // 소개글 제목 존재
+            "AND SIZE(u.workList) > 0 " + // 작업 가능 항목 등록
+            "AND SIZE(u.portfolioList) > 0 ")
+    // 포트폴리오 등록
     // TODO: 포트폴리오 더미데이터 모두 넣은 후 주석 해제
 //           "AND SIZE(u.portfolioList) > 0 " + // 포트폴리오 등록
 //           "AND p.thumbnailImgUrl IS NOT NULL " + // 포트폴리오 썸네일 존재
 //           "AND p.fileUrl IS NOT NULL") // 포트폴리오 파일 존재
     List<User> findAllCreators();
+
+//    @Query("SELECT u FROM User u JOIN u.workList w " +
+//           "WHERE u.introductionTitle IS NOT NULL " +
+//           "AND SIZE(u.workList) > 0 " +
+//           "AND u.username <> :providerId " +
+//           "AND (:category IS NULL OR w.category = :category) " +  // category가 null이면 모든 WorkType 포함
+//           "AND (:price IS NULL OR " +
+//           "     (:price = 10000 AND w.startPrice <= 10000) OR " +
+//           "     (:price = 50000 AND w.startPrice <= 50000) OR " +
+//           "     (:price = 100000 AND w.startPrice <= 100000) OR " +
+//           "     (:price = 200000 AND w.startPrice <= 200000) OR " +
+//           "     (:price = 200001 AND w.startPrice > 200000)) " +
+//           "ORDER BY CASE WHEN :align = 'recently' THEN u.createAt END DESC, " +
+//           "             CASE WHEN :align = 'lowPrice' THEN w.startPrice END ASC, " +
+//           "             CASE WHEN :align = 'highPrice' THEN w.startPrice END DESC")
+//    Page<User> findCreatorsByFilters(@Param("providerId") String providerId,
+//                                     @Param("price") Integer price,
+//                                     @Param("category") WorkType category,  // WorkType으로 받음
+//                                     @Param("align") String align,
+//                                     Pageable pageable);
+
+    Page<User> findAllByOrderByCreateAtDesc(Pageable pageable);
+
+
 
 }

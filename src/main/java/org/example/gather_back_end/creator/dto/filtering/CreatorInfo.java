@@ -2,6 +2,7 @@ package org.example.gather_back_end.creator.dto.filtering;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
+import org.example.gather_back_end.domain.User;
 
 public record CreatorInfo(
         @Schema(description = "크리에이터명", example = "hello")
@@ -19,4 +20,14 @@ public record CreatorInfo(
         @Schema(description = "포트폴리오 썸네일 주소", example = "dfdfd")
         String thumbnailImgUrl
 ) {
+
+    public static CreatorInfo from(User user, List<String> availableWork, String startPrice) {
+        return new CreatorInfo(
+                user.getNickname(),
+                availableWork,
+                user.getIntroductionTitle(),
+                startPrice,
+                user.getProfileImgUrl()
+        );
+    }
 }
