@@ -106,7 +106,7 @@ public interface CreatorControllerApi {
                                                 {
                                                     "nickname": "USER4255",
                                                     "availableWork": [
-                                                        "SNS_POST"
+                                                        "SNS"
                                                     ],
                                                     "introductionTitle": "sds",
                                                     "startPrice": "49000",
@@ -115,8 +115,8 @@ public interface CreatorControllerApi {
                                                 {
                                                     "nickname": "USER3322",
                                                     "availableWork": [
-                                                        "PRINTS",
-                                                        "SNS_POST"
+                                                        "인쇄물",
+                                                        "SNS"
                                                     ],
                                                     "introductionTitle": "dkssudd",
                                                     "startPrice": "500",
@@ -125,7 +125,7 @@ public interface CreatorControllerApi {
                                                 {
                                                     "nickname": "USER3333",
                                                     "availableWork": [
-                                                        "SNS_POST"
+                                                        "SNS"
                                                     ],
                                                     "introductionTitle": "dfdfdfdfdfdfdfdf",
                                                     "startPrice": "1000",

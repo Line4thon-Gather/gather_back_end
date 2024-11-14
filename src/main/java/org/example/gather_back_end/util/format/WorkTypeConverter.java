@@ -7,7 +7,7 @@ public class WorkTypeConverter {
 
     private static final Map<WorkType, String> workTypeToKoreanMap = Map.of(
             WorkType.PRINTS, "인쇄물",
-            WorkType.SNS_POST, "SNS 게시물",
+            WorkType.SNS_POST, "SNS",
             WorkType.VIDEO, "영상"
     );
 
