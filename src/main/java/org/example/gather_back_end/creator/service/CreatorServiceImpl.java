@@ -100,8 +100,7 @@ public class CreatorServiceImpl implements CreatorService {
     @Override
     public PageResponse<CreatorInfo> filteringCreator(String providerId, Pageable pageable, Integer price, String category, String align) {
 
-        // TODO: 여기 변경 필요
-        Page<User> creators = userRepository.findAllByOrderByCreateAtDesc(pageable);
+        Page<User> creators = userRepository.customFiltering(price, pageable);
 
         // dto로 변환
         List<CreatorInfo> creatorInfoList = creators.getContent().stream()
@@ -110,6 +109,7 @@ public class CreatorServiceImpl implements CreatorService {
                         user.getWorkList().stream()
                                 .map(work -> work.getCategory().name())
                                 .toList(),
+
                         user.getProfileImgUrl()
                 ))
                 .toList();

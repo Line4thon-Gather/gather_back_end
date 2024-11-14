@@ -1,8 +1,10 @@
 package org.example.gather_back_end.creator.dto.filtering;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Comparator;
 import java.util.List;
 import org.example.gather_back_end.domain.User;
+import org.example.gather_back_end.domain.Work;
 
 public record CreatorInfo(
         @Schema(description = "크리에이터명", example = "hello")
@@ -22,11 +24,19 @@ public record CreatorInfo(
 ) {
 
     public static CreatorInfo from(User user, List<String> availableWork, String startPrice) {
+
+        // workList에서 startPrice 중 가장 작은 값 찾기
+        String minStartPrice = user.getWorkList().stream()
+                .map(Work::getStartPrice)
+                .min(Comparator.naturalOrder())
+                .map(String::valueOf) // int를 String으로 변환
+                .orElse("N/A"); // workList가 비어 있을 경우 기본값
+
         return new CreatorInfo(
                 user.getNickname(),
                 availableWork,
                 user.getIntroductionTitle(),
-                startPrice,
+                minStartPrice,
                 user.getProfileImgUrl()
         );
     }

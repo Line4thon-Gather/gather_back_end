@@ -51,28 +51,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //           "AND p.fileUrl IS NOT NULL") // 포트폴리오 파일 존재
     List<User> findAllCreators();
 
-//    @Query("SELECT u FROM User u JOIN u.workList w " +
-//           "WHERE u.introductionTitle IS NOT NULL " +
-//           "AND SIZE(u.workList) > 0 " +
-//           "AND u.username <> :providerId " +
-//           "AND (:category IS NULL OR w.category = :category) " +  // category가 null이면 모든 WorkType 포함
-//           "AND (:price IS NULL OR " +
-//           "     (:price = 10000 AND w.startPrice <= 10000) OR " +
-//           "     (:price = 50000 AND w.startPrice <= 50000) OR " +
-//           "     (:price = 100000 AND w.startPrice <= 100000) OR " +
-//           "     (:price = 200000 AND w.startPrice <= 200000) OR " +
-//           "     (:price = 200001 AND w.startPrice > 200000)) " +
-//           "ORDER BY CASE WHEN :align = 'recently' THEN u.createAt END DESC, " +
-//           "             CASE WHEN :align = 'lowPrice' THEN w.startPrice END ASC, " +
-//           "             CASE WHEN :align = 'highPrice' THEN w.startPrice END DESC")
-//    Page<User> findCreatorsByFilters(@Param("providerId") String providerId,
-//                                     @Param("price") Integer price,
-//                                     @Param("category") WorkType category,  // WorkType으로 받음
-//                                     @Param("align") String align,
-//                                     Pageable pageable);
-
-    Page<User> findAllByOrderByCreateAtDesc(Pageable pageable);
-
-
+    @Query("SELECT DISTINCT u FROM User u " +
+           "JOIN u.workList w " +
+           "WHERE u.introductionTitle IS NOT NULL " +
+           "AND (:price IS NULL OR " +
+           "     (:price = 10000 AND w.startPrice < 10000) OR " +
+           "     (:price = 50000 AND w.startPrice < 50000) OR " +
+           "     (:price = 100000 AND w.startPrice < 100000) OR " +
+           "     (:price = 200000 AND w.startPrice < 200000) OR " +
+           "     (:price = 200001 AND w.startPrice >= 200000)) " +
+           "ORDER BY u.createAt DESC")  // 최신순 정렬
+    Page<User> customFiltering(@Param("price") Integer price, Pageable pageable);
 
 }
