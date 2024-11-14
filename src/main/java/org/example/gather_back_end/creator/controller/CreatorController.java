@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,4 +89,17 @@ public class CreatorController implements CreatorControllerApi {
         return SuccessResponse.of(getCreatorRes);
     }
 
+    // 크리에이터 찾기
+    @GetMapping("/filtering")
+    public SuccessResponse<FilteringCreatorRes> filteringCreator(
+            Authentication authentication,
+            @RequestParam(value = "price") String price,
+            @RequestParam(value = "category") String category,
+            @RequestParam(value = "align", defaultValue = "recently") String recently
+    ) {
+        CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+        String providerId = customOAuth2User.getUsername();
+        FilteringCreatorRes res = creatorService.filteringCreator(providerId, price, category, recently);
+        return SuccessResponse.of(res);
+    }
 }
