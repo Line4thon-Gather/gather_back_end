@@ -105,8 +105,13 @@ public class CreatorServiceImpl implements CreatorService {
 
         // dto로 변환
         List<CreatorInfo> creatorInfoList = creators.getContent().stream()
-                .map(user -> CreatorInfo.from(user, user.getWorkList().stream().map(Work::getTitle).toList(),
-                        user.getProfileImgUrl()))
+                .map(user -> CreatorInfo.from(
+                        user,
+                        user.getWorkList().stream()
+                                .map(work -> work.getCategory().name())
+                                .toList(),
+                        user.getProfileImgUrl()
+                ))
                 .toList();
 
         // 페이지네이션된 결과
