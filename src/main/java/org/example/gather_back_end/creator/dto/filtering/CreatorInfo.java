@@ -11,7 +11,7 @@ public record CreatorInfo(
         @Schema(description = "크리에이터명", example = "hello")
         String nickname,
 
-        @Schema(description = "가능한 작업 카테고리", example = "")
+        @Schema(description = "가능한 작업 카테고리", example = "[\"SNS\", \"인쇄물\", \"비디오\"]")
         List<String> availableWork,
 
         @Schema(description = "크리에이터 소개글 제목", example = "안녕하세요")
