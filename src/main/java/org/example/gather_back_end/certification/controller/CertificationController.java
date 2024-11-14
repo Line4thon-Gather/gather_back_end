@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.certification.dto.CertificateUnivAuthReq;
 import org.example.gather_back_end.certification.dto.CertificateUnivEmailReq;
 import org.example.gather_back_end.certification.dto.CertificationEntrepreneurValidateReq;
+import org.example.gather_back_end.certification.dto.ClearCertificateUnivAuthReq;
 import org.example.gather_back_end.certification.service.CertificationService;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
@@ -49,7 +50,7 @@ public class CertificationController implements CertificationControllerApi {
     public SuccessResponse<?> clearCertificateUnivAuth(
             @RequestBody ClearCertificateUnivAuthReq req
     ) throws IOException {
-        certificationService.certificateUnivAuth(req);
+        certificationService.clearCertificateUnivAuth(req);
         return SuccessResponse.of(null);
     }
 
