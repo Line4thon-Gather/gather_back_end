@@ -1,6 +1,9 @@
 package org.example.gather_back_end.creator.service;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.gather_back_end.creator.dto.GetCreatorRes;
@@ -102,20 +105,21 @@ public class CreatorServiceImpl implements CreatorService {
 
         Page<User> creators = userRepository.customFiltering(price, pageable);
 
-        // dto로 변환
+        // 중복 제거: User ID 기준으로 중복된 User 제거
+        Set<Long> seenIds = new LinkedHashSet<>();
         List<CreatorInfo> creatorInfoList = creators.getContent().stream()
+                .filter(user -> seenIds.add(user.getId())) // 중복 ID는 add 실패하여 필터링됨
                 .map(user -> CreatorInfo.from(
                         user,
                         user.getWorkList().stream()
                                 .map(work -> work.getCategory().name())
                                 .toList(),
-
                         user.getProfileImgUrl()
                 ))
-                .toList();
+                .collect(Collectors.toList());
 
         // 페이지네이션된 결과
-        PageImpl<CreatorInfo> res = new PageImpl<>(creatorInfoList, pageable, creators.getTotalElements());
+        PageImpl<CreatorInfo> res = new PageImpl<>(creatorInfoList, pageable, creatorInfoList.size());
 
         // PageResponse 반환
         return PageResponse.of(res);

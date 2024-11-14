@@ -54,7 +54,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT DISTINCT u FROM User u " +
            "JOIN u.workList w " +
            "WHERE u.introductionTitle IS NOT NULL " +
-           "AND (:price IS NULL OR " +
+           "AND (:price IS NULL OR " + // 가격 조건
            "     (:price = 10000 AND w.startPrice < 10000) OR " +
            "     (:price = 50000 AND w.startPrice < 50000) OR " +
            "     (:price = 100000 AND w.startPrice < 100000) OR " +
