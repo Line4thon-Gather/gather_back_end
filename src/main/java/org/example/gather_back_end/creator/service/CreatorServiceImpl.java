@@ -10,6 +10,7 @@ import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.repository.WorkRepository;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.work.dto.GetWorkRes;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -91,7 +92,7 @@ public class CreatorServiceImpl implements CreatorService {
     }
 
     @Override
-    public FilteringCreatorRes filteringCreator(String providerId, Integer price, String category, String align) {
+    public FilteringCreatorRes filteringCreator(String providerId, Pageable pageable, Integer price, String category, String align) {
         return null;
     }
 

@@ -12,6 +12,8 @@ import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.example.gather_back_end.work.service.WorkService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,13 +96,14 @@ public class CreatorController implements CreatorControllerApi {
     @GetMapping("/filtering")
     public SuccessResponse<FilteringCreatorRes> filteringCreator(
             Authentication authentication,
+            @PageableDefault(size = 12, page = 0) Pageable pageable,
             @RequestParam(value = "price") Integer price,
             @RequestParam(value = "category") String category,
             @RequestParam(value = "align", defaultValue = "recently") String recently
     ) {
         CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
         String providerId = customOAuth2User.getUsername();
-        FilteringCreatorRes res = creatorService.filteringCreator(providerId, price, category, recently);
+        FilteringCreatorRes res = creatorService.filteringCreator(providerId, pageable, price, category, recently);
         return SuccessResponse.of(res);
     }
 }
