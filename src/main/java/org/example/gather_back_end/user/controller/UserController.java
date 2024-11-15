@@ -23,4 +23,11 @@ public class UserController implements UserControllerApi {
         return SuccessResponse.of(res);
 
     }
+
+    // 마이페이지
+    @GetMapping("/my-page")
+    public SuccessResponse<?> getMyPage(Authentication authentication){
+
+        return SuccessResponse.of(userService.getMyPage(authentication));
+    }
 }

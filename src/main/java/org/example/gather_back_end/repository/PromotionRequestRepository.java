@@ -1,7 +1,9 @@
 package org.example.gather_back_end.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.example.gather_back_end.domain.PromotionRequest;
+import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.promotionrequest.exception.PromotionRequestNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,4 +15,6 @@ public interface PromotionRequestRepository extends JpaRepository<PromotionReque
         return findById(id).orElseThrow(PromotionRequestNotFoundException::new);
     }
     Optional<PromotionRequest> findById(Long id);
+
+    List<PromotionRequest> findAllByUser(User user);
 }
