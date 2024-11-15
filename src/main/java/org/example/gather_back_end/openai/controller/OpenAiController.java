@@ -32,13 +32,4 @@ public class OpenAiController implements OpenAiControllerApi {
         return SuccessResponse.of(response);
     }
 
-    @PostMapping("/test2")
-    public String test(Authentication authentication,@RequestBody String test) {
-        if (authentication == null) {
-            return "null입니다.";
-        }
-        else {
-            return test;
-        }
-    }
 }

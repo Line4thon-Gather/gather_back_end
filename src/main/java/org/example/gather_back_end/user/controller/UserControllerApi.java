@@ -32,4 +32,64 @@ public interface UserControllerApi {
     })
     @GetMapping
     SuccessResponse<?> getUser(Authentication authentication);
+
+    @Operation(summary = "마이페이지 불러오기",
+            description = "마이페이지 불러오기, 토큰만 있으면 됩니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = """
+                                    {
+                                        "timestamp": "2024-11-16T00:51:05.668577",
+                                        "isSuccess": true,
+                                        "code": "200",
+                                        "message": "호출에 성공하였습니다.",
+                                        "data": {
+                                            "profileInfo": {
+                                                "profileImgUrl": null,
+                                                "role": "크리에이터",
+                                                "email": "kms2171344@hansung.ac.kr"
+                                            },
+                                            "promotionInfo": [
+                                                {
+                                                    "createDay": "2024.11.12",
+                                                    "title": "OOO 동아리 모집",
+                                                    "period": 43,
+                                                    "targetNumberOfPeople": 396,
+                                                    "budget": 835000
+                                                },
+                                                {
+                                                    "createDay": "2024.11.12",
+                                                    "title": "OOO 동아리 모집",
+                                                    "period": 43,
+                                                    "targetNumberOfPeople": 396,
+                                                    "budget": 835000
+                                                },
+                                                {
+                                                    "createDay": "2024.11.13",
+                                                    "title": "OOO 동아리 모집",
+                                                    "period": 43,
+                                                    "targetNumberOfPeople": 396,
+                                                    "budget": 100000
+                                                }
+                                            ],
+                                            "creatorInfo": [
+                                                {
+                                                    "nickname": "USER3322",
+                                                    "availableWork": [
+                                                        "PRINTS",
+                                                        "SNS_POST"
+                                                    ],
+                                                    "introductionTitle": "dkssudd",
+                                                    "startPrice": "500",
+                                                    "thumbnailImgUrl": "https~"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                    """),
+                            schema = @Schema(implementation = SuccessResponse.class)))
+    })
+    @GetMapping
+    SuccessResponse<?> getMyPage(Authentication authentication);
 }

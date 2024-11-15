@@ -30,13 +30,16 @@ public interface CreatorControllerApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "크리에이터 등록 완료",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\n"
-                                    + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
-                                    + "    \"isSuccess\": true,\n"
-                                    + "    \"code\": \"200\",\n"
-                                    + "    \"message\": \"호출에 성공하였습니다.\",\n"
-                                    + "    \"data\": \"null"
-                                    + "}"),
+                            examples = @ExampleObject(value = """
+                                    {
+                                        "timestamp": "2024-11-03T05:07:47.704694",
+                                        "isSuccess": true,
+                                        "code": "200",
+                                        "message": "호출에 성공하였습니다.",
+                                        "data": null
+                                    }
+                                    """
+                                    ),
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @PostMapping
@@ -53,13 +56,35 @@ public interface CreatorControllerApi {
             @ApiResponse(responseCode = "200",
                     description = "크리에이터 상세 페이지 조회 nickname = 크리에이터명",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\n"
-                                    + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
-                                    + "    \"isSuccess\": true,\n"
-                                    + "    \"code\": \"200\",\n"
-                                    + "    \"message\": \"호출에 성공하였습니다.\",\n"
-                                    + "    \"data\": \"null"
-                                    + "}"),
+                            examples = @ExampleObject(value = """
+                                            {
+                                                "nickname": "USER8543",
+                                                "profileImgUrl": "https~~",
+                                                "introductionTitle": "내가 최고라서",
+                                                "introductionContent": "저한테 맡겨만 주세요",
+                                                "getPortfolioResList": [
+                                                    {
+                                                        "title": "제 첫번째 작품입니다.",
+                                                        "thumbnailImgUrl": "https~",
+                                                        "fileUrl": "https~"
+                                                    },
+                                                    {
+                                                        "title": "제 두번째 작품입니다.",
+                                                        "thumbnailImgUrl": "https~",
+                                                        "fileUrl": "https~"
+                                                    }
+                                                ],
+                                                "getWorkResList": [
+                                                    {
+                                                        "title": "포토샵",
+                                                        "period": 13,
+                                                        "startPrice": 25000,
+                                                        "category": "SNS"
+                                                    }
+                                                ],
+                                                "contactKakaoId": "jackcoke",
+                                                "contactEmail": "jackcoke@gmail.com"
+                                            }"""),
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @GetMapping
@@ -71,13 +96,35 @@ public interface CreatorControllerApi {
                     description = "크리에이터 등록 초기화면 불러오기 즉 크리에이터 등록을 클릭 시"
                     +" 기존에 저장 되어 있던 크리에이터 정보 불러 온다.",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\n"
-                                    + "    \"timestamp\": \"2024-11-03T05:07:47.704694\",\n"
-                                    + "    \"isSuccess\": true,\n"
-                                    + "    \"code\": \"200\",\n"
-                                    + "    \"message\": \"호출에 성공하였습니다.\",\n"
-                                    + "    \"data\": \"null"
-                                    + "}"),
+                            examples = @ExampleObject(value = """
+                                            {
+                                                "nickname": "USER8543",
+                                                "profileImgUrl": "https~~",
+                                                "introductionTitle": "내가 최고라서",
+                                                "introductionContent": "저한테 맡겨만 주세요",
+                                                "getPortfolioResList": [
+                                                    {
+                                                        "title": "제 첫번째 작품입니다.",
+                                                        "thumbnailImgUrl": "https~",
+                                                        "fileUrl": "https~"
+                                                    },
+                                                    {
+                                                        "title": "제 두번째 작품입니다.",
+                                                        "thumbnailImgUrl": "https~",
+                                                        "fileUrl": "https~"
+                                                    }
+                                                ],
+                                                "getWorkResList": [
+                                                    {
+                                                        "title": "포토샵",
+                                                        "period": 13,
+                                                        "startPrice": 25000,
+                                                        "category": "SNS"
+                                                    }
+                                                ],
+                                                "contactKakaoId": "jackcoke",
+                                                "contactEmail": "jackcoke@gmail.com"
+                                            }"""),
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @GetMapping
@@ -85,9 +132,11 @@ public interface CreatorControllerApi {
 
     @Operation(summary = "크리에이터 찾기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(
+                    responseCode = "200",
                     description = "크리에이터 찾기에서 사용되는 API",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(
+                            mediaType = "application/json",
                             examples = @ExampleObject(value = """
                                     {
                                         "timestamp": "2024-11-14T21:39:55.407616",
@@ -134,9 +183,11 @@ public interface CreatorControllerApi {
                                             ]
                                         }
                                     }
-                                    """
+                            """
                             ),
-                            schema = @Schema(implementation = SuccessResponse.class)))
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    )
+            )
     })
     @GetMapping
     SuccessResponse<PageResponse<CreatorInfo>> filteringCreator(
