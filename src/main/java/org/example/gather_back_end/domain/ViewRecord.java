@@ -32,9 +32,10 @@ public class ViewRecord extends BaseEntity {
     @Builder.Default
     private Integer viewCount = 0;
 
-    // 크리에이터명
-    private String nickname;
+    // 포폴 본 사람 닉네임
+    private String currentLoginUserNickname;
 
-    @OneToMany(mappedBy = "viewRecord", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UsersViewRecord> usersViewRecordList = new ArrayList<>();
+    // 포폴 봄을 당한 사람 닉네임
+    private String currentSeenUserNickname;
+
 }
