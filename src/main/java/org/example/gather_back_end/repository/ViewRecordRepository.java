@@ -1,5 +1,6 @@
 package org.example.gather_back_end.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.example.gather_back_end.domain.ViewRecord;
 import org.example.gather_back_end.view.exception.ViewRecordNotFoundException;
@@ -18,4 +19,6 @@ public interface ViewRecordRepository extends JpaRepository<ViewRecord, Long> {
             String currentLoginUserNickname,
             String currentSeenUserNickname
     );
+
+    List<ViewRecord> findByCurrentLoginUserNickname(String currentLoginUserNickname);
 }
