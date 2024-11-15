@@ -35,7 +35,7 @@ public class Portfolio extends BaseEntity {
     private User user;
 
     // 포트폴리오 제목
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private String title;
 
     // 포트폴리오 썸네일 주소
