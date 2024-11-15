@@ -1,8 +1,6 @@
 package org.example.gather_back_end.creator.service;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +18,7 @@ import org.example.gather_back_end.util.response.PageResponse;
 import org.example.gather_back_end.work.dto.GetWorkRes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -105,20 +101,18 @@ public class CreatorServiceImpl implements CreatorService {
 
     @Override
     public PageResponse<CreatorInfo> filteringCreator(Pageable pageable, Integer price, String category, String align) {
-        // 정렬 조건 설정
-        Sort sort = switch (align) {
-            case "lowPrice" -> Sort.by(Sort.Direction.ASC, "workList.startPrice");
-            case "highPrice" -> Sort.by(Sort.Direction.DESC, "workList.startPrice");
-            default -> Sort.by(Sort.Direction.DESC, "createAt");
-        };
-
-        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-
         // category를 WorkType으로 변환
-        WorkType workCategory = (category != null) ? WorkType.valueOf(category) : null;
+        WorkType workCategory = null;
+        if (category != null) {
+            try {
+                workCategory = WorkType.valueOf(category);
+            } catch (IllegalArgumentException e) {
+                log.info("유효하지 않은 카테고리");
+            }
+        }
 
         // 데이터베이스에서 페이징 처리된 결과 가져오기
-        Page<User> creators = userRepository.customFiltering(price, workCategory, sortedPageable);
+        Page<User> creators = userRepository.customFiltering(price, workCategory, align, pageable);
 
         // CreatorInfo로 변환
         List<CreatorInfo> creatorInfoList = creators.getContent().stream()
@@ -127,13 +121,16 @@ public class CreatorServiceImpl implements CreatorService {
                         user.getWorkList().stream()
                                 .map(work -> WorkTypeConverter.toKorean(work.getCategory()))
                                 .distinct()
-                                .toList(),
-                        user.getPortfolioList()
+                                .collect(Collectors.toList()),
+                        user.getPortfolioList(),
+                        align // align 파라미터 전달
                 ))
-                .toList();
+                .collect(Collectors.toList());
 
         // PageResponse로 변환
-        return PageResponse.of(new PageImpl<>(creatorInfoList, sortedPageable, creators.getTotalElements()));
+        return PageResponse.of(new PageImpl<>(creatorInfoList, pageable, creators.getTotalElements()));
     }
+
+
 
 }
