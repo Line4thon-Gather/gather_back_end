@@ -2,6 +2,7 @@ package org.example.gather_back_end.creator.dto.filtering;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
+import java.util.stream.Stream;
 import org.example.gather_back_end.domain.Portfolio;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.domain.Work;
@@ -23,18 +24,25 @@ public record CreatorInfo(
         String thumbnailImgUrl
 ) {
 
-    public static CreatorInfo from(User user, List<String> availableWork, List<Portfolio> portfolioList, String align) {
+    public static CreatorInfo from(User user, List<String> availableWork, List<Portfolio> portfolioList, String align, String category) {
+
+        // workList 필터링
+        Stream<Work> workStream = user.getWorkList().stream();
+
+        if (category != null) {
+            workStream = workStream.filter(work -> work.getCategory().name().equalsIgnoreCase(category));
+        }
 
         // align 파라미터에 따라 startPrice 설정
         String startPrice;
         if ("highPrice".equalsIgnoreCase(align)) {
-            startPrice = user.getWorkList().stream()
+            startPrice = workStream
                     .map(Work::getStartPrice)
                     .max(Integer::compareTo)
                     .map(String::valueOf)
                     .orElse("N/A");
         } else { // 기본값은 minPrice
-            startPrice = user.getWorkList().stream()
+            startPrice = workStream
                     .map(Work::getStartPrice)
                     .min(Integer::compareTo)
                     .map(String::valueOf)
@@ -55,5 +63,4 @@ public record CreatorInfo(
                 thumbnailImgUrl
         );
     }
-
 }

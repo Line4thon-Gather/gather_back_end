@@ -101,13 +101,14 @@ public class CreatorServiceImpl implements CreatorService {
 
     @Override
     public PageResponse<CreatorInfo> filteringCreator(Pageable pageable, Integer price, String category, String align) {
+
         // category를 WorkType으로 변환
         WorkType workCategory = null;
         if (category != null) {
             try {
                 workCategory = WorkType.valueOf(category);
             } catch (IllegalArgumentException e) {
-                log.info("유효하지 않은 카테고리");
+                log.error("유효하지 않은 카테고리: {}", category);
             }
         }
 
@@ -123,14 +124,12 @@ public class CreatorServiceImpl implements CreatorService {
                                 .distinct()
                                 .collect(Collectors.toList()),
                         user.getPortfolioList(),
-                        align // align 파라미터 전달
+                        align,    // align 파라미터 전달
+                        category  // category 파라미터 전달
                 ))
                 .collect(Collectors.toList());
 
         // PageResponse로 변환
         return PageResponse.of(new PageImpl<>(creatorInfoList, pageable, creators.getTotalElements()));
     }
-
-
-
 }

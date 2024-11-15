@@ -52,25 +52,24 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllCreators();
 
     @Query("SELECT u FROM User u " +
-           "JOIN u.workList w " +
-           "WHERE u.introductionTitle IS NOT NULL " +
-           "AND (:price IS NULL OR " +
-           "     (:price = 10000 AND w.startPrice < 10000) OR " +
-           "     (:price = 50000 AND w.startPrice < 50000) OR " +
-           "     (:price = 100000 AND w.startPrice < 100000) OR " +
-           "     (:price = 200000 AND w.startPrice < 200000) OR " +
-           "     (:price = 200001 AND w.startPrice >= 200000)) " +
-           "AND (:category IS NULL OR w.category = :category) " +
-           "GROUP BY u.id " +
-           "ORDER BY " +
-           "   CASE WHEN :align = 'lowPrice' THEN MIN(w.startPrice) END ASC, " +
-           "   CASE WHEN :align = 'highPrice' THEN MAX(w.startPrice) END DESC, " +
-           "   MAX(u.createAt) DESC")
+        "JOIN u.workList w " +
+        "WHERE u.introductionTitle IS NOT NULL " +
+        "AND (:price IS NULL OR " +
+        "     (:price = 10000 AND w.startPrice < 10000) OR " +
+        "     (:price = 50000 AND w.startPrice < 50000) OR " +
+        "     (:price = 100000 AND w.startPrice < 100000) OR " +
+        "     (:price = 200000 AND w.startPrice < 200000) OR " +
+        "     (:price = 200001 AND w.startPrice >= 200000)) " +
+        "AND (:category IS NULL OR w.category = :category) " +
+        "GROUP BY u.id " +
+        "ORDER BY " +
+        "   CASE WHEN :align = 'lowPrice' THEN MIN(w.startPrice) END ASC, " +
+        "   CASE WHEN :align = 'highPrice' THEN MAX(w.startPrice) END DESC, " +
+        "   MAX(u.createAt) DESC")
     Page<User> customFiltering(
             @Param("price") Integer price,
             @Param("category") WorkType category,
             @Param("align") String align,
             Pageable pageable
     );
-
 }
