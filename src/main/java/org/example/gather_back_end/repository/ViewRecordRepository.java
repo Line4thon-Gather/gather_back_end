@@ -14,7 +14,7 @@ public interface ViewRecordRepository extends JpaRepository<ViewRecord, Long> {
     }
 
     Optional<ViewRecord> findById(Long id);
-    Optional<ViewRecord> findByCurrentLoginUserNicknameAndAndCurrentSeenUserNickname(
+    Optional<ViewRecord> findByCurrentLoginUserNicknameAndCurrentSeenUserNickname(
             String currentLoginUserNickname,
             String currentSeenUserNickname
     );

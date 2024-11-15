@@ -38,7 +38,7 @@ public class ViewRecord extends BaseEntity {
     // 포폴 봄을 당한 사람 닉네임
     private String currentSeenUserNickname;
 
-    // 유저 생성
+    // 엔티티 생성
     public static ViewRecord createViewRecord(String currentLoginUserNickname, String currentSeenUserNickname) {
         return ViewRecord.builder()
                 .currentLoginUserNickname(currentLoginUserNickname)

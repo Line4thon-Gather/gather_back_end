@@ -77,10 +77,11 @@ public class CreatorController implements CreatorControllerApi {
 
     // 크리에이터 상세 페이지 조회
     @GetMapping("/{nickname}")
-    public SuccessResponse<?> getCreator(@PathVariable String nickname) {
+    public SuccessResponse<?> getCreator(Authentication authentication, @PathVariable String nickname) {
 
-        GetCreatorRes getCreatorRes = creatorService.getCreator(nickname);
-
+        CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+        String providerId = customOAuth2User.getUsername();
+        GetCreatorRes getCreatorRes = creatorService.getCreator(providerId, nickname);
         return SuccessResponse.of(getCreatorRes);
     }
 
