@@ -1,4 +1,4 @@
-package org.example.gather_back_end.view;
+package org.example.gather_back_end.view.exception;
 
 import org.example.gather_back_end.util.exception.BaseException;
 
