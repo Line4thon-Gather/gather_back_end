@@ -22,14 +22,4 @@ public class TestController implements TestControllerApi {
         throw new TestNotFoundException();
     }
 
-    @GetMapping("/jwt-test")
-    public SuccessResponse<String> testJwt(Authentication authentication) {
-        if (authentication == null) {
-            return SuccessResponse.of("token is null");
-        }
-        else {
-            CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-            return SuccessResponse.of(customOAuth2User.getUsername());
-        }
-    }
 }
