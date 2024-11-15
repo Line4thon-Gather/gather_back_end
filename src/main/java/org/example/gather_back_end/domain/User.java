@@ -54,7 +54,6 @@ public class User extends BaseEntity {
     private String introductionTitle;
 
     // 소개글 내용
-    @Column(length = 50)
     private String introductionContent;
 
     // 연락 문의 카카오톡 아이디
