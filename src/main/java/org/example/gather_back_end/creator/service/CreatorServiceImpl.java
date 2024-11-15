@@ -14,6 +14,7 @@ import org.example.gather_back_end.portfolio.dto.GetPortfolioRes;
 import org.example.gather_back_end.repository.PortfolioRepository;
 import org.example.gather_back_end.repository.UserRepository;
 import org.example.gather_back_end.repository.WorkRepository;
+import org.example.gather_back_end.util.format.WorkTypeConverter;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.PageResponse;
 import org.example.gather_back_end.work.dto.GetWorkRes;
@@ -104,7 +105,7 @@ public class CreatorServiceImpl implements CreatorService {
 
     @Override
     public PageResponse<CreatorInfo> filteringCreator(Pageable pageable, Integer price, String category, String align) {
-
+        // 정렬 조건 설정
         Sort sort = switch (align) {
             case "lowPrice" -> Sort.by(Sort.Direction.ASC, "workList.startPrice");
             case "highPrice" -> Sort.by(Sort.Direction.DESC, "workList.startPrice");
@@ -113,27 +114,26 @@ public class CreatorServiceImpl implements CreatorService {
 
         Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
-        // category를 WorkType으로 변환, 값이 없는 경우 null로 설정
+        // category를 WorkType으로 변환
         WorkType workCategory = (category != null) ? WorkType.valueOf(category) : null;
 
+        // 데이터베이스에서 페이징 처리된 결과 가져오기
         Page<User> creators = userRepository.customFiltering(price, workCategory, sortedPageable);
 
-        Set<Long> seenIds = new LinkedHashSet<>();
+        // CreatorInfo로 변환
         List<CreatorInfo> creatorInfoList = creators.getContent().stream()
-                .filter(user -> seenIds.add(user.getId()))
                 .map(user -> CreatorInfo.from(
                         user,
                         user.getWorkList().stream()
-                                .map(work -> work.getCategory().name())
+                                .map(work -> WorkTypeConverter.toKorean(work.getCategory()))
+                                .distinct()
                                 .toList(),
                         user.getPortfolioList()
                 ))
-                .collect(Collectors.toList());
+                .toList();
 
-        PageImpl<CreatorInfo> res = new PageImpl<>(creatorInfoList, sortedPageable, creatorInfoList.size());
-
-        return PageResponse.of(res);
+        // PageResponse로 변환
+        return PageResponse.of(new PageImpl<>(creatorInfoList, sortedPageable, creators.getTotalElements()));
     }
-
 
 }
