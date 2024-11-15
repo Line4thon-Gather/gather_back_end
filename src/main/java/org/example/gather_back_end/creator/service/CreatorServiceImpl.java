@@ -103,37 +103,54 @@ public class CreatorServiceImpl implements CreatorService {
 
     }
 
+//    @Override
+//    public PageResponse<CreatorInfo> filteringCreator(Pageable pageable, Integer price, String category, String align) {
+//        // 정렬 조건 설정
+//        Sort sort = switch (align) {
+//            case "lowPrice" -> Sort.by(Sort.Direction.ASC, "workList.startPrice");
+//            case "highPrice" -> Sort.by(Sort.Direction.DESC, "workList.startPrice");
+//            default -> Sort.by(Sort.Direction.DESC, "createAt");
+//        };
+//
+//        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+//
+//        // category를 WorkType으로 변환
+//        WorkType workCategory = (category != null) ? WorkType.valueOf(category) : null;
+//
+//        // 데이터베이스에서 페이징 처리된 결과 가져오기
+//        Page<User> creators = userRepository.customFiltering(price, workCategory, sortedPageable);
+//
+//        // CreatorInfo로 변환
+//        List<CreatorInfo> creatorInfoList = creators.getContent().stream()
+//                .map(user -> CreatorInfo.from(
+//                        user,
+//                        user.getWorkList().stream()
+//                                .map(work -> WorkTypeConverter.toKorean(work.getCategory()))
+//                                .distinct()
+//                                .toList(),
+//                        user.getPortfolioList()
+//                ))
+//                .toList();
+//
+//        // PageResponse로 변환
+//        return PageResponse.of(new PageImpl<>(creatorInfoList, sortedPageable, creators.getTotalElements()));
+//    }
+
+
     @Override
     public PageResponse<CreatorInfo> filteringCreator(Pageable pageable, Integer price, String category, String align) {
-        // 정렬 조건 설정
-        Sort sort = switch (align) {
-            case "lowPrice" -> Sort.by(Sort.Direction.ASC, "workList.startPrice");
-            case "highPrice" -> Sort.by(Sort.Direction.DESC, "workList.startPrice");
-            default -> Sort.by(Sort.Direction.DESC, "createAt");
-        };
-
-        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-
         // category를 WorkType으로 변환
         WorkType workCategory = (category != null) ? WorkType.valueOf(category) : null;
 
         // 데이터베이스에서 페이징 처리된 결과 가져오기
-        Page<User> creators = userRepository.customFiltering(price, workCategory, sortedPageable);
+        Page<User> creators = userRepository.customFiltering(price, workCategory, align, pageable);
 
         // CreatorInfo로 변환
         List<CreatorInfo> creatorInfoList = creators.getContent().stream()
-                .map(user -> CreatorInfo.from(
-                        user,
-                        user.getWorkList().stream()
-                                .map(work -> WorkTypeConverter.toKorean(work.getCategory()))
-                                .distinct()
-                                .toList(),
-                        user.getPortfolioList()
-                ))
+                .map(user -> CreatorInfo.from(user, align, user.getPortfolioList()))
                 .toList();
 
-        // PageResponse로 변환
-        return PageResponse.of(new PageImpl<>(creatorInfoList, sortedPageable, creators.getTotalElements()));
+        return PageResponse.of(new PageImpl<>(creatorInfoList, pageable, creators.getTotalElements()));
     }
 
 }
