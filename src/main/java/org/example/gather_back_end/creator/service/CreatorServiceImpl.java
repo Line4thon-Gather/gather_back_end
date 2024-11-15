@@ -103,7 +103,7 @@ public class CreatorServiceImpl implements CreatorService {
     }
 
     @Override
-    public PageResponse<CreatorInfo> filteringCreator(String providerId, Pageable pageable, Integer price, String category, String align) {
+    public PageResponse<CreatorInfo> filteringCreator(Pageable pageable, Integer price, String category, String align) {
 
         Sort sort = switch (align) {
             case "lowPrice" -> Sort.by(Sort.Direction.ASC, "workList.startPrice");
