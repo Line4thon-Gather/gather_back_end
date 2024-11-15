@@ -1,10 +1,8 @@
 package org.example.gather_back_end.user.dto;
 
+import java.util.List;
 import lombok.Builder;
 import org.example.gather_back_end.creator.dto.filtering.CreatorInfo;
-import org.example.gather_back_end.domain.User;
-
-import java.util.List;
 
 @Builder
 public record GetMyPageRes(

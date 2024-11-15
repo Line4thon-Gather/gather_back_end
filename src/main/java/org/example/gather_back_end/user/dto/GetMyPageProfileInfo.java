@@ -1,7 +1,5 @@
 package org.example.gather_back_end.user.dto;
 
-import org.example.gather_back_end.domain.PromotionRequest;
-
 public record GetMyPageProfileInfo(
         String profileImgUrl, // 프로필 이미지
         String role, // 크리에이터인지 아닌지
