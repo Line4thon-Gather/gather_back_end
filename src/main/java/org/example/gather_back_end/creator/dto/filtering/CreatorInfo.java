@@ -26,61 +26,27 @@ public record CreatorInfo(
         String thumbnailImgUrl
 ) {
 
-//    public static CreatorInfo from(User user, List<String> availableWork, List<Portfolio> portfolioList) {
-//
-//        // workList에서 startPrice 중 가장 작은 값 찾기
-//        String minStartPrice = user.getWorkList().stream()
-//                .map(Work::getStartPrice)
-//                .min(Comparator.naturalOrder())
-//                .map(String::valueOf) // int를 String으로 변환
-//                .orElse("N/A"); // workList가 비어 있을 경우 기본값
-//
-//        // availableWork를 한글명으로 변환
-//        List<String> translatedAvailableWork = user.getWorkList().stream()
-//                .map(work -> WorkTypeConverter.toKorean(work.getCategory()))
-//                .distinct()
-//                .collect(Collectors.toList());
-//
-//        return new CreatorInfo(
-//                user.getNickname(),
-//                translatedAvailableWork,
-//                user.getIntroductionTitle(),
-//                minStartPrice,
-//                portfolioList.getFirst().getThumbnailImgUrl()
-//        );
-//    }
+    public static CreatorInfo from(User user, List<String> availableWork, List<Portfolio> portfolioList) {
 
-    public static CreatorInfo from(User user, String align, List<Portfolio> portfolioList) {
-        // 정렬 기준에 따른 시작 가격 계산
-        String startPrice = switch (align) {
-            case "lowPrice" -> user.getWorkList().stream()
-                    .map(Work::getStartPrice)
-                    .min(Comparator.naturalOrder())
-                    .map(String::valueOf)
-                    .orElse("N/A");
-            case "highPrice" -> user.getWorkList().stream()
-                    .map(Work::getStartPrice)
-                    .max(Comparator.naturalOrder())
-                    .map(String::valueOf)
-                    .orElse("N/A");
-            default -> "N/A";
-        };
+        // workList에서 startPrice 중 가장 작은 값 찾기
+        String minStartPrice = user.getWorkList().stream()
+                .map(Work::getStartPrice)
+                .min(Comparator.naturalOrder())
+                .map(String::valueOf) // int를 String으로 변환
+                .orElse("N/A"); // workList가 비어 있을 경우 기본값
 
-        // 작업 가능한 카테고리 추출 및 변환
-        List<String> availableWork = user.getWorkList().stream()
+        // availableWork를 한글명으로 변환
+        List<String> translatedAvailableWork = user.getWorkList().stream()
                 .map(work -> WorkTypeConverter.toKorean(work.getCategory()))
                 .distinct()
-                .toList();
-
-        // 첫 번째 포트폴리오의 썸네일 URL
-        String thumbnailImgUrl = portfolioList.isEmpty() ? null : portfolioList.get(0).getThumbnailImgUrl();
+                .collect(Collectors.toList());
 
         return new CreatorInfo(
                 user.getNickname(),
-                availableWork,
+                translatedAvailableWork,
                 user.getIntroductionTitle(),
-                startPrice,
-                thumbnailImgUrl
+                minStartPrice,
+                portfolioList.getFirst().getThumbnailImgUrl()
         );
     }
 
