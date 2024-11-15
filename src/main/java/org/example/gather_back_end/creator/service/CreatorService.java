@@ -17,7 +17,7 @@ public interface CreatorService {
             String contactEmail
     );
 
-    GetCreatorRes getCreator(String nickname);
+    GetCreatorRes getCreator(String providerId, String nickname);
 
     GetCreatorRes getCreatorInfo(Authentication authentication);
     PageResponse<CreatorInfo> filteringCreator(Pageable pageable, Integer price, String category, String align);

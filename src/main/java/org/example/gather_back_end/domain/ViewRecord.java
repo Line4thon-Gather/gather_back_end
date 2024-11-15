@@ -30,11 +30,24 @@ public class ViewRecord extends BaseEntity {
 
     // 몇 번 봤는지
     @Builder.Default
-    private Integer viewCount = 0;
+    private Integer viewCount = 1;
 
-    // 크리에이터명
-    private String nickname;
+    // 포폴 본 사람 닉네임
+    private String currentLoginUserNickname;
 
-    @OneToMany(mappedBy = "viewRecord", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UsersViewRecord> usersViewRecordList = new ArrayList<>();
+    // 포폴 봄을 당한 사람 닉네임
+    private String currentSeenUserNickname;
+
+    // 엔티티 생성
+    public static ViewRecord createViewRecord(String currentLoginUserNickname, String currentSeenUserNickname) {
+        return ViewRecord.builder()
+                .currentLoginUserNickname(currentLoginUserNickname)
+                .currentSeenUserNickname(currentSeenUserNickname)
+                .build();
+    }
+
+    // viewCount 증가
+    public void updateViewCount() {
+        this.viewCount++;
+    }
 }

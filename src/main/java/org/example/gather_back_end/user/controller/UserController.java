@@ -1,8 +1,10 @@
 package org.example.gather_back_end.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.gather_back_end.user.dto.GetMyPageRes;
 import org.example.gather_back_end.user.dto.GetUserRes;
 import org.example.gather_back_end.user.service.UserService;
+import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.SuccessResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +19,17 @@ public class UserController implements UserControllerApi {
     // 유저 프로필 이미지 & 이름 GetMapping
     @GetMapping("/header-info")
     public SuccessResponse<?> getUser(Authentication authentication){
-
         GetUserRes res = userService.getUser(authentication);
-
         return SuccessResponse.of(res);
 
     }
 
     // 마이페이지
     @GetMapping("/my-page")
-    public SuccessResponse<?> getMyPage(Authentication authentication){
-
-        return SuccessResponse.of(userService.getMyPage(authentication));
+    public SuccessResponse<?> getMyPage(Authentication authentication) {
+        CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+        String providerId = customOAuth2User.getUsername();
+        GetMyPageRes res = userService.getMyPage(providerId);
+        return SuccessResponse.of(res);
     }
 }

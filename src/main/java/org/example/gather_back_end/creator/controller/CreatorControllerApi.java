@@ -63,7 +63,7 @@ public interface CreatorControllerApi {
                             schema = @Schema(implementation = SuccessResponse.class)))
     })
     @GetMapping
-    SuccessResponse<?> getCreator(@PathVariable String nickname);
+    SuccessResponse<?> getCreator(Authentication authentication, @PathVariable String nickname);
 
     @Operation(summary = "크리에이터 등록 초기 화면 불러 오기")
     @ApiResponses(value = {
