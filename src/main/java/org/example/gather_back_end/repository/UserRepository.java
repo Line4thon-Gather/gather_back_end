@@ -39,11 +39,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // 크리에이터 찾기
     @Query("SELECT u FROM User u " +
-            "JOIN u.workList w " +
-            "JOIN u.portfolioList p " +
-            "WHERE u.introductionTitle IS NOT NULL " + // 소개글 제목 존재
-            "AND SIZE(u.workList) > 0 " + // 작업 가능 항목 등록
-            "AND SIZE(u.portfolioList) > 0 ")
+           "JOIN u.workList w " +
+           "JOIN u.portfolioList p " +
+           "WHERE u.introductionTitle IS NOT NULL " + // 소개글 제목 존재
+           "AND SIZE(u.workList) > 0 " + // 작업 가능 항목 등록
+           "AND SIZE(u.portfolioList) > 0 ")
     // 포트폴리오 등록
     // TODO: 포트폴리오 더미데이터 모두 넣은 후 주석 해제
 //           "AND SIZE(u.portfolioList) > 0 " + // 포트폴리오 등록
@@ -51,17 +51,27 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //           "AND p.fileUrl IS NOT NULL") // 포트폴리오 파일 존재
     List<User> findAllCreators();
 
-    @Query("SELECT DISTINCT u FROM User u " +
-           "JOIN u.workList w " +
-           "WHERE u.introductionTitle IS NOT NULL " +
-           "AND (:price IS NULL OR " +
-           "     (:price = 10000 AND w.startPrice < 10000) OR " +
-           "     (:price = 50000 AND w.startPrice < 50000) OR " +
-           "     (:price = 100000 AND w.startPrice < 100000) OR " +
-           "     (:price = 200000 AND w.startPrice < 200000) OR " +
-           "     (:price = 200001 AND w.startPrice >= 200000)) " +
-           "AND (:category IS NULL OR w.category = :category)")
-    Page<User> customFiltering(@Param("price") Integer price, @Param("category") WorkType category, Pageable pageable);
+    @Query("SELECT u FROM User u " +
+        "JOIN u.workList w " +
+        "WHERE u.introductionTitle IS NOT NULL " +
+        "AND (:price IS NULL OR " +
+        "     (:price = 10000 AND w.startPrice < 10000) OR " +
+        "     (:price = 50000 AND w.startPrice < 50000) OR " +
+        "     (:price = 100000 AND w.startPrice < 100000) OR " +
+        "     (:price = 200000 AND w.startPrice < 200000) OR " +
+        "     (:price = 200001 AND w.startPrice >= 200000)) " +
+        "AND (:category IS NULL OR w.category = :category) " +
+        "GROUP BY u.id " +
+        "ORDER BY " +
+        "   CASE WHEN :align = 'lowPrice' THEN MIN(w.startPrice) END ASC, " +
+        "   CASE WHEN :align = 'highPrice' THEN MAX(w.startPrice) END DESC, " +
+        "   MAX(u.createAt) DESC")
+    Page<User> customFiltering(
+            @Param("price") Integer price,
+            @Param("category") WorkType category,
+            @Param("align") String align,
+            Pageable pageable
+    );
 
     @Query("SELECT u FROM User u " +
             "JOIN u.workList w " +

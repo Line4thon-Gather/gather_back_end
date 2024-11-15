@@ -99,9 +99,9 @@ public class CreatorController implements CreatorControllerApi {
             @PageableDefault(size = 12, page = 0) Pageable pageable,
             @RequestParam(value = "price", required = false) Integer price,
             @RequestParam(value = "category", required = false) String category,
-            @RequestParam(value = "align", defaultValue = "recently", required = false) String recently
+            @RequestParam(value = "align", defaultValue = "recently", required = false) String align
     ) {
-        PageResponse<CreatorInfo> res = creatorService.filteringCreator(pageable, price, category, recently);
+        PageResponse<CreatorInfo> res = creatorService.filteringCreator(pageable, price, category, align);
         return SuccessResponse.of(res);
     }
 
