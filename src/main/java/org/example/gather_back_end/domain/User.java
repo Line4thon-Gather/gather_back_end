@@ -83,6 +83,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Work> workList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UsersViewRecord> usersViewRecordList = new ArrayList<>();
+
     // 유저 생성
     public static User createUserInfo(String profileImgUrl, String username, String name, String email, String role, String nickname) {
         return User.builder()
