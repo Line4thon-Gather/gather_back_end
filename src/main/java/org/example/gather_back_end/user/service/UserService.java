@@ -10,5 +10,5 @@ public interface UserService {
     GetUserRes getUser(Authentication authentication);
 
     // 마이페이지 정보 가져오기
-    GetMyPageRes getMyPage(Authentication authentication);
+    GetMyPageRes getMyPage(String providerId);
 }

@@ -15,6 +15,7 @@ import org.example.gather_back_end.repository.WorkRepository;
 import org.example.gather_back_end.util.format.WorkTypeConverter;
 import org.example.gather_back_end.util.jwt.dto.CustomOAuth2User;
 import org.example.gather_back_end.util.response.PageResponse;
+import org.example.gather_back_end.view.service.ViewService;
 import org.example.gather_back_end.work.dto.GetWorkRes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,6 +31,7 @@ public class CreatorServiceImpl implements CreatorService {
     private final UserRepository userRepository;
     private final PortfolioRepository portfolioRepository;
     private final WorkRepository workRepository;
+    private final ViewService viewService;
 
     // 크리에이터 등록
     @Override
@@ -49,24 +51,29 @@ public class CreatorServiceImpl implements CreatorService {
 
     // 크리에이터 상세 페이지 조회
     @Override
-    public GetCreatorRes getCreator(String nickname){
+    public GetCreatorRes getCreator(String providerId, String nickname){
 
-        User user = userRepository.getByNickname(nickname);
+        // 상세 페이지의 유저
+        User foundUser = userRepository.getByNickname(nickname);
 
-        List<GetPortfolioRes> getPortfolioResList = portfolioRepository.getAllByUser(user);
-        List<GetWorkRes> getWorkResList = workRepository.findAllByUser(user);
+        // 본 기록 저장
+        viewService.execute(providerId, foundUser.getNickname());
+
+        // 응답 담기
+        List<GetPortfolioRes> getPortfolioResList = portfolioRepository.getAllByUser(foundUser);
+        List<GetWorkRes> getWorkResList = workRepository.findAllByUser(foundUser);
 
         // GetCreatorRes에 하나하나 다 담아야함
         GetCreatorRes res = new GetCreatorRes(
                 nickname,
-                user.getProfileImgUrl(),
-                user.getIntroductionTitle(),
-                user.getIntroductionContent(),
+                foundUser.getProfileImgUrl(),
+                foundUser.getIntroductionTitle(),
+                foundUser.getIntroductionContent(),
                 getPortfolioResList,
                 getWorkResList,
-                user.getContactKakaoId(),
-                user.getContactEmail()
-                );
+                foundUser.getContactKakaoId(),
+                foundUser.getContactEmail()
+        );
 
         return res;
 

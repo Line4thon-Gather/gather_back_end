@@ -73,11 +73,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
             Pageable pageable
     );
 
-    @Query("SELECT u FROM User u " +
-            "JOIN u.workList w " +
-            "JOIN u.portfolioList p " +
-            "WHERE u.introductionTitle IS NOT NULL " + // 소개글 제목 존재
-            "AND SIZE(u.workList) > 0 " + // 작업 가능 항목 등록
-            "AND SIZE(u.portfolioList) > 0 ")
-    User findByMyPage(User user);  // 마이페이지 유저 찾기
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END " +
+           "FROM User u " +
+           "JOIN u.workList w " +
+           "JOIN u.portfolioList p " +
+           "WHERE u.id = :userId " +
+           "AND u.introductionTitle IS NOT NULL " +
+           "AND SIZE(u.workList) > 0 " +
+           "AND SIZE(u.portfolioList) > 0 ")
+    boolean isUserCreator(@Param("userId") Long userId);
 }
