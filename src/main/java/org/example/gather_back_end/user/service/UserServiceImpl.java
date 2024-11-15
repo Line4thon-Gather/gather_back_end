@@ -6,6 +6,7 @@ import org.example.gather_back_end.domain.PromotionRequest;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.repository.PromotionRequestRepository;
 import org.example.gather_back_end.repository.UserRepository;
+import org.example.gather_back_end.user.dto.GetMyPageProfileInfo;
 import org.example.gather_back_end.user.dto.GetMyPagePromotionRes;
 import org.example.gather_back_end.user.dto.GetMyPageRes;
 import org.example.gather_back_end.user.dto.GetUserRes;
@@ -37,25 +38,25 @@ public class UserServiceImpl implements UserService {
         // 유저 정보
         User user = userRepository.getByUsername(customOAuth2User.getUsername());
 
-        // 전달 할 응답
-        GetMyPageRes getMyPageRes;
-        List<PromotionRequest> promotionRequestList = promotionRequestRepository.findAllByUser(user);
-        List<GetMyPagePromotionRes> getMyPagePromotionResList = new ArrayList<>();
-
-        // 문의 했던 홍보
-        for(PromotionRequest promotionRequest : promotionRequestList) {
-            getMyPagePromotionResList.add(GetMyPagePromotionRes.from(promotionRequest));
-        }
-
-        // 유저 정보 담기
+        // 프로필 정보 생성
         boolean isUserCreator = userRepository.isUserCreator(user.getId());
-        getMyPageRes = new GetMyPageRes(
+        GetMyPageProfileInfo profileInfo = GetMyPageProfileInfo.of(
                 user.getProfileImgUrl(),
                 isUserCreator ? "크리에이터" : null,
-                user.getEmail(),
-                getMyPagePromotionResList
+                user.getEmail()
         );
 
-        return getMyPageRes;
+        // 홍보 정보 생성
+        List<PromotionRequest> promotionRequestList = promotionRequestRepository.findAllByUser(user);
+        List<GetMyPagePromotionRes> promotionInfo = promotionRequestList.stream()
+                .map(GetMyPagePromotionRes::from)
+                .toList();
+
+        // 마이페이지 응답 생성
+        return GetMyPageRes.builder()
+                .profileInfo(profileInfo)
+                .promotionInfo(promotionInfo)
+                .build();
     }
+
 }

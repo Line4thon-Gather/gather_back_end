@@ -7,9 +7,7 @@ import java.util.List;
 
 @Builder
 public record GetMyPageRes(
-        String profileImgUrl, // 프로필 이미지
-        String role, // 크리에이터인지 아닌지
-        String email,
-        List<GetMyPagePromotionRes> getMyPagePromotionResList
+        GetMyPageProfileInfo profileInfo, // 프로필 정보
+        List<GetMyPagePromotionRes> promotionInfo // 홍보 전략 요청 사항
 ) {
 }
