@@ -1,13 +1,11 @@
 package org.example.gather_back_end.creator.dto.filtering;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.example.gather_back_end.domain.Portfolio;
 import org.example.gather_back_end.domain.User;
 import org.example.gather_back_end.domain.Work;
-import org.example.gather_back_end.util.format.WorkTypeConverter;
 
 public record CreatorInfo(
         @Schema(description = "크리에이터명", example = "hello")
@@ -26,27 +24,43 @@ public record CreatorInfo(
         String thumbnailImgUrl
 ) {
 
-    public static CreatorInfo from(User user, List<String> availableWork, List<Portfolio> portfolioList) {
+    public static CreatorInfo from(User user, List<String> availableWork, List<Portfolio> portfolioList, String align, String category) {
 
-        // workList에서 startPrice 중 가장 작은 값 찾기
-        String minStartPrice = user.getWorkList().stream()
-                .map(Work::getStartPrice)
-                .min(Comparator.naturalOrder())
-                .map(String::valueOf) // int를 String으로 변환
-                .orElse("N/A"); // workList가 비어 있을 경우 기본값
+        // workList 필터링
+        Stream<Work> workStream = user.getWorkList().stream();
 
-        // availableWork를 한글명으로 변환
-        List<String> translatedAvailableWork = user.getWorkList().stream()
-                .map(work -> WorkTypeConverter.toKorean(work.getCategory()))
-                .distinct()
-                .collect(Collectors.toList());
+        if (category != null) {
+            workStream = workStream.filter(work -> work.getCategory().name().equalsIgnoreCase(category));
+        }
+
+        // align 파라미터에 따라 startPrice 설정
+        String startPrice;
+        if ("highPrice".equalsIgnoreCase(align)) {
+            startPrice = workStream
+                    .map(Work::getStartPrice)
+                    .max(Integer::compareTo)
+                    .map(String::valueOf)
+                    .orElse("N/A");
+        } else { // 기본값은 minPrice
+            startPrice = workStream
+                    .map(Work::getStartPrice)
+                    .min(Integer::compareTo)
+                    .map(String::valueOf)
+                    .orElse("N/A");
+        }
+
+        // availableWork는 이미 변환된 상태로 전달됨
+        List<String> translatedAvailableWork = availableWork;
+
+        // 포트폴리오 썸네일 설정
+        String thumbnailImgUrl = portfolioList.isEmpty() ? null : portfolioList.get(0).getThumbnailImgUrl();
 
         return new CreatorInfo(
                 user.getNickname(),
                 translatedAvailableWork,
                 user.getIntroductionTitle(),
-                minStartPrice,
-                portfolioList.getFirst().getThumbnailImgUrl()
+                startPrice,
+                thumbnailImgUrl
         );
     }
 }
