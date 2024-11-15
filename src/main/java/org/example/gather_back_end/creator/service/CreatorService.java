@@ -20,5 +20,5 @@ public interface CreatorService {
     GetCreatorRes getCreator(String nickname);
 
     GetCreatorRes getCreatorInfo(Authentication authentication);
-    PageResponse<CreatorInfo> filteringCreator(String providerId, Pageable pageable, Integer price, String category, String align);
+    PageResponse<CreatorInfo> filteringCreator(Pageable pageable, Integer price, String category, String align);
 }
