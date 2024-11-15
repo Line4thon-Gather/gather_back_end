@@ -141,7 +141,17 @@ public interface CreatorControllerApi {
     @GetMapping
     SuccessResponse<PageResponse<CreatorInfo>> filteringCreator(
             @PageableDefault(size = 12, page = 0) Pageable pageable,
-            @Parameter(description = "가격 필터링 기준 (선택)", example = "50000")
+            @Parameter(
+                    description = """
+                        가격 필터링 기준 (선택)
+                        - 1만원 미만 : 10000
+                        - 5만원 미만 : 50000
+                        - 10만원 미만 : 100000
+                        - 20만원 미만 : 200000
+                        - 20만원 이상 : 200001
+                    """,
+                    example = "50000"
+            )
             @RequestParam(value = "price", required = false) Integer price,
             @Parameter(description = "카테고리 필터링 기준 (선택): PRINTS, VIDEO, SNS_POST 중 하나", example = "PRINTS")
             @RequestParam(value = "category", required = false) String category,
