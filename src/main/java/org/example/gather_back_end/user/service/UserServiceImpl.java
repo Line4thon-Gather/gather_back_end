@@ -1,5 +1,6 @@
 package org.example.gather_back_end.user.service;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.gather_back_end.domain.PromotionRequest;
 import org.example.gather_back_end.domain.User;
@@ -36,9 +37,6 @@ public class UserServiceImpl implements UserService {
         // 유저 정보
         User user = userRepository.getByUsername(customOAuth2User.getUsername());
 
-        // 데이터베이스에서 특정 유저 조회
-        User myUser = userRepository.findByMyPage(user);
-
         // 전달 할 응답
         GetMyPageRes getMyPageRes;
         List<PromotionRequest> promotionRequestList = promotionRequestRepository.findAllByUser(user);
@@ -50,21 +48,13 @@ public class UserServiceImpl implements UserService {
         }
 
         // 유저 정보 담기
-        if(myUser != null) {
-            getMyPageRes = new GetMyPageRes(
-                    user.getProfileImgUrl(),
-                    "크리에이터",
-                    user.getEmail(),
-                    getMyPagePromotionResList
-            );
-        }
-        else
-            getMyPageRes = new GetMyPageRes(
-                    user.getProfileImgUrl(),
-                    "",
-                    user.getEmail(),
-                    getMyPagePromotionResList
-            );
+        boolean isUserCreator = userRepository.isUserCreator(user.getId());
+        getMyPageRes = new GetMyPageRes(
+                user.getProfileImgUrl(),
+                isUserCreator ? "크리에이터" : null,
+                user.getEmail(),
+                getMyPagePromotionResList
+        );
 
         return getMyPageRes;
     }

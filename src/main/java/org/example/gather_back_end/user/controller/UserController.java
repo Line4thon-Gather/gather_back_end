@@ -1,6 +1,7 @@
 package org.example.gather_back_end.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.gather_back_end.user.dto.GetMyPageRes;
 import org.example.gather_back_end.user.dto.GetUserRes;
 import org.example.gather_back_end.user.service.UserService;
 import org.example.gather_back_end.util.response.SuccessResponse;
@@ -27,7 +28,7 @@ public class UserController implements UserControllerApi {
     // 마이페이지
     @GetMapping("/my-page")
     public SuccessResponse<?> getMyPage(Authentication authentication){
-
-        return SuccessResponse.of(userService.getMyPage(authentication));
+        GetMyPageRes res = userService.getMyPage(authentication);
+        return SuccessResponse.of(res);
     }
 }
