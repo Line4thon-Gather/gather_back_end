@@ -33,7 +33,7 @@ public class UsersViewRecord {
 
     // 기록 테이블 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "view_record_id")
     private ViewRecord viewRecord;
 
 }
