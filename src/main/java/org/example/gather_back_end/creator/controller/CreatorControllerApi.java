@@ -140,7 +140,6 @@ public interface CreatorControllerApi {
     })
     @GetMapping
     SuccessResponse<PageResponse<CreatorInfo>> filteringCreator(
-            Authentication authentication,
             @PageableDefault(size = 12, page = 0) Pageable pageable,
             @Parameter(description = "가격 필터링 기준 (선택)", example = "50000")
             @RequestParam(value = "price", required = false) Integer price,
