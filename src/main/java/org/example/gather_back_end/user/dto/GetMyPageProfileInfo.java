@@ -4,12 +4,12 @@ public record GetMyPageProfileInfo(
         String profileImgUrl, // 프로필 이미지
         String role, // 크리에이터인지 아닌지
         String email,
-        String username
+        String nickname
 ) {
 
     // 정적 팩토리 메서드
-    public static GetMyPageProfileInfo of(String profileImgUrl, String role, String email, String username) {
-        return new GetMyPageProfileInfo(profileImgUrl, role, email, username);
+    public static GetMyPageProfileInfo of(String profileImgUrl, String role, String email, String nickname) {
+        return new GetMyPageProfileInfo(profileImgUrl, role, email, nickname);
     }
 
 }
