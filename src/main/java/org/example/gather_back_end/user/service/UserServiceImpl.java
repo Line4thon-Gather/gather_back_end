@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
                 user.getProfileImgUrl(),
                 isUserCreator ? "크리에이터" : null,
                 user.getEmail(),
-                user.getUsername()
+                user.getNickname()
         );
 
         // 홍보 전략 요청 내역 생성
