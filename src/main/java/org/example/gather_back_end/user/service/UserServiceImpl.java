@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService {
         GetMyPageProfileInfo profileInfo = GetMyPageProfileInfo.of(
                 user.getProfileImgUrl(),
                 isUserCreator ? "크리에이터" : null,
-                user.getEmail()
+                user.getEmail(),
+                user.getUsername()
         );
 
         // 홍보 전략 요청 내역 생성
