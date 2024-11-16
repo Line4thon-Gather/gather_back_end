@@ -10,6 +10,5 @@ public record GetMyPageProfileInfo(
     // 정적 팩토리 메서드
     public static GetMyPageProfileInfo of(String profileImgUrl, String role, String email, String nickname) {
         return new GetMyPageProfileInfo(profileImgUrl, role, email, nickname);
-    }
-
+   }     
 }
